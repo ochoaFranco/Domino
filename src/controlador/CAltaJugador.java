@@ -12,7 +12,9 @@ public class CAltaJugador {
         this.mJuego = mJuego;
         this.vista = vista;
     }
-
+/**
+ * Registra un nuevo jugador, lo agrega al juego y muestra un mensaje de confirmación.
+ */
     public void darDeAlta() {
         Jugador jugador = vista.altaJugador();
         mJuego.agregarJugador(jugador);
