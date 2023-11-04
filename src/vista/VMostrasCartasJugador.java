@@ -1,5 +1,5 @@
 package vista;
 
-public class VMostrasCartasJugador extends Vista{
+public class VMostrasCartasJugador extends Vista {
     
 }
