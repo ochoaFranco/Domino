@@ -6,8 +6,8 @@ import modelo.Jugador;
 /**
      * Método para registrar un nuevo jugador.
      *
-     * Este método solicita al usuario ingresar el nombre del jugador
-     * a través de la entrada estándar y crea una instancia de la clase Jugador
+     * solicita al usuario ingresar el nombre del jugador
+     * y crea una instancia de la clase Jugador
      * con el nombre ingresado.
      *
      * @return Una instancia de la clase Jugador con el nombre del nuevo jugador.
