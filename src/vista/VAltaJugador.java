@@ -14,10 +14,10 @@ import modelo.Jugador;
      */
 public class VAltaJugador extends Vista {
     public Jugador altaJugador() {
-        Scanner sc = new Scanner(System.in);
-        mostrarMensaje("Ingrese el nombre del jugador: ");
-        String nombre = sc.nextLine();
-        sc.close();
-        return new Jugador(nombre);
+        try (Scanner sc = new Scanner(System.in)) {
+            mostrarMensaje("Ingrese el nombre del jugador: ");
+            String nombre = sc.nextLine();
+            return new Jugador(nombre);
+        }
     }
 }

@@ -8,9 +8,9 @@ public class CAltaJugador {
     private Juego mJuego;
     private VAltaJugador vista;
 
-    public CAltaJugador(Juego mJuego, VAltaJugador vista) {
+    public CAltaJugador(Juego mJuego) {
         this.mJuego = mJuego;
-        this.vista = vista;
+        vista = new VAltaJugador();
     }
 /**
  * Registra un nuevo jugador, lo agrega al juego y muestra un mensaje de confirmación.
