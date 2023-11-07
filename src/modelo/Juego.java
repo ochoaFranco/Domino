@@ -5,11 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class Juego {
-    private List<Jugador> jugadores;
+    private static List<Jugador> jugadores;
     private List<Ficha> fichas;
     private final int LIMITEPUNTOS = 100;
     private Jugador turno;
-    private Pozo pozo;
+    private static Pozo pozo;
 
     public Juego() {
         jugadores = new ArrayList<>();
@@ -33,16 +33,11 @@ public class Juego {
             }
         }
     }
-    
-    // Se reparten 7 fichas a cada jugador.
-    public void repartir() {
-        for (Jugador j : jugadores) {
-            for (int i = 0; i < 7; i++) {
-                Ficha ficha = pozo.sacarFicha();
-                if (ficha != null) {
-                    j.recibirFicha(ficha);
-                }
-            }
-        }
+
+    public static List<Jugador> getJugadores() {
+        return jugadores;
+    }
+    public static Pozo getPozo() {
+        return pozo;
     }
 }

@@ -1,6 +1,10 @@
 import controlador.CAltaJugador;
+import controlador.CRepartirFichas;
 import modelo.Juego;
+import modelo.Jugador;
 import vista.VAltaJugador;
+import vista.VMostrarFichasJugador;
+
 
 public class Domino {
     public static void main(String[] args) {
@@ -8,5 +12,7 @@ public class Domino {
         VAltaJugador vista = new VAltaJugador();
         CAltaJugador controlador = new CAltaJugador(mJuego, vista);
         controlador.darDeAlta();
+        CRepartirFichas controladorRepFichas = new CRepartirFichas();
+        controladorRepFichas.repartir();
     }
 }

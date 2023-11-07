@@ -3,7 +3,6 @@ package modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Jugador {
     private String nombre;
     private List<Ficha> fichas;
@@ -11,13 +10,14 @@ public class Jugador {
     private int puntos;
     private Tablero tablero;
     private Notificador notificador;
-    private Ficha fichaRecibida;
+    //private Ficha fichaRecibida;
     
     public Jugador(String nombre) {
         this.nombre = nombre;
         fichas = new ArrayList<>();
         notificador = new Notificador();
     }
+    
     public String getNombre() {
         return nombre;
     }
@@ -28,8 +28,7 @@ public class Jugador {
 
     public void recibirFicha(Ficha ficha) {
         fichas.add(ficha);
-        fichaRecibida = ficha;
-        notificador.notificar();
+        notificador.notificar(ficha);
     }
 
     public boolean esMano() {
@@ -38,9 +37,5 @@ public class Jugador {
 
     public Notificador getNotificador() {
         return notificador;
-    }
-
-    public Ficha getFichaRecibida() {
-        return fichaRecibida;
     }
 }
