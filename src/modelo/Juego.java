@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Juego {
+public class Juego implements IJuego {
     private static List<Jugador> jugadores;
     private List<Ficha> fichas;
     private final int LIMITEPUNTOS = 100;
@@ -19,7 +19,9 @@ public class Juego {
         pozo = new Pozo(fichas);
     }
 
-    public void agregarJugador(Jugador jugador) {
+    @Override
+    public void conectarJugador(String nombre) {
+        Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
     }
 
@@ -40,4 +42,6 @@ public class Juego {
     public static Pozo getPozo() {
         return pozo;
     }
+
+    
 }
