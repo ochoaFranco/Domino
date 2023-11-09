@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Controlador;
+import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,8 @@ public class VistaConsola implements IVista {
 
         consolaOutput = new JTextArea();
         consolaOutput.setEditable(false);
+        Font font = new Font("Arial", Font.PLAIN, 16);
+        consolaOutput.setFont(font);
         consolaOutput.setText("Ingrese el nombre del jugador");
 
         inputCMD = new JTextField();
@@ -52,10 +55,13 @@ public class VistaConsola implements IVista {
     public void mostrarMensaje(String mensaje) {
 
     }
-
     @Override
-    public void mostrarFichas(Object jugador) {
-        consolaOutput.setText("Saracatunga");
+    public void mostrarFichas(IJugador jugador) {
+        String nombre = "Jugador: " + jugador.getNombre();
+        String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|\n";
+        consolaOutput.append(nombre);
+        consolaOutput.append(ficha);
+        //consolaOutput.repaint();
     }
 
     @Override

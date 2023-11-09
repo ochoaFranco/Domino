@@ -1,9 +1,8 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Jugador implements ISubject {
+public class Jugador implements ISubject, IJugador {
     private String nombre;
     private ArrayList<Ficha> fichas;
     private boolean mano;
@@ -17,7 +16,7 @@ public class Jugador implements ISubject {
         fichas = new ArrayList<>();
         observers = new ArrayList<>();
     }
-    
+    @Override
     public String getNombre() {
         return nombre;
     }
@@ -28,7 +27,7 @@ public class Jugador implements ISubject {
 
     public void recibirFicha(Ficha ficha) {
         fichas.add(ficha);
-        notifyObserver(Evento.CAMBIO_CARTAS_JUGADOR);
+        notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR);
     }
 
     public boolean esMano() {
@@ -56,7 +55,7 @@ public class Jugador implements ISubject {
     @Override
     public void notifyObserver(Evento e) {
         for (IObserver o: observers) {
-            o.update(e);
+            o.update(e, this);
         }
     }
 }

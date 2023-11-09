@@ -24,9 +24,14 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e) {
+
+    }
+
+    @Override
+    public void update(Evento e, IJugador jugador) {
         if (e instanceof Evento) {
             switch (e) {
-                case CAMBIO_CARTAS_JUGADOR -> vista.mostrarFichas(jugador);
+                case CAMBIO_FICHAS_JUGADOR -> vista.mostrarFichas(jugador);
             }
         }
     }

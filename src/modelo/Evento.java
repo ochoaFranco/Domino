@@ -1,5 +1,5 @@
 package modelo;
 
 public enum Evento {
-    CAMBIO_CARTAS_JUGADOR
+    CAMBIO_FICHAS_JUGADOR
 }
