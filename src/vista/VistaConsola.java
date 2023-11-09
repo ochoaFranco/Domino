@@ -66,6 +66,8 @@ public class VistaConsola implements IVista {
     private void determinarComando(String comando) {
         if (comando.startsWith("NOMBRE:")) {
             altaJugador(comando);
+        } else if (comando.equalsIgnoreCase("JUGAR")) {
+
         }
     }
 
@@ -73,6 +75,10 @@ public class VistaConsola implements IVista {
         String jugadorNombre = nombre.substring("NOMBRE:".length());
         consolaOutput.append("\nBienvenido " + jugadorNombre + "!\n");
         controlador.conectarJugador(jugadorNombre);
+    }
+
+    private void jugar() {
+
     }
 }
 

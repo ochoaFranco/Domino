@@ -20,9 +20,10 @@ public class Juego implements IJuego {
     }
 
     @Override
-    public void conectarJugador(String nombre) {
+    public Jugador conectarJugador(String nombre) {
         Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
+        return jugador;
     }
 
     /** Inicializa un conjunto de fichas para el juego

@@ -28,6 +28,7 @@ public class Jugador implements ISubject {
 
     public void recibirFicha(Ficha ficha) {
         fichas.add(ficha);
+        notifyObserver(Evento.CAMBIO_CARTAS_JUGADOR);
     }
 
     public boolean esMano() {
