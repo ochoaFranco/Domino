@@ -55,7 +55,7 @@ public class VistaConsola implements IVista {
 
     @Override
     public void mostrarFichas(Object jugador) {
-
+        consolaOutput.setText("Saracatunga");
     }
 
     @Override
@@ -67,7 +67,7 @@ public class VistaConsola implements IVista {
         if (comando.startsWith("NOMBRE:")) {
             altaJugador(comando);
         } else if (comando.equalsIgnoreCase("JUGAR")) {
-
+            jugar();
         }
     }
 
@@ -77,8 +77,15 @@ public class VistaConsola implements IVista {
         controlador.conectarJugador(jugadorNombre);
     }
 
-    private void jugar() {
 
+
+    private void jugar() {
+        limpiarPantalla();
+        controlador.repartirFichas();
+    }
+
+    private void limpiarPantalla() {
+        consolaOutput.setText("");
     }
 }
 

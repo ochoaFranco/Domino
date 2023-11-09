@@ -19,6 +19,7 @@ public class Controlador implements IObserver {
 
     public void conectarJugador(String nombre) {
         jugador = modelo.conectarJugador(nombre);
+        jugador.attach(this);
     }
 
     @Override
@@ -28,5 +29,9 @@ public class Controlador implements IObserver {
                 case CAMBIO_CARTAS_JUGADOR -> vista.mostrarFichas(jugador);
             }
         }
+    }
+
+    public void repartirFichas() {
+        modelo.repartir();
     }
 }
