@@ -4,6 +4,8 @@ import controlador.Controlador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -19,6 +21,7 @@ public class VistaConsola implements IVista {
 
         consolaOutput = new JTextArea();
         consolaOutput.setEditable(false);
+        consolaOutput.setText("Ingrese el nombre del jugador");
 
         inputCMD = new JTextField();
         ejecutarBtn = new JButton("Ejecutar");
@@ -31,7 +34,14 @@ public class VistaConsola implements IVista {
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
 
-        //frame.setVisible(true);
+        // FUNCIONALIDAD DEL BOTON
+        ejecutarBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String comando =  inputCMD.getText();
+                determinarComando(comando);
+            }
+        });
     }
 
     public void mostrar() {
@@ -50,6 +60,19 @@ public class VistaConsola implements IVista {
 
     @Override
     public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
+    }
 
+    private void determinarComando(String comando) {
+        if (comando.startsWith("NOMBRE:")) {
+            altaJugador(comando);
+        }
+    }
+
+    private void altaJugador(String nombre) {
+        String jugadorNombre = nombre.substring("NOMBRE:".length());
+        consolaOutput.append("\nBienvenido " + jugadorNombre + "!\n");
+        controlador.conectarJugador(jugadorNombre);
     }
 }
+

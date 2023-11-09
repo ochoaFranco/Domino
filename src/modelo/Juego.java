@@ -43,5 +43,16 @@ public class Juego implements IJuego {
         return pozo;
     }
 
-    
+    public void repartir() {
+        for (Jugador j : jugadores) {
+            for (int i = 0; i < 7; i++) {
+                Ficha ficha = pozo.sacarFicha();
+                if (ficha != null) {
+                    j.recibirFicha(ficha);
+                }
+            }
+        }
+    }
+
+
 }

@@ -1,10 +1,12 @@
 package controlador;
 
 import modelo.IJuego;
+import modelo.IObserver;
 import modelo.Juego;
+import modelo.Jugador;
 import vista.IVista;
 
-public class Controlador {
+public class Controlador implements IObserver {
     private final IVista vista;
     private IJuego modelo;
 
@@ -17,9 +19,13 @@ public class Controlador {
         this.modelo = modelo;
     }
 
-    public void conectarJugador() {
-        vista.mostrarMensaje("Ingrese el nombre del jugador.");
-//        modelo.conectarJugador(nombre);
-//        vista.mostrarMensaje("Jugador " + nombre + " dado de alta correctamente.");
+    public void conectarJugador(String nombre) {
+        modelo.conectarJugador(nombre);
+    }
+
+
+    @Override
+    public void update() {
+
     }
 }
