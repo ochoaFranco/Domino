@@ -15,4 +15,8 @@ public class Ficha {
     public int getIzquierdo() {
         return izquierdo;
     }
+
+    public boolean esFichaDoble() {
+        return izquierdo == derecho;
+    }
 }

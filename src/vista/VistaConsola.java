@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -53,15 +54,16 @@ public class VistaConsola implements IVista {
 
     @Override
     public void mostrarMensaje(String mensaje) {
-
+        consolaOutput.append(mensaje);
     }
+
     @Override
-    public void mostrarFichas(IJugador jugador) {
-        String nombre = "Jugador: " + jugador.getNombre();
-        String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|\n";
-        consolaOutput.append(nombre);
+    public void mostrarFichas(IJugador jugador, boolean mostrarNombre) {
+        if (mostrarNombre) {
+            consolaOutput.append("Jugador" + jugador.getNombre());
+        }
+        String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|  \n";
         consolaOutput.append(ficha);
-        //consolaOutput.repaint();
     }
 
     @Override
@@ -82,8 +84,6 @@ public class VistaConsola implements IVista {
         consolaOutput.append("\nBienvenido " + jugadorNombre + "!\n");
         controlador.conectarJugador(jugadorNombre);
     }
-
-
 
     private void jugar() {
         limpiarPantalla();

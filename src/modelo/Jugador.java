@@ -58,4 +58,53 @@ public class Jugador implements ISubject, IJugador {
             o.update(e, this);
         }
     }
+
+
+    public void colocarFicha(int nroFicha) {
+
+    }
+
+    private Ficha fichaDobleMayor() {
+        Ficha dobleMayor = new Ficha(-1, -1);
+        for (Ficha f : fichas) {
+            if (f.esFichaDoble() && (f.getIzquierdo() > dobleMayor.getIzquierdo() && f.getDerecho() > dobleMayor.getDerecho())) {
+                dobleMayor = f;
+            }
+        }
+        return dobleMayor;
+    }
+
+    private Ficha fichaComunMasAlta() {
+        Ficha comunMasAlta = new Ficha(-1, -1);
+        for (Ficha f : fichas) {
+            if (f.getIzquierdo() > comunMasAlta.getIzquierdo() || f.getDerecho() > comunMasAlta.getDerecho()) {
+                comunMasAlta = f;
+            }
+        }
+        return comunMasAlta;
+    }
+
+    public boolean tengoDobles() {
+        boolean algunDoble = false;
+        int i = 0;
+        while (i < fichas.size() && !algunDoble) {
+            if (fichas.get(i).esFichaDoble()) {
+                algunDoble = true;
+            }
+            i++;
+        }
+        return algunDoble;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

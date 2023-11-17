@@ -31,7 +31,8 @@ public class Controlador implements IObserver {
     public void update(Evento e, IJugador jugador) {
         if (e instanceof Evento) {
             switch (e) {
-                case CAMBIO_FICHAS_JUGADOR -> vista.mostrarFichas(jugador);
+                case CAMBIO_FICHAS_JUGADOR :
+                    vista.mostrarFichas(jugador, true);
             }
         }
     }
