@@ -1,4 +1,6 @@
-package modelo;
+package modelo.Interfaces;
+
+import modelo.Jugador;
 
 import java.util.List;
 

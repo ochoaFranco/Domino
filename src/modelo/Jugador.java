@@ -1,5 +1,9 @@
 package modelo;
 
+import modelo.Interfaces.IJugador;
+import modelo.Interfaces.IObserver;
+import modelo.Interfaces.ISubject;
+
 import java.util.ArrayList;
 
 public class Jugador implements ISubject, IJugador {
@@ -58,10 +62,13 @@ public class Jugador implements ISubject, IJugador {
             o.update(e, this);
         }
     }
-
-
-    public void colocarFicha(int nroFicha) {
-
+    public void colocarFicha(int nroFicha, String extremo) {
+        if (extremo.equalsIgnoreCase("i")) {
+            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
+        } else {
+            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
+        }
+        notifyObserver(Evento.JUGADOR_JUGO_FICHA);
     }
 
     private Ficha fichaDobleMayor() {

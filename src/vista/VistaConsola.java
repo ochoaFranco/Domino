@@ -1,13 +1,12 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.IJugador;
+import modelo.Interfaces.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -72,10 +71,13 @@ public class VistaConsola implements IVista {
     }
 
     private void determinarComando(String comando) {
-        if (comando.startsWith("NOMBRE:")) {
+        comando = comando.toLowerCase();
+        if (comando.startsWith("nombre:")) {
             altaJugador(comando);
-        } else if (comando.equalsIgnoreCase("JUGAR")) {
+        } else if (comando.equals("jugar")) {
             jugar();
+        } else if (comando.startsWith("ficha")) {
+            jugada(comando);
         }
     }
 
@@ -89,6 +91,29 @@ public class VistaConsola implements IVista {
         limpiarPantalla();
         controlador.repartirFichas();
     }
+
+    private void jugada(String comando) {
+        String[] partes = comando.split("\\s+"); // ??
+        if (partes.length == 3) {
+            try {
+                // Extract relevant information
+                int nroFicha = Integer.parseInt(partes[1]);
+                String position = partes[2];
+
+
+                // Process the information
+                consolaOutput.append("Ficha number: " + nroFicha + "\n");
+                consolaOutput.append("Position: " + position + "\n");
+
+            } catch (NumberFormatException ex) {
+                consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
+            }
+        } else {
+            consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
+        }
+        limpiarPantalla();
+    }
+
 
     private void limpiarPantalla() {
         consolaOutput.setText("");

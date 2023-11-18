@@ -1,5 +1,6 @@
 package modelo;
 
 public enum Evento {
-    CAMBIO_FICHAS_JUGADOR
+    CAMBIO_FICHAS_JUGADOR,
+    JUGADOR_JUGO_FICHA
 }

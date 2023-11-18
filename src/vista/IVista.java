@@ -1,7 +1,7 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.IJugador;
+import modelo.Interfaces.IJugador;
 
 public interface IVista {
     void mostrarMensaje(String mensaje);

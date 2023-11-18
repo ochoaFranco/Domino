@@ -1,6 +1,8 @@
 package controlador;
 
 import modelo.*;
+import modelo.Interfaces.IJugador;
+import modelo.Interfaces.IObserver;
 import vista.IVista;
 
 public class Controlador implements IObserver {
@@ -22,6 +24,16 @@ public class Controlador implements IObserver {
         jugador.attach(this);
     }
 
+
+    public void repartirFichas() {
+        modelo.repartir();
+    }
+
+    public void colocarFicha(int nroFicha, String extremo) {
+        jugador.colocarFicha(nroFicha, extremo);
+    }
+
+
     @Override
     public void update(Evento e) {
 
@@ -29,15 +41,14 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e, IJugador jugador) {
-        if (e instanceof Evento) {
+        if (e != null) {
             switch (e) {
                 case CAMBIO_FICHAS_JUGADOR :
                     vista.mostrarFichas(jugador, true);
+                case JUGADOR_JUGO_FICHA:
+
             }
         }
     }
 
-    public void repartirFichas() {
-        modelo.repartir();
-    }
 }
