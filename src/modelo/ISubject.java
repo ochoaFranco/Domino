@@ -1,6 +1,4 @@
-package modelo.Interfaces;
-
-import modelo.Evento;
+package modelo;
 
 public interface ISubject {
     public void attach(IObserver observer);

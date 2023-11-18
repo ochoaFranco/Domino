@@ -1,7 +1,5 @@
 package modelo;
 
-import modelo.Interfaces.IJuego;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,14 +37,12 @@ public class Juego implements IJuego {
         }
     }
 
-    public static List<Jugador> getJugadores() {
-        return jugadores;
-    }
-    public static Pozo getPozo() {
-        return pozo;
+    public void iniciarJuego() {
+        repartir();
+        determinarJugadorMano();
     }
 
-    public void repartir() {
+    private void repartir() {
         for (Jugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
                 Ficha ficha = pozo.sacarFicha();
@@ -57,5 +53,47 @@ public class Juego implements IJuego {
         }
     }
 
+    private void determinarJugadorMano() {
+        ArrayList<IJugador> jugadoresConFichasDobles = new ArrayList<>();
+        int fichaSimpleAlta = -1;
+        IJugador jugadorFichaSimpleMasAlta = null;
+        IJugador jugadorMano = null;
+        for (IJugador j: jugadores) {
+            if (j.tengoDobles()) {
+                jugadoresConFichasDobles.add(j);
+            }
+            // determino ficha simple más alta.
+            if (j.fichaSimpleMasAlta() > fichaSimpleAlta) {
+                fichaSimpleAlta = j.fichaSimpleMasAlta();
+                jugadorFichaSimpleMasAlta = j;
+            }
+        }
+        if (!jugadoresConFichasDobles.isEmpty()) {
+            jugadorMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
+            jugadorMano.setMano(true);
+        } else {
+            jugadorFichaSimpleMasAlta.setMano(true);
+        }
+    }
+
+    private IJugador jugadorfichaDobleMasAlta(ArrayList<IJugador> jugadores) {
+        IJugador jFichaDobleMasAlta = null;
+        int fichaValor = -1;
+        for (IJugador j : jugadores) {
+            if (j.fichaDobleMayor().getIzquierdo() > fichaValor) {
+                fichaValor = j.fichaDobleMayor().getIzquierdo();
+                jFichaDobleMasAlta = j;
+            }
+        }
+        return jFichaDobleMasAlta;
+    }
+
+    public static List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public static Pozo getPozo() {
+        return pozo;
+    }
 
 }

@@ -1,6 +1,6 @@
 package modelo;
 
-public class Ficha {
+public class Ficha implements IFicha{
     private final int izquierdo;
     private final int derecho;
 

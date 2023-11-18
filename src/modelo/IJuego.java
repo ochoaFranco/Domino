@@ -1,4 +1,4 @@
-package modelo.Interfaces;
+package modelo;
 
 import modelo.Jugador;
 

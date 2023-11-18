@@ -1,9 +1,11 @@
 package controlador;
 
 import modelo.*;
-import modelo.Interfaces.IJugador;
-import modelo.Interfaces.IObserver;
+import modelo.IJugador;
+import modelo.IObserver;
 import vista.IVista;
+
+import java.util.ArrayList;
 
 public class Controlador implements IObserver {
     private final IVista vista;
@@ -25,14 +27,17 @@ public class Controlador implements IObserver {
     }
 
 
-    public void repartirFichas() {
-        modelo.repartir();
+    public void iniciarJuego() {
+        modelo.iniciarJuego();
     }
 
     public void colocarFicha(int nroFicha, String extremo) {
         jugador.colocarFicha(nroFicha, extremo);
     }
 
+    public ArrayList<IFicha> getFichasJugador() {
+        return jugador.getFichas();
+    }
 
     @Override
     public void update(Evento e) {
@@ -44,9 +49,12 @@ public class Controlador implements IObserver {
         if (e != null) {
             switch (e) {
                 case CAMBIO_FICHAS_JUGADOR :
-                    vista.mostrarFichas(jugador, true);
+                    vista.mostrarFichasRecibidas(jugador);
+                    break;
                 case JUGADOR_JUGO_FICHA:
-
+                    vista.mostrarFichasJugador(jugador);
+                    vista.mostrarFichasJugador(jugador);
+                    break;
             }
         }
     }

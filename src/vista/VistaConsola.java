@@ -1,12 +1,14 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.Interfaces.IJugador;
+import modelo.IFicha;
+import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -38,13 +40,25 @@ public class VistaConsola implements IVista {
         frame.add(inputPanel, BorderLayout.SOUTH);
 
         // FUNCIONALIDAD DEL BOTON
+
+        inputCMD.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manejadorComandos();
+            }
+        });
+
         ejecutarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String comando =  inputCMD.getText();
-                determinarComando(comando);
+                manejadorComandos();
             }
         });
+    }
+
+    private void manejadorComandos() {
+        String comando =  inputCMD.getText();
+        determinarComando(comando);
     }
 
     public void mostrar() {
@@ -57,10 +71,8 @@ public class VistaConsola implements IVista {
     }
 
     @Override
-    public void mostrarFichas(IJugador jugador, boolean mostrarNombre) {
-        if (mostrarNombre) {
-            consolaOutput.append("Jugador" + jugador.getNombre());
-        }
+    public void mostrarFichasRecibidas(IJugador jugador) {
+        consolaOutput.append("Jugador" + jugador.getNombre());
         String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|  \n";
         consolaOutput.append(ficha);
     }
@@ -70,13 +82,26 @@ public class VistaConsola implements IVista {
         this.controlador = controlador;
     }
 
+    @Override
+    public void mostrarFichasJugador(IJugador jugador) {
+        ArrayList<IFicha> fichas = controlador.getFichasJugador();
+        consolaOutput.append("Jugador" + jugador.getNombre() + "\n");
+        String ficha;
+        for (IFicha f : fichas) {
+            ficha = "|" + f.getIzquierdo() + "|" + f.getDerecho() + "|  \n";
+            consolaOutput.append(ficha);
+        }
+        consolaOutput.append("\n");
+        consolaOutput.append("Es mano: " + jugador.getMano());
+    }
+
     private void determinarComando(String comando) {
         comando = comando.toLowerCase();
         if (comando.startsWith("nombre:")) {
             altaJugador(comando);
         } else if (comando.equals("jugar")) {
             jugar();
-        } else if (comando.startsWith("ficha")) {
+        } else if (comando.startsWith("ficha:")) {
             jugada(comando);
         }
     }
@@ -88,22 +113,17 @@ public class VistaConsola implements IVista {
     }
 
     private void jugar() {
-        limpiarPantalla();
-        controlador.repartirFichas();
+        controlador.iniciarJuego();
     }
 
     private void jugada(String comando) {
         String[] partes = comando.split("\\s+"); // ??
         if (partes.length == 3) {
             try {
-                // Extract relevant information
+                // Obtener informacion de la ficha.
                 int nroFicha = Integer.parseInt(partes[1]);
-                String position = partes[2];
-
-
-                // Process the information
-                consolaOutput.append("Ficha number: " + nroFicha + "\n");
-                consolaOutput.append("Position: " + position + "\n");
+                String extremo = partes[2];
+                controlador.colocarFicha(nroFicha, extremo);
 
             } catch (NumberFormatException ex) {
                 consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
@@ -111,12 +131,12 @@ public class VistaConsola implements IVista {
         } else {
             consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
         }
-        limpiarPantalla();
     }
 
-
-    private void limpiarPantalla() {
-        consolaOutput.setText("");
+    private void limpiarPantallaConDelay() {
+        Timer timer = new Timer(1000, e -> consolaOutput.setText(""));
+        timer.setRepeats(false);
+        timer.start();
     }
 }
 
