@@ -92,6 +92,13 @@ public class Juego implements IJuego, ISubject {
         }
         ArrayList<IFicha> fichasJugador = jugadorMano.getFichas();
         fichasJugador.remove(primeraFicha);
+        // agrego al tablero las fichas.
+        setearTablero(primeraFicha);
+    }
+    
+    private void setearTablero(IFicha ficha) {
+        Tablero.setExtremoDerec(ficha);
+        Tablero.setExtremoIzq(ficha);
     }
 
     private Jugador jugadorfichaDobleMasAlta(ArrayList<Jugador> jugadores) {

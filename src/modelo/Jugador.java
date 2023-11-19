@@ -40,13 +40,13 @@ public class Jugador implements IJugador {
     }
 
     public void colocarFicha(int nroFicha, String extremo) {
-        if (extremo.equalsIgnoreCase("i")) {
-            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
-        } else {
-            Tablero.setExtremoDerec(fichas.get(nroFicha).getDerecho());
-        }
-        fichaJugada = fichas.get(nroFicha);
-        fichas.remove(nroFicha);
+//        if (extremo.equalsIgnoreCase("i")) {
+//            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
+//        } else {
+//            Tablero.setExtremoDerec(fichas.get(nroFicha).getDerecho());
+//        }
+//        fichaJugada = fichas.get(nroFicha);
+//        fichas.remove(nroFicha);
     }
 
     public IFicha fichaDobleMayor() {

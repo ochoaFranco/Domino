@@ -1,23 +1,26 @@
 package modelo;
 
-public class Tablero {
-    private static int extremoIzq;
-    private static int extremoDerec;
+import java.util.ArrayList;
 
-    public static int getExtremoDerec() {
+public class Tablero {
+    private ArrayList<IFicha> fichas;
+    private static IFicha extremoIzq;
+    private static IFicha extremoDerec;
+
+    public static IFicha getExtremoDerec() {
         return extremoDerec;
     }
 
-    public static int getExtremoIzq() {
+    public static IFicha getExtremoIzq() {
         return extremoIzq;
     }
 
-    public static void setExtremoDerec(int extremoDerec) {
+    public static void setExtremoDerec(IFicha extremoDerec) {
         //Tablero.validarPosicion(extremoDerec);
         Tablero.extremoDerec = extremoDerec;
     }
 
-    public static void setExtremoIzq(int extremoIzq) {
+    public static void setExtremoIzq(IFicha extremoIzq) {
         //Tablero.validarPosicion(extremoIzq);
         Tablero.extremoIzq = extremoIzq;
     }
