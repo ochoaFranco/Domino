@@ -39,7 +39,7 @@ public class VistaConsola implements IVista {
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
 
-// TODO Mostrar las fichas recibidas cuando tengo las 7, no a medida que las voy recibiendo.
+
 
         // FUNCIONALIDAD DEL BOTON
 
@@ -74,7 +74,6 @@ public class VistaConsola implements IVista {
 
     @Override
     public void mostrarFichasRecibidas(IJugador jugador) {
-        consolaOutput.append("Jugador" + jugador.getNombre());
         String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|  \n";
         consolaOutput.append(ficha);
     }
@@ -87,7 +86,6 @@ public class VistaConsola implements IVista {
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
-        consolaOutput.append("Jugador" + jugador.getNombre() + "\n");
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : fichas) {
             ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|");

@@ -40,7 +40,6 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e) {
-
     }
 
     @Override
@@ -49,6 +48,8 @@ public class Controlador implements IObserver {
             vista.mostrarMensaje("Actualizando fichas jugador...\n");
             vista.mostrarFichasJugador((IJugador) o2);
             vista.mostrarFicha((IFicha) o1);
+            vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
+            vista.mostrarFichasJugador(modelo.getTurno());
         }
     }
 

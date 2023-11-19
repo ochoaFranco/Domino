@@ -8,7 +8,7 @@ public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 100;
-    private Jugador turno;
+    private Jugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
     private ArrayList<IObserver> observers;
@@ -44,6 +44,7 @@ public class Juego implements IJuego, ISubject {
     public void iniciarJuego() {
         repartir();
         determinarJugadorMano();
+        determinarJugadorTurno();
         notifyObserver(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
     }
 
@@ -105,12 +106,24 @@ public class Juego implements IJuego, ISubject {
         return jFichaDobleMasAlta;
     }
 
+    public void determinarJugadorTurno() {
+        for (Jugador j : jugadores) {
+            if (!j.esMano()) {
+                turno = j;
+            }
+        }
+    }
+
     public static List<Jugador> getJugadores() {
         return jugadores;
     }
 
     public static Pozo getPozo() {
         return pozo;
+    }
+
+    public Jugador getTurno() {
+        return turno;
     }
 
     @Override
