@@ -10,7 +10,7 @@ public interface IJugador {
     IFicha getFichaJugada();
     ArrayList<IFicha> getFichas();
     boolean tengoDobles();
-    public int fichaSimpleMasAlta();
+    public IFicha fichaSimpleMasAlta();
     IFicha fichaDobleMayor();
     void setMano(boolean mano);
     boolean getMano();

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Juego implements IJuego {
+public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<Ficha> fichas;
     private final int LIMITEPUNTOS = 100;
     private Jugador turno;
     private static Pozo pozo;
+    private IFicha primeraFicha;
+    private ArrayList<IObserver> observers;
 
     public Juego() {
         jugadores = new ArrayList<>();
@@ -17,6 +19,7 @@ public class Juego implements IJuego {
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
         pozo = new Pozo(fichas);
+        observers = new ArrayList<>();
     }
 
     @Override
@@ -40,6 +43,7 @@ public class Juego implements IJuego {
     public void iniciarJuego() {
         repartir();
         determinarJugadorMano();
+        notifyObserver(Evento.INICIAR_JUEGO, getPrimeraFicha());
     }
 
     private void repartir() {
@@ -48,8 +52,10 @@ public class Juego implements IJuego {
                 Ficha ficha = pozo.sacarFicha();
                 if (ficha != null) {
                     j.recibirFicha(ficha);
+                    notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
                 }
             }
+
         }
     }
 
@@ -63,16 +69,22 @@ public class Juego implements IJuego {
                 jugadoresConFichasDobles.add(j);
             }
             // determino ficha simple más alta.
-            if (j.fichaSimpleMasAlta() > fichaSimpleAlta) {
-                fichaSimpleAlta = j.fichaSimpleMasAlta();
+            if (j.fichaSimpleMasAlta().getIzquierdo() > fichaSimpleAlta ) {
+                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
+                jugadorFichaSimpleMasAlta = j;
+            } else if (j.fichaSimpleMasAlta().getDerecho() > fichaSimpleAlta) {
+                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
                 jugadorFichaSimpleMasAlta = j;
             }
         }
+        // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugadorMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
             jugadorMano.setMano(true);
+            primeraFicha = jugadorMano.fichaDobleMayor();
         } else {
             jugadorFichaSimpleMasAlta.setMano(true);
+            primeraFicha = jugadorFichaSimpleMasAlta.fichaSimpleMasAlta();
         }
     }
 
@@ -96,4 +108,24 @@ public class Juego implements IJuego {
         return pozo;
     }
 
+    public IFicha getPrimeraFicha() {
+        return primeraFicha;
+    }
+
+    @Override
+    public void attach(IObserver observer) {
+        observers.add(observer);
+    }
+
+    @Override
+    public void detach(IObserver observer) {
+        observers.remove(observer);
+    }
+
+    @Override
+    public void notifyObserver(Evento e, Object o) {
+        for (IObserver ob: observers) {
+            ob.update(e, o);
+        }
+    }
 }

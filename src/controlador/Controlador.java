@@ -19,16 +19,17 @@ public class Controlador implements IObserver {
 
     public void setModelo(Juego modelo) {
         this.modelo = modelo;
+        modelo.attach(this);
     }
 
     public void conectarJugador(String nombre) {
         jugador = modelo.conectarJugador(nombre);
-        jugador.attach(this);
     }
 
 
     public void iniciarJuego() {
         modelo.iniciarJuego();
+
     }
 
     public void colocarFicha(int nroFicha, String extremo) {
@@ -45,16 +46,17 @@ public class Controlador implements IObserver {
     }
 
     @Override
-    public void update(Evento e, IJugador jugador) {
+    public void update(Evento e, Object o) {
         if (e != null) {
             switch (e) {
                 case CAMBIO_FICHAS_JUGADOR :
-                    vista.mostrarFichasRecibidas(jugador);
+                    vista.mostrarFichasRecibidas((IJugador) o);
                     break;
                 case JUGADOR_JUGO_FICHA:
-                    vista.mostrarFichasJugador(jugador);
-                    vista.mostrarFichasJugador(jugador);
+                    vista.mostrarFichasJugador((IJugador) o); // ?
                     break;
+                case INICIAR_JUEGO:
+                    vista.mostrarFicha((IFicha) o);
             }
         }
     }

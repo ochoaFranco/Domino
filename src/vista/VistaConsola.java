@@ -92,7 +92,13 @@ public class VistaConsola implements IVista {
             consolaOutput.append(ficha);
         }
         consolaOutput.append("\n");
-        consolaOutput.append("Es mano: " + jugador.getMano());
+    }
+
+    @Override
+    public void mostrarFicha(IFicha f) {
+        String ficha = "|" + f.getIzquierdo() + "|" + f.getDerecho() + "|  \n";
+        consolaOutput.append(ficha);
+        consolaOutput.append("saracatunga");
     }
 
     private void determinarComando(String comando) {

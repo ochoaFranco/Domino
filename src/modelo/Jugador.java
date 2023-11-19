@@ -2,19 +2,17 @@ package modelo;
 
 import java.util.ArrayList;
 
-public class Jugador implements ISubject, IJugador {
+public class Jugador implements IJugador {
     private String nombre;
     private ArrayList<IFicha> fichas;
     private boolean mano = false;
     private int puntos;
     private Tablero tablero;
-    private ArrayList<IObserver> observers;
     private IFicha fichaJugada;
     
     public Jugador(String nombre) {
         this.nombre = nombre;
         fichas = new ArrayList<>();
-        observers = new ArrayList<>();
     }
     @Override
     public String getNombre() {
@@ -27,7 +25,6 @@ public class Jugador implements ISubject, IJugador {
 
     public void recibirFicha(IFicha ficha) {
         fichas.add(ficha);
-        notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR);
     }
 
     public boolean esMano() {
@@ -42,23 +39,6 @@ public class Jugador implements ISubject, IJugador {
         return fichas;
     }
 
-    @Override
-    public void attach(IObserver observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void detach(IObserver observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver(Evento e) {
-        for (IObserver o: observers) {
-            o.update(e, this);
-        }
-    }
-
     public void colocarFicha(int nroFicha, String extremo) {
         if (extremo.equalsIgnoreCase("i")) {
             Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
@@ -67,7 +47,6 @@ public class Jugador implements ISubject, IJugador {
         }
         fichaJugada = fichas.get(nroFicha);
         fichas.remove(nroFicha);
-        notifyObserver(Evento.JUGADOR_JUGO_FICHA);
     }
 
     public IFicha fichaDobleMayor() {
@@ -80,14 +59,11 @@ public class Jugador implements ISubject, IJugador {
         return dobleMayor;
     }
 
-    public int fichaSimpleMasAlta() {
-        int fichaComunMasAlta = -1;
+    public IFicha fichaSimpleMasAlta() {
+        IFicha fichaComunMasAlta = new Ficha(-1, -1);
         for (IFicha f : fichas) {
-            if (f.getIzquierdo() > fichaComunMasAlta ) {
-                fichaComunMasAlta = f.getIzquierdo();
-            if ( f.getDerecho() > fichaComunMasAlta) {
-                fichaComunMasAlta = f.getDerecho();
-            }
+            if (f.getIzquierdo() > fichaComunMasAlta.getIzquierdo() ||  f.getDerecho() > fichaComunMasAlta.getDerecho()) {
+                fichaComunMasAlta = f;
         }
     }
     return fichaComunMasAlta;
