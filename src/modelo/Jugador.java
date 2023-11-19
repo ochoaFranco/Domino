@@ -39,7 +39,7 @@ public class Jugador implements IJugador {
         return fichas;
     }
 
-    public void colocarFicha(int nroFicha, String extremo) {
+    public IFicha colocarFicha(int extremIzq, int extremDerec) {
 //        if (extremo.equalsIgnoreCase("i")) {
 //            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
 //        } else {

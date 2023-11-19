@@ -3,6 +3,8 @@ package modelo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
@@ -13,6 +15,7 @@ public class Juego implements IJuego, ISubject {
     private IFicha primeraFicha;
     private ArrayList<IObserver> observers;
     private Jugador jugadorMano = null;
+    Queue<IJugador> colaTurnos = new LinkedList<>();
 
     public Juego() {
         jugadores = new ArrayList<>();
@@ -27,6 +30,7 @@ public class Juego implements IJuego, ISubject {
     public Jugador conectarJugador(String nombre) {
         Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
+        colaTurnos.offer(jugador);
         return jugador;
     }
 
@@ -78,7 +82,6 @@ public class Juego implements IJuego, ISubject {
                 jugadorFichaSimpleMasAlta = j;
             }
         }
-
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
@@ -94,11 +97,20 @@ public class Juego implements IJuego, ISubject {
         fichasJugador.remove(primeraFicha);
         // agrego al tablero las fichas.
         setearTablero(primeraFicha);
+        moverTurno();
     }
-    
+
     private void setearTablero(IFicha ficha) {
         Tablero.setExtremoDerec(ficha);
         Tablero.setExtremoIzq(ficha);
+    }
+
+    // mueve el jugdor al final del turno en el caso de que ya haya tirado.
+    private void moverTurno() {
+        if (colaTurnos.peek() == jugadorMano) {
+            IJugador jugador = colaTurnos.poll();
+            colaTurnos.offer(jugador);
+        }
     }
 
     private Jugador jugadorfichaDobleMasAlta(ArrayList<Jugador> jugadores) {
@@ -116,9 +128,13 @@ public class Juego implements IJuego, ISubject {
     public void determinarJugadorTurno() {
         for (Jugador j : jugadores) {
             if (!j.esMano()) {
-                turno = j;
+                turno = j; // el turno es el del jugador que no tiro ficha.
             }
         }
+    }
+
+    public void realizarJugada(int extremIzq, int extremDerec) {
+
     }
 
     public static List<Jugador> getJugadores() {
