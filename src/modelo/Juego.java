@@ -10,7 +10,7 @@ public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 100;
-    private Jugador turno = null;
+    private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
     private ArrayList<IObserver> observers;
@@ -126,15 +126,28 @@ public class Juego implements IJuego, ISubject {
     }
 
     public void determinarJugadorTurno() {
-        for (Jugador j : jugadores) {
-            if (!j.esMano()) {
-                turno = j; // el turno es el del jugador que no tiro ficha.
-            }
-        }
+        turno = colaTurnos.peek();
     }
 
-    public void realizarJugada(int extremIzq, int extremDerec) {
+    public void realizarJugada(int extremIzq, int extremDerec, char extremo) {
+        IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
+        IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
+        jugador.colocarFicha(ficha, extremo);
+        colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
+        notifyObserver(Evento.JUGADOR_JUGO_FICHA, ficha);
+    }
 
+    // Busca la ficha a tirar dentro del poll de fichas del jugdador.
+    private IFicha buscarFicha(int extremIzq, int extemDer, IJugador jug) {
+        ArrayList<IFicha> fichas = jug.getFichas();
+        IFicha ficha = null;
+        for (IFicha f : fichas) {
+            if (f.getIzquierdo() == extremIzq && f.getDerecho() == extemDer) {
+                ficha = f;
+                break;
+            }
+        }
+        return ficha;
     }
 
     public static List<Jugador> getJugadores() {
@@ -145,7 +158,7 @@ public class Juego implements IJuego, ISubject {
         return pozo;
     }
 
-    public Jugador getTurno() {
+    public IJugador getTurno() {
         return turno;
     }
 

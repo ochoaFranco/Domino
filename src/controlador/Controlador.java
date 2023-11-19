@@ -30,8 +30,8 @@ public class Controlador implements IObserver {
         modelo.iniciarJuego();
     }
 
-    public void colocarFicha(int nroFicha, String extremo, IJugador jugador) {
-        jugador.colocarFicha(nroFicha, extremo);
+    public void gestionarTurnos(int extremIzq, int extremDer, Character extremo) {
+        modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 
     public ArrayList<IFicha> getFichasJugador(IJugador jugador) {
@@ -62,8 +62,7 @@ public class Controlador implements IObserver {
                     vista.mostrarFichasJugador((IJugador) o);
                     break;
                 case JUGADOR_JUGO_FICHA:
-                    vista.mostrarFichasJugador((IJugador) o);
-                    break;
+                    vista.mostrarFicha((IFicha) o);
             }
         }
     }

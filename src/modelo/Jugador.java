@@ -39,14 +39,13 @@ public class Jugador implements IJugador {
         return fichas;
     }
 
-    public IFicha colocarFicha(int extremIzq, int extremDerec) {
-//        if (extremo.equalsIgnoreCase("i")) {
-//            Tablero.setExtremoIzq(fichas.get(nroFicha).getIzquierdo());
-//        } else {
-//            Tablero.setExtremoDerec(fichas.get(nroFicha).getDerecho());
-//        }
-//        fichaJugada = fichas.get(nroFicha);
-//        fichas.remove(nroFicha);
+    public void colocarFicha(IFicha ficha, Character extremo) {
+        if (Character.toLowerCase(extremo) == 'i') {
+            Tablero.setExtremoIzq(ficha);
+        } else if (Character.toLowerCase(extremo) == 'd') {
+            Tablero.setExtremoDerec(ficha);
+        }
+        fichas.remove(ficha);
     }
 
     public IFicha fichaDobleMayor() {
@@ -79,11 +78,6 @@ public class Jugador implements IJugador {
             i++;
         }
         return algunDoble;
-    }
-
-
-    public IFicha getFichaJugada() {
-        return fichaJugada;
     }
 
     public void setMano(boolean mano) {

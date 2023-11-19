@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 
 public class Tablero {
-    private ArrayList<IFicha> fichas;
+    private static ArrayList<IFicha> fichas;
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
 
@@ -15,13 +15,15 @@ public class Tablero {
         return extremoIzq;
     }
 
+    // agrega una ficha en el extremo derecho.
     public static void setExtremoDerec(IFicha extremoDerec) {
-        //Tablero.validarPosicion(extremoDerec);
+        Tablero.fichas.add(extremoIzq);
         Tablero.extremoDerec = extremoDerec;
     }
 
+    // agrega una ficha en el extremo izquierdo.
     public static void setExtremoIzq(IFicha extremoIzq) {
-        //Tablero.validarPosicion(extremoIzq);
+        Tablero.fichas.add(0, extremoIzq);
         Tablero.extremoIzq = extremoIzq;
     }
 
