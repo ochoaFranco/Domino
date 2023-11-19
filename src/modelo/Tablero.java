@@ -3,7 +3,7 @@ package modelo;
 import java.util.ArrayList;
 
 public class Tablero {
-    private static ArrayList<IFicha> fichas;
+    private static ArrayList<IFicha> fichas = new ArrayList<>();
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
 

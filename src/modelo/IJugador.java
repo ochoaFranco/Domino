@@ -13,5 +13,5 @@ public interface IJugador {
     IFicha fichaDobleMayor();
     void setMano(boolean mano);
     boolean getMano();
-    void colocarFicha(IFicha ficha, Character extremo);
+    void colocarFicha(IFicha ficha, String extremo);
 }

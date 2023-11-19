@@ -123,18 +123,19 @@ public class VistaConsola implements IVista {
 
     private void jugada(String comando) {
         String[] partes = comando.split("\\s+"); // ??
-        if (partes.length == 3) {
+        if (partes.length == 4) {
             try {
                 // Obtener informacion de la ficha.
-                int nroFicha = Integer.parseInt(partes[1]);
-                String extremo = partes[2];
-                //controlador.colocarFicha(nroFicha, extremo);
+                int izq = Integer.parseInt(partes[1]);
+                int der = Integer.parseInt(partes[2]);
+                String extremo = partes[3];
+                controlador.gestionarTurnos(izq, der, extremo);
 
             } catch (NumberFormatException ex) {
-                consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
+                consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
             }
         } else {
-            consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
+            consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
         }
     }
 

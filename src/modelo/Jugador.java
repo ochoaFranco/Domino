@@ -39,10 +39,10 @@ public class Jugador implements IJugador {
         return fichas;
     }
 
-    public void colocarFicha(IFicha ficha, Character extremo) {
-        if (Character.toLowerCase(extremo) == 'i') {
+    public void colocarFicha(IFicha ficha, String extremo) {
+        if (extremo.toLowerCase().equals("i")) {
             Tablero.setExtremoIzq(ficha);
-        } else if (Character.toLowerCase(extremo) == 'd') {
+        } else if (extremo.toLowerCase().equals("d")) {
             Tablero.setExtremoDerec(ficha);
         }
         fichas.remove(ficha);

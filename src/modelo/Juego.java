@@ -129,7 +129,7 @@ public class Juego implements IJuego, ISubject {
         turno = colaTurnos.peek();
     }
 
-    public void realizarJugada(int extremIzq, int extremDerec, char extremo) {
+    public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
         jugador.colocarFicha(ficha, extremo);

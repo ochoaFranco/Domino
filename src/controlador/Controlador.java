@@ -30,7 +30,7 @@ public class Controlador implements IObserver {
         modelo.iniciarJuego();
     }
 
-    public void gestionarTurnos(int extremIzq, int extremDer, Character extremo) {
+    public void gestionarTurnos(int extremIzq, int extremDer, String extremo) {
         modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 
