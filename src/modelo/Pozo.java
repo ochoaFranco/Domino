@@ -3,13 +3,13 @@ package modelo;
 import java.util.List;
 
 public class Pozo {
-    private List<Ficha> fichas;
+    private List<IFicha> fichas;
     
-    public Pozo(List<Ficha> fichas) {
+    public Pozo(List<IFicha> fichas) {
         this.fichas = fichas;
     }
     
-    public Ficha sacarFicha() {
+    public IFicha sacarFicha() {
         if (fichas.isEmpty()) return null;
         return fichas.remove(0);
     }

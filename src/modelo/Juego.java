@@ -6,12 +6,13 @@ import java.util.List;
 
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
-    private List<Ficha> fichas;
+    private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 100;
     private Jugador turno;
     private static Pozo pozo;
     private IFicha primeraFicha;
     private ArrayList<IObserver> observers;
+    private Jugador jugadorMano = null;
 
     public Juego() {
         jugadores = new ArrayList<>();
@@ -43,28 +44,27 @@ public class Juego implements IJuego, ISubject {
     public void iniciarJuego() {
         repartir();
         determinarJugadorMano();
-        notifyObserver(Evento.INICIAR_JUEGO, getPrimeraFicha());
+        notifyObserver(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
     }
 
     private void repartir() {
         for (Jugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
-                Ficha ficha = pozo.sacarFicha();
+                IFicha ficha = pozo.sacarFicha();
                 if (ficha != null) {
                     j.recibirFicha(ficha);
                     notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
                 }
             }
-
         }
     }
 
     private void determinarJugadorMano() {
-        ArrayList<IJugador> jugadoresConFichasDobles = new ArrayList<>();
+        ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
-        IJugador jugadorFichaSimpleMasAlta = null;
-        IJugador jugadorMano = null;
-        for (IJugador j: jugadores) {
+        Jugador jugadorFichaSimpleMasAlta = null;
+        Jugador jugMano = null;
+        for (Jugador j: jugadores) {
             if (j.tengoDobles()) {
                 jugadoresConFichasDobles.add(j);
             }
@@ -77,21 +77,26 @@ public class Juego implements IJuego, ISubject {
                 jugadorFichaSimpleMasAlta = j;
             }
         }
+
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
-            jugadorMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
-            jugadorMano.setMano(true);
-            primeraFicha = jugadorMano.fichaDobleMayor();
+            jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
+            jugMano.setMano(true);
+            jugadorMano = jugMano;
+            primeraFicha = jugMano.fichaDobleMayor();
         } else {
             jugadorFichaSimpleMasAlta.setMano(true);
             primeraFicha = jugadorFichaSimpleMasAlta.fichaSimpleMasAlta();
+            jugadorMano = jugadorFichaSimpleMasAlta;
         }
+        ArrayList<IFicha> fichasJugador = jugadorMano.getFichas();
+        fichasJugador.remove(primeraFicha);
     }
 
-    private IJugador jugadorfichaDobleMasAlta(ArrayList<IJugador> jugadores) {
-        IJugador jFichaDobleMasAlta = null;
+    private Jugador jugadorfichaDobleMasAlta(ArrayList<Jugador> jugadores) {
+        Jugador jFichaDobleMasAlta = null;
         int fichaValor = -1;
-        for (IJugador j : jugadores) {
+        for (Jugador j : jugadores) {
             if (j.fichaDobleMayor().getIzquierdo() > fichaValor) {
                 fichaValor = j.fichaDobleMayor().getIzquierdo();
                 jFichaDobleMasAlta = j;
@@ -108,10 +113,6 @@ public class Juego implements IJuego, ISubject {
         return pozo;
     }
 
-    public IFicha getPrimeraFicha() {
-        return primeraFicha;
-    }
-
     @Override
     public void attach(IObserver observer) {
         observers.add(observer);
@@ -123,9 +124,16 @@ public class Juego implements IJuego, ISubject {
     }
 
     @Override
-    public void notifyObserver(Evento e, Object o) {
+    public void notifyObserver(Evento e, Object o1) {
         for (IObserver ob: observers) {
-            ob.update(e, o);
+            ob.update(e, o1);
+        }
+    }
+
+    @Override
+    public void notifyObserver(Evento e, Object o1, Object o2) {
+        for (IObserver ob: observers) {
+            ob.update(e, o1, o2);
         }
     }
 }

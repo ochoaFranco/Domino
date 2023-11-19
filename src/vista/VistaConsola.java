@@ -39,6 +39,8 @@ public class VistaConsola implements IVista {
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
 
+// TODO Mostrar las fichas recibidas cuando tengo las 7, no a medida que las voy recibiendo.
+
         // FUNCIONALIDAD DEL BOTON
 
         inputCMD.addActionListener(new ActionListener() {
@@ -84,13 +86,13 @@ public class VistaConsola implements IVista {
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
-        ArrayList<IFicha> fichas = controlador.getFichasJugador();
+        ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
         consolaOutput.append("Jugador" + jugador.getNombre() + "\n");
-        String ficha;
+        StringBuilder ficha = new StringBuilder();
         for (IFicha f : fichas) {
-            ficha = "|" + f.getIzquierdo() + "|" + f.getDerecho() + "|  \n";
-            consolaOutput.append(ficha);
+            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|");
         }
+        consolaOutput.append(ficha.toString());
         consolaOutput.append("\n");
     }
 
@@ -98,7 +100,6 @@ public class VistaConsola implements IVista {
     public void mostrarFicha(IFicha f) {
         String ficha = "|" + f.getIzquierdo() + "|" + f.getDerecho() + "|  \n";
         consolaOutput.append(ficha);
-        consolaOutput.append("saracatunga");
     }
 
     private void determinarComando(String comando) {
@@ -129,7 +130,7 @@ public class VistaConsola implements IVista {
                 // Obtener informacion de la ficha.
                 int nroFicha = Integer.parseInt(partes[1]);
                 String extremo = partes[2];
-                controlador.colocarFicha(nroFicha, extremo);
+                //controlador.colocarFicha(nroFicha, extremo);
 
             } catch (NumberFormatException ex) {
                 consolaOutput.append("Formato de ficha invalido (NroFicha I o NroFicha D)");
