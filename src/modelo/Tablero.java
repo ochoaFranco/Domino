@@ -17,7 +17,7 @@ public class Tablero {
 
     // agrega una ficha en el extremo derecho.
     public static void setExtremoDerec(IFicha extremoDerec) {
-        Tablero.fichas.add(extremoIzq);
+        Tablero.fichas.add(extremoDerec);
         Tablero.extremoDerec = extremoDerec;
     }
 
@@ -30,5 +30,9 @@ public class Tablero {
     // falta ser implementada.
     private static boolean validarPosicion(int extremo) {
         return true;
+    }
+
+    public static ArrayList<IFicha> getFichas() {
+        return fichas;
     }
 }

@@ -63,6 +63,10 @@ public class Controlador implements IObserver {
                     break;
                 case JUGADOR_JUGO_FICHA:
                     vista.mostrarFicha((IFicha) o);
+                    break;
+                case ACTUALIZAR_TABLERO:
+                    vista.mostrarTablero(o);
+                    break;
             }
         }
     }

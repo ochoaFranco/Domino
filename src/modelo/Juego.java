@@ -102,7 +102,6 @@ public class Juego implements IJuego, ISubject {
 
     private void setearTablero(IFicha ficha) {
         Tablero.setExtremoDerec(ficha);
-        Tablero.setExtremoIzq(ficha);
     }
 
     // mueve el jugdor al final del turno en el caso de que ya haya tirado.
@@ -134,7 +133,8 @@ public class Juego implements IJuego, ISubject {
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
         jugador.colocarFicha(ficha, extremo);
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
-        notifyObserver(Evento.JUGADOR_JUGO_FICHA, ficha);
+        ArrayList<IFicha> fichasTablero = Tablero.getFichas();
+        notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
     }
 
     // Busca la ficha a tirar dentro del poll de fichas del jugdador.

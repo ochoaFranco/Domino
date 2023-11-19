@@ -111,6 +111,15 @@ public class VistaConsola implements IVista {
         }
     }
 
+    public void mostrarTablero(Object o) {
+        StringBuilder ficha = new StringBuilder();
+        for (IFicha f : (ArrayList<IFicha>)o) {
+            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
+        }
+        consolaOutput.append(ficha.toString());
+        consolaOutput.append("\n");
+    }
+
     private void altaJugador(String nombre) {
         String jugadorNombre = nombre.substring("NOMBRE:".length());
         consolaOutput.append("\nBienvenido " + jugadorNombre + "!\n");

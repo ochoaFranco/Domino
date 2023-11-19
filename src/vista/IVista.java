@@ -11,4 +11,5 @@ public interface IVista {
     void mostrarFichasJugador(IJugador jugador);
     void mostrarFicha(IFicha ficha);
     void mostrar();
+    void mostrarTablero(Object o);
 }
