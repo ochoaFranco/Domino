@@ -58,10 +58,11 @@ public class Controlador implements IObserver {
         if (e != null) {
             switch (e) {
                 case CAMBIO_FICHAS_JUGADOR :
-                    vista.mostrarFichasRecibidas((IJugador) o);
+                    vista.mostrarMensaje("Fichas jugador: " + ((IJugador)o).getNombre());
+                    vista.mostrarFichasJugador((IJugador) o);
                     break;
                 case JUGADOR_JUGO_FICHA:
-                    vista.mostrarFichasJugador((IJugador) o); // ?
+                    vista.mostrarFichasJugador((IJugador) o);
                     break;
             }
         }

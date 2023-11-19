@@ -88,7 +88,7 @@ public class VistaConsola implements IVista {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : fichas) {
-            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|");
+            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
         }
         consolaOutput.append(ficha.toString());
         consolaOutput.append("\n");
