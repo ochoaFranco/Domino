@@ -90,10 +90,13 @@ public class Controlador implements IObserver {
                 vista.mostrarFichasJugador((IJugador) o);
                 break;
             case FIN_DEL_JUEGO:
-                vista.mostrarMensaje("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
+                if (o == jugador) {
+                    vista.mostrarMensaje("Has ganado el juego con " + jugador.getPuntos() + " puntos gracias por jugar al domino!");
+                } else {
+                    vista.mostrarMensaje("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
+                }
                 break;
         }
-
     }
 
 }
