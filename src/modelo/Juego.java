@@ -128,6 +128,7 @@ public class Juego implements IJuego, ISubject {
         turno = colaTurnos.peek();
     }
 
+    // Logica principal del juego.
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
@@ -138,7 +139,7 @@ public class Juego implements IJuego, ISubject {
         notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
     }
 
-    // Busca la ficha a tirar dentro del poll de fichas del jugdador.
+    // Busca la ficha a tirar dentro del poll de fichas del jugador.
     private IFicha buscarFicha(int extremIzq, int extemDer, IJugador jug) {
         ArrayList<IFicha> fichas = jug.getFichas();
         IFicha ficha = null;
