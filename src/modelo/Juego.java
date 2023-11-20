@@ -97,7 +97,7 @@ public class Juego implements IJuego, ISubject {
         fichasJugador.remove(primeraFicha);
         // agrego al tablero las fichas.
         setearTablero(primeraFicha);
-        moverTurno();
+        moverJugFinalTurno();
     }
 
     private void setearTablero(IFicha ficha) {
@@ -105,7 +105,7 @@ public class Juego implements IJuego, ISubject {
     }
 
     // mueve el jugdor al final del turno en el caso de que ya haya tirado.
-    private void moverTurno() {
+    private void moverJugFinalTurno() {
         if (colaTurnos.peek() == jugadorMano) {
             IJugador jugador = colaTurnos.poll();
             colaTurnos.offer(jugador);
@@ -154,10 +154,22 @@ public class Juego implements IJuego, ISubject {
     // robo fichas del pozo y actualizo la mano.
     public void robarFichaPozo() {
         IJugador jugador = turno;
-        jugador.recibirFicha(pozo.sacarFicha());
-        notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
+        IFicha ficha = pozo.sacarFicha();
+        if (ficha == null) {
+            pasarTurno();
+        } else {
+            jugador.recibirFicha(pozo.sacarFicha());
+            notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
+        }
     }
 
+    // paso el turno, desencolandolo del frente y encolandolo en el final.
+    private void pasarTurno() {
+        IJugador jugador = colaTurnos.poll();
+        colaTurnos.offer(jugador);
+        determinarJugadorTurno(); // actualizo el turno
+        notifyObserver(Evento.PASAR_TURNO, turno);
+    }
 
     public static List<Jugador> getJugadores() {
         return jugadores;

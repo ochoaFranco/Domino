@@ -73,6 +73,11 @@ public class Controlador implements IObserver {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
                     vista.mostrarFichasJugador(modelo.getTurno());
                     break;
+                case PASAR_TURNO:
+                    vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
+                    vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
+                    vista.mostrarFichasJugador((IJugador) o);
+                    break;
             }
         }
     }
