@@ -151,6 +151,14 @@ public class Juego implements IJuego, ISubject {
         return ficha;
     }
 
+    // robo fichas del pozo y actualizo la mano.
+    public void robarFichaPozo() {
+        IJugador jugador = turno;
+        jugador.recibirFicha(pozo.sacarFicha());
+        notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
+    }
+
+
     public static List<Jugador> getJugadores() {
         return jugadores;
     }

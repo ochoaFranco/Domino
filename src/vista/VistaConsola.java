@@ -108,7 +108,13 @@ public class VistaConsola implements IVista {
             jugar();
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
+        } else if (comando.equalsIgnoreCase("robar")) {
+            actualizarManoJugador();
         }
+    }
+    // el jugador roba una ficha del pozo y se actualiza la mano.
+    private void actualizarManoJugador() {
+        controlador.robarFicha();
     }
 
     public void mostrarTablero(Object o) {
@@ -131,7 +137,7 @@ public class VistaConsola implements IVista {
     }
 
     private void jugada(String comando) {
-        String[] partes = comando.split("\\s+"); // ??
+        String[] partes = comando.split("\\s+"); // express.regular para separar por caracteres en blanco.
         if (partes.length == 4) {
             try {
                 // Obtener informacion de la ficha.

@@ -34,6 +34,10 @@ public class Controlador implements IObserver {
         modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 
+    public void robarFicha() {
+        modelo.robarFichaPozo();
+    }
+
     public ArrayList<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }

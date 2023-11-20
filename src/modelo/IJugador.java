@@ -14,4 +14,5 @@ public interface IJugador {
     void setMano(boolean mano);
     boolean getMano();
     void colocarFicha(IFicha ficha, String extremo);
+    void recibirFicha(IFicha ficha);
 }
