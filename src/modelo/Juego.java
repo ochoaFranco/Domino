@@ -9,7 +9,7 @@ import java.util.Queue;
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 100;
+    private final int LIMITEPUNTOS = 50;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -141,7 +141,8 @@ public class Juego implements IJuego, ISubject {
     private void determinarSiJugadorGano() {
         if (turno.getPuntos() >= LIMITEPUNTOS) {
             notifyObserver(Evento.FIN_DEL_JUEGO, turno);
-        } else { // repartir nuevas fichas.
+        } else {
+            notifyObserver(Evento.CAMBIO_RONDA, turno, jugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
         }
     }
@@ -150,7 +151,6 @@ public class Juego implements IJuego, ISubject {
         juntarFichasTablero();
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
-        notifyObserver(Evento.CAMBIO_RONDA);
         iniciarJuego();
     }
 
@@ -248,13 +248,6 @@ public class Juego implements IJuego, ISubject {
     @Override
     public void detach(IObserver observer) {
         observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver(Evento e) {
-        for (IObserver ob: observers) {
-            ob.update(e);
-        }
     }
 
     @Override

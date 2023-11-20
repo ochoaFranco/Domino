@@ -6,7 +6,7 @@ public class Jugador implements IJugador {
     private String nombre;
     private ArrayList<IFicha> fichas;
     private boolean mano = false;
-    private int puntos;
+    private int puntos = 0;
     private Tablero tablero;
     private IFicha fichaJugada;
     
@@ -37,7 +37,7 @@ public class Jugador implements IJugador {
     }
 
     public void sumarPuntos(int puntos) {
-        this.puntos = puntos;
+        this.puntos += puntos;
     }
 
     public boolean esMano() {

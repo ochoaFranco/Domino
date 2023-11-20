@@ -42,19 +42,20 @@ public class Controlador implements IObserver {
         return jugador.getFichas();
     }
 
-    @Override
-    public void update(Evento e) {
-        if (e.equals(Evento.CAMBIO_RONDA)) {
-            vista.mostrarMensaje("Se va a iniciar una nueva ronda");
-        }
-    }
 
     @Override
     public void update(Evento e, Object o1, Object o2) {
-        if (e.equals(Evento.INICIAR_JUEGO)) {
-            vista.mostrarFicha((IFicha) o1);
-            vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
-            vista.mostrarFichasJugador(modelo.getTurno());
+        switch (e) {
+            case INICIAR_JUEGO:
+                vista.mostrarFicha((IFicha) o1);
+                vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
+                vista.mostrarFichasJugador(modelo.getTurno());
+                break;
+            case CAMBIO_RONDA:
+                vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
+                vista.mostrarTablaPuntos(o2);
+                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+                break;
         }
     }
 

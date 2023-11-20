@@ -12,4 +12,5 @@ public interface IVista {
     void mostrarFicha(IFicha ficha);
     void mostrar();
     void mostrarTablero(Object o);
+    void mostrarTablaPuntos(Object o);
 }

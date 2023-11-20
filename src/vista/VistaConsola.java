@@ -153,6 +153,15 @@ public class VistaConsola implements IVista {
             consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
         }
     }
+    @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
+    public void mostrarTablaPuntos(Object o) {
+        for (IJugador f : (ArrayList<IJugador>)o) {
+            consolaOutput.append("Jugador: " + f.getNombre() + " Puntos: " + f.getPuntos() + "\n");
+        }
+        consolaOutput.append("\n");
+    }
+
+
 
     public void limpiarPantalla() {
         Timer timer = new Timer(1000, e -> consolaOutput.setText(""));
