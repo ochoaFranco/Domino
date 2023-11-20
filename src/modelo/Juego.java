@@ -152,6 +152,32 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
+    private void reiniciarRonda() {
+        juntarFichasTablero();
+        juntarFichasJugadores();
+        Collections.shuffle(pozo.getFichas());
+        repartir();
+    }
+
+
+    private void juntarFichasTablero() {
+        for (IFicha f : Tablero.getFichas()) {
+            IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+            pozo.agregarFicha(ficha);
+        }
+        Tablero.getFichas().clear(); // saco las fichas del tablero.
+    }
+
+    private void juntarFichasJugadores() {
+        for (IJugador j : jugadores) {
+            for (IFicha f : j.getFichas()) {
+                IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+                pozo.agregarFicha(ficha);
+            }
+            j.getFichas().clear(); // vacio la mano del jugador.
+        }
+    }
+
     // Logica principal del juego.
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.

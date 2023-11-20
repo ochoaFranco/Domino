@@ -14,4 +14,11 @@ public class Pozo {
         return fichas.remove(0);
     }
 
+    public void agregarFicha(IFicha ficha) {
+        fichas.add(ficha);
+    }
+
+    public List<IFicha> getFichas() {
+        return fichas;
+    }
 }
