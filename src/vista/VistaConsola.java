@@ -116,7 +116,7 @@ public class VistaConsola implements IVista {
     private void actualizarManoJugador() {
         controlador.robarFicha();
     }
-
+    @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
     public void mostrarTablero(Object o) {
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : (ArrayList<IFicha>)o) {

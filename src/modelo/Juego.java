@@ -9,7 +9,7 @@ import java.util.Queue;
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 100;
+    private final int LIMITEPUNTOS = 10;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -128,13 +128,11 @@ public class Juego implements IJuego, ISubject {
         turno = colaTurnos.peek();
     }
 
-    // Logica principal del juego.
+
 
     public void logicaJuego(int extremIzq, int extremDerec, String extremo) {
         realizarJugada(extremIzq, extremDerec, extremo);
-        if (jugadorJugoTodasSusFichas(turno)) {
-            contarPuntosJugadores();
-        }
+
     }
 
     // cuento los puntos de las fichas de todos lo jugadores.
@@ -148,15 +146,29 @@ public class Juego implements IJuego, ISubject {
         colaTurnos.offer(jugTurno);
     }
 
-    // recibe un los valores de la ficha y la ubicacion de la misma para colocarla en el tablero.
+    private void determinarSiJugadorGano() {
+        if (turno.getPuntos() >= LIMITEPUNTOS) {
+            notifyObserver(Evento.FIN_DEL_JUEGO, turno);
+        } else { // repartir nuevas fichas.
+
+        }
+    }
+
+    // Logica principal del juego.
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
         jugador.colocarFicha(ficha, extremo);
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
-        determinarJugadorTurno(); // paso el turno al siguiente jugador.
-        notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+        // dermino si el jugador jugo todas sus fichas.
+        if (jugadorJugoTodasSusFichas(turno)) {
+            contarPuntosJugadores();
+            determinarSiJugadorGano();
+        } else {
+            determinarJugadorTurno(); // paso el turno al siguiente jugador.
+            notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+        }
     }
 
     // determina si el jugador no tiene mas fichas.

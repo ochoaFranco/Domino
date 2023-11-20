@@ -17,4 +17,5 @@ public interface IJugador {
     void recibirFicha(IFicha ficha);
     int contarPuntosFicha();
     void sumarPuntos(int puntos);
+    int getPuntos();
 }

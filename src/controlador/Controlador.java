@@ -31,7 +31,7 @@ public class Controlador implements IObserver {
     }
 
     public void gestionarTurnos(int extremIzq, int extremDer, String extremo) {
-        modelo.logicaJuego(extremIzq, extremDer, extremo);
+        modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 
     public void robarFicha() {
@@ -77,6 +77,9 @@ public class Controlador implements IObserver {
                     vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
                     vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
                     vista.mostrarFichasJugador((IJugador) o);
+                    break;
+                case FIN_DEL_JUEGO:
+                    vista.mostrarMensaje("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
                     break;
             }
         }

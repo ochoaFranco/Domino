@@ -5,5 +5,6 @@ public enum Evento {
     INICIAR_JUEGO,
     JUGADOR_JUGO_FICHA,
     ACTUALIZAR_TABLERO,
-    PASAR_TURNO
+    PASAR_TURNO,
+    FIN_DEL_JUEGO
 }
