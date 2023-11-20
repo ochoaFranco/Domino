@@ -3,6 +3,7 @@ package modelo;
 public class Ficha implements IFicha{
     private final int izquierdo;
     private final int derecho;
+    private boolean dadaVuelta = false;
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;
@@ -18,5 +19,12 @@ public class Ficha implements IFicha{
 
     public boolean esFichaDoble() {
         return izquierdo == derecho;
+    }
+
+    public boolean isDadaVuelta() {
+        return dadaVuelta;
+    }
+    public void darVuelta(boolean darVuelta) {
+        dadaVuelta = darVuelta;
     }
 }

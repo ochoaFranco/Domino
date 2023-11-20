@@ -102,6 +102,7 @@ public class Juego implements IJuego, ISubject {
 
     private void setearTablero(IFicha ficha) {
         Tablero.setExtremoDerec(ficha);
+        Tablero.setExtremoIzq(ficha);
     }
 
     // mueve el jugdor al final del turno en el caso de que ya haya tirado.
