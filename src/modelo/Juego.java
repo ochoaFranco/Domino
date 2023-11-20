@@ -151,7 +151,7 @@ public class Juego implements IJuego, ISubject {
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
         notifyObserver(Evento.CAMBIO_RONDA);
-        repartir();
+        iniciarJuego();
     }
 
 
