@@ -10,10 +10,10 @@ import java.util.ArrayList;
 public class Controlador implements IObserver {
     private final IVista vista;
     private Juego modelo;
+    private IJugador jugador;
 
     public Controlador(IVista vista) {
         this.vista = vista;
-        vista.setControlador(this); // seteo el controlador de la vista, es decir, el controlador actual.
     }
 
     public void setModelo(Juego modelo) {
@@ -22,7 +22,7 @@ public class Controlador implements IObserver {
     }
 
     public void conectarJugador(String nombre) {
-        modelo.conectarJugador(nombre);
+        jugador = modelo.conectarJugador(nombre);
     }
 
 
@@ -48,8 +48,12 @@ public class Controlador implements IObserver {
         switch (e) {
             case INICIAR_JUEGO:
                 vista.mostrarFicha((IFicha) o1);
-                vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
-                vista.mostrarFichasJugador(modelo.getTurno());
+                if (modelo.getTurno() == jugador) {
+                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+                    vista.mostrarFichasJugador(modelo.getTurno());
+                } else {
+                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+                }
                 break;
             case CAMBIO_RONDA:
                 vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
@@ -61,7 +65,7 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e, Object o) {
-        if (e != null) {
+        if (o == jugador) {
             switch (e) {
                 case CAMBIO_FICHAS_JUGADOR :
                     vista.mostrarMensaje("Fichas jugador: " + ((IJugador)o).getNombre());
