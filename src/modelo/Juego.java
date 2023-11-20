@@ -137,13 +137,11 @@ public class Juego implements IJuego, ISubject {
 
     // cuento los puntos de las fichas de todos lo jugadores.
     private void contarPuntosJugadores() {
-        IJugador jugTurno = colaTurnos.poll();
         int puntosTotal = 0;
         for (IJugador j : colaTurnos) {
             puntosTotal += j.contarPuntosFicha();
         }
-        jugTurno.sumarPuntos(puntosTotal);
-        colaTurnos.offer(jugTurno);
+        turno.sumarPuntos(puntosTotal);
     }
 
     private void determinarSiJugadorGano() {
