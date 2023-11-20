@@ -134,6 +134,7 @@ public class Juego implements IJuego, ISubject {
         jugador.colocarFicha(ficha, extremo);
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
+        determinarJugadorTurno(); // paso el turno al siguiente jugador.
         notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
     }
 

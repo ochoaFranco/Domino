@@ -66,6 +66,8 @@ public class Controlador implements IObserver {
                     break;
                 case ACTUALIZAR_TABLERO:
                     vista.mostrarTablero(o);
+                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
+                    vista.mostrarFichasJugador(modelo.getTurno());
                     break;
             }
         }
