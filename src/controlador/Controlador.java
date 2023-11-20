@@ -50,7 +50,7 @@ public class Controlador implements IObserver {
                 vista.mostrarFicha((IFicha) o1);
                 if (modelo.getTurno() == jugador) {
                     vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                    vista.mostrarFichasJugador(modelo.getTurno());
+                    vista.mostrarFichasJugador(jugador);
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
                 }
@@ -65,30 +65,35 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e, Object o) {
-        if (o == jugador) {
-            switch (e) {
-                case CAMBIO_FICHAS_JUGADOR :
+        switch (e) {
+            case CAMBIO_FICHAS_JUGADOR :
+                if (o == jugador) {
                     vista.mostrarMensaje("Fichas jugador: " + ((IJugador)o).getNombre());
                     vista.mostrarFichasJugador((IJugador) o);
-                    break;
-                case JUGADOR_JUGO_FICHA:
-                    vista.mostrarFicha((IFicha) o);
-                    break;
-                case ACTUALIZAR_TABLERO:
-                    vista.mostrarTablero(o);
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n elija la ficha a jugar: ");
-                    vista.mostrarFichasJugador(modelo.getTurno());
-                    break;
-                case PASAR_TURNO:
-                    vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
-                    vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
-                    vista.mostrarFichasJugador((IJugador) o);
-                    break;
-                case FIN_DEL_JUEGO:
-                    vista.mostrarMensaje("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
-                    break;
-            }
+                }
+                break;
+            case JUGADOR_JUGO_FICHA:
+                vista.mostrarFicha((IFicha) o);
+                break;
+            case ACTUALIZAR_TABLERO:
+                vista.mostrarTablero(o);
+                if (modelo.getTurno() == jugador) {
+                    vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
+                    vista.mostrarFichasJugador(jugador);
+                } else {
+                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+                }
+                break;
+            case PASAR_TURNO:
+                vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
+                vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
+                vista.mostrarFichasJugador((IJugador) o);
+                break;
+            case FIN_DEL_JUEGO:
+                vista.mostrarMensaje("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
+                break;
         }
+
     }
 
 }
