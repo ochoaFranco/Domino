@@ -129,6 +129,26 @@ public class Juego implements IJuego, ISubject {
     }
 
     // Logica principal del juego.
+
+    public void logicaJuego(int extremIzq, int extremDerec, String extremo) {
+        realizarJugada(extremIzq, extremDerec, extremo);
+        if (jugadorJugoTodasSusFichas(turno)) {
+            contarPuntosJugadores();
+        }
+    }
+
+    // cuento los puntos de las fichas de todos lo jugadores.
+    private void contarPuntosJugadores() {
+        IJugador jugTurno = colaTurnos.poll();
+        int puntosTotal = 0;
+        for (IJugador j : colaTurnos) {
+            puntosTotal += j.contarPuntosFicha();
+        }
+        jugTurno.sumarPuntos(puntosTotal);
+        colaTurnos.offer(jugTurno);
+    }
+
+    // recibe un los valores de la ficha y la ubicacion de la misma para colocarla en el tablero.
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
@@ -137,6 +157,11 @@ public class Juego implements IJuego, ISubject {
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
         determinarJugadorTurno(); // paso el turno al siguiente jugador.
         notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+    }
+
+    // determina si el jugador no tiene mas fichas.
+    private boolean jugadorJugoTodasSusFichas(IJugador jugador) {
+        return jugador.getFichas().isEmpty();
     }
 
     // Busca la ficha a tirar dentro del poll de fichas del jugador.

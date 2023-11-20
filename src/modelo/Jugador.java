@@ -27,6 +27,19 @@ public class Jugador implements IJugador {
         fichas.add(ficha);
     }
 
+    @Override
+    public int contarPuntosFicha() {
+        int puntosFicha = 0;
+        for (IFicha f: fichas) {
+            puntosFicha += f.getIzquierdo() + f.getDerecho();
+        }
+        return puntosFicha;
+    }
+
+    public void sumarPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
     public boolean esMano() {
         return mano;
     }

@@ -31,7 +31,7 @@ public class Controlador implements IObserver {
     }
 
     public void gestionarTurnos(int extremIzq, int extremDer, String extremo) {
-        modelo.realizarJugada(extremIzq, extremDer, extremo);
+        modelo.logicaJuego(extremIzq, extremDer, extremo);
     }
 
     public void robarFicha() {
