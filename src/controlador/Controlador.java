@@ -44,6 +44,9 @@ public class Controlador implements IObserver {
 
     @Override
     public void update(Evento e) {
+        if (e.equals(Evento.CAMBIO_RONDA)) {
+            vista.mostrarMensaje("Se va a iniciar una nueva ronda");
+        }
     }
 
     @Override

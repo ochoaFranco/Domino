@@ -154,7 +154,7 @@ public class VistaConsola implements IVista {
         }
     }
 
-    private void limpiarPantallaConDelay() {
+    public void limpiarPantalla() {
         Timer timer = new Timer(1000, e -> consolaOutput.setText(""));
         timer.setRepeats(false);
         timer.start();
