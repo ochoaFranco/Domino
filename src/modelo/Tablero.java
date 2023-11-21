@@ -26,14 +26,19 @@ public class Tablero {
                 }
             }
         }
-        Tablero.extremosIguales(); // checkeo si hay extremos iguales antes de agregar la ficha.
+        Tablero.extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
         Tablero.extremoDerec = extremoDerec;
         Tablero.fichas.add(extremoDerec);
     }
 
-    private static void extremosIguales() {
+    private static void extremosIgualesIzq() {
         if (Tablero.extremoIzq == Tablero.getExtremoDerec()) {
             Tablero.fichas.remove(Tablero.extremoIzq);
+        }
+    }
+    private static void extremosIgualesDer() {
+        if (Tablero.extremoIzq == Tablero.getExtremoDerec()) {
+            Tablero.fichas.remove(Tablero.extremoDerec);
         }
     }
 
@@ -47,7 +52,7 @@ public class Tablero {
                 }
             }
         }
-        Tablero.extremosIguales();
+        Tablero.extremosIgualesIzq();
         Tablero.extremoIzq = extremoIzq;
         Tablero.fichas.add(0, extremoIzq);
     }
