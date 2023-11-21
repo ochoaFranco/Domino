@@ -9,7 +9,7 @@ import java.util.Queue;
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 50;
+    private final int LIMITEPUNTOS = 20;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;

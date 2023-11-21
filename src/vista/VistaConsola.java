@@ -5,6 +5,8 @@ import modelo.IFicha;
 import modelo.IJugador;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,14 +118,19 @@ public class VistaConsola implements IVista {
     private void actualizarManoJugador() {
         controlador.robarFicha();
     }
+
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
     public void mostrarTablero(Object o) {
+        consolaOutput.append("TABLERO\n");
+        consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : (ArrayList<IFicha>)o) {
+            SimpleAttributeSet atributoColor = new SimpleAttributeSet();
+            StyleConstants.setForeground(atributoColor, Color.RED);
             ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
         }
         consolaOutput.append(ficha.toString());
-        consolaOutput.append("\n");
+        consolaOutput.append("\n-------------------------------------------------------------\n");
     }
 
     private void altaJugador(String nombre) {
