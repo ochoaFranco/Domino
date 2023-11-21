@@ -18,6 +18,7 @@ public class VistaConsola implements IVista {
     private JTextArea consolaOutput;
     private JTextField inputCMD;
     private JButton ejecutarBtn;
+    private boolean jugando = false;
 
     public VistaConsola() {
         frame = new JFrame("Domino");
@@ -107,6 +108,7 @@ public class VistaConsola implements IVista {
         if (comando.startsWith("nombre:")) {
             altaJugador(comando);
         } else if (comando.equals("jugar")) {
+            jugando = true;
             jugar();
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
