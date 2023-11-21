@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.exceptions.FichaInexistente;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +17,7 @@ public class Juego implements IJuego, ISubject {
     private IFicha primeraFicha;
     private ArrayList<IObserver> observers;
     private Jugador jugadorMano = null;
-    Queue<IJugador> colaTurnos = new LinkedList<>();
+    private Queue<IJugador> colaTurnos = new LinkedList<>();
 
     public Juego() {
         jugadores = new ArrayList<>();
@@ -202,9 +204,10 @@ public class Juego implements IJuego, ISubject {
     }
 
     // Logica principal del juego.
-    public void realizarJugada(int extremIzq, int extremDerec, String extremo) {
+    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente {
         IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
+        if (ficha == null) throw new FichaInexistente();
         jugador.colocarFicha(ficha, extremo);
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();

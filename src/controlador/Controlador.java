@@ -3,6 +3,7 @@ package controlador;
 import modelo.*;
 import modelo.IJugador;
 import modelo.IObserver;
+import modelo.exceptions.FichaInexistente;
 import vista.IVista;
 
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class Controlador implements IObserver {
         modelo.iniciarJuego();
     }
 
-    public void gestionarTurnos(int extremIzq, int extremDer, String extremo) {
+    public void gestionarTurnos(int extremIzq, int extremDer, String extremo) throws FichaInexistente {
         modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 
@@ -41,7 +42,6 @@ public class Controlador implements IObserver {
     public ArrayList<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }
-
 
     @Override
     public void update(Evento e, Object o1, Object o2) {

@@ -3,6 +3,7 @@ package vista;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
 import javax.swing.text.SimpleAttributeSet;
@@ -157,6 +158,8 @@ public class VistaConsola implements IVista {
 
             } catch (NumberFormatException ex) {
                 consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
+            } catch (FichaInexistente e ) {
+                consolaOutput.append("Ficha inexistente!\n");
             }
         } else {
             consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
