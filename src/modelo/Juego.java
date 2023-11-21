@@ -174,6 +174,7 @@ public class Juego implements IJuego, ISubject {
     private void juntarFichasTablero() {
         for (IFicha f : Tablero.getFichas()) {
             IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+            ficha.darVuelta(false);
             pozo.agregarFicha(ficha);
         }
         Tablero.getFichas().clear(); // saco las fichas del tablero.
@@ -183,6 +184,7 @@ public class Juego implements IJuego, ISubject {
         for (IJugador j : jugadores) {
             for (IFicha f : j.getFichas()) {
                 IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+                ficha.darVuelta(false);
                 pozo.agregarFicha(ficha);
             }
             j.getFichas().clear(); // vacio la mano del jugador.
@@ -241,7 +243,7 @@ public class Juego implements IJuego, ISubject {
         if (ficha == null) {
             pasarTurno();
         } else {
-            jugador.recibirFicha(pozo.sacarFicha());
+            jugador.recibirFicha(ficha);
             notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
         }
     }
@@ -258,8 +260,6 @@ public class Juego implements IJuego, ISubject {
         }
         return cierre;
     }
-
-
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.
     private void pasarTurno() {
