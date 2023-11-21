@@ -6,4 +6,6 @@ public interface IFicha {
     boolean esFichaDoble();
     boolean isDadaVuelta();
     void darVuelta(boolean darVuelta);
+    void setIzquierdo(int izquierdo);
+    void setDerecho(int derecho);
 }

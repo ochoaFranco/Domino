@@ -173,7 +173,12 @@ public class Juego implements IJuego, ISubject {
 
     private void juntarFichasTablero() {
         for (IFicha f : Tablero.getFichas()) {
-            IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+            IFicha ficha;
+            if (f.isDadaVuelta()) {
+                ficha = new Ficha(f.getDerecho(), f.getIzquierdo());
+            } else {
+                ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+            }
             ficha.darVuelta(false);
             pozo.agregarFicha(ficha);
         }
@@ -183,7 +188,12 @@ public class Juego implements IJuego, ISubject {
     private void juntarFichasJugadores() {
         for (IJugador j : jugadores) {
             for (IFicha f : j.getFichas()) {
-                IFicha ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+                IFicha ficha;
+                if (f.isDadaVuelta()) {
+                    ficha = new Ficha(f.getDerecho(), f.getIzquierdo());
+                } else {
+                    ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
+                }
                 ficha.darVuelta(false);
                 pozo.agregarFicha(ficha);
             }

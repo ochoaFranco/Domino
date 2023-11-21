@@ -120,11 +120,7 @@ public class VistaConsola implements IVista {
     public void mostrarTablero(Object o) {
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : (ArrayList<IFicha>)o) {
-            if (!f.isDadaVuelta()) {
-                ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
-            } else {
-                ficha.append("|").append(f.getDerecho()).append("|").append(f.getIzquierdo()).append("|").append(" ");
-            }
+            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
         }
         consolaOutput.append(ficha.toString());
         consolaOutput.append("\n");

@@ -22,7 +22,10 @@ public class Tablero {
             int tableroDer = Tablero.extremoDerec.getDerecho();
             if (tableroDer == extremoDerec.getIzquierdo() || tableroDer == extremoDerec.getDerecho()) {
                 if (extremoDerec.getIzquierdo() != tableroDer) {
-                    extremoDerec.darVuelta(true); // marcamos la ficha para luego darla vuelta cuadno la printeamos.
+                    int bkup = extremoDerec.getDerecho();
+                    extremoDerec.setDerecho(extremoDerec.getIzquierdo());
+                    extremoDerec.setIzquierdo(bkup);
+                    extremoDerec.darVuelta(true); // marcamos la ficha para luego darla vuelta cuando repartamos nuevamente.
                 }
             }
         }
@@ -48,6 +51,9 @@ public class Tablero {
             int tableroIzq = Tablero.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
                 if (extremoIzq.getDerecho() != tableroIzq) {
+                    int bkup = extremoIzq.getIzquierdo();
+                    extremoIzq.setIzquierdo(extremoIzq.getDerecho());
+                    extremoIzq.setDerecho(bkup);
                     extremoIzq.darVuelta(true); // marcamos la ficha para luego darla vuelta cuadno la printeamos.
                 }
             }

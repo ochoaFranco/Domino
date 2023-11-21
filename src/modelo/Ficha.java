@@ -1,8 +1,8 @@
 package modelo;
 
 public class Ficha implements IFicha{
-    private final int izquierdo;
-    private final int derecho;
+    private  int izquierdo;
+    private  int derecho;
     private boolean dadaVuelta = false;
 
     public Ficha(int izquierdo, int derecho) {
@@ -26,5 +26,12 @@ public class Ficha implements IFicha{
     }
     public void darVuelta(boolean darVuelta) {
         dadaVuelta = darVuelta;
+    }
+    public void setIzquierdo(int izquierdo) {
+        this.izquierdo = izquierdo;
+    }
+
+    public void setDerecho(int derecho) {
+        this.derecho = derecho;
     }
 }
