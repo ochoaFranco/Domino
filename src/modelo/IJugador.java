@@ -14,6 +14,7 @@ public interface IJugador {
     void setMano(boolean mano);
     boolean getMano();
     void colocarFicha(IFicha ficha, String extremo);
+    boolean puedoJugar();
     void recibirFicha(IFicha ficha);
     int contarPuntosFicha();
     void sumarPuntos(int puntos);

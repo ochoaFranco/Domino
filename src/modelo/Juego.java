@@ -139,6 +139,22 @@ public class Juego implements IJuego, ISubject {
         turno.sumarPuntos(puntosTotal);
     }
 
+    private void detectarJugadorGanadorCierre() {
+        IJugador ganador = null;
+        int puntos = 10000;
+        int temp = 0;
+        for (IJugador j : jugadores) {
+            for (IFicha f : j.getFichas()) {
+                temp += f.getIzquierdo() + f.getDerecho();
+            }
+            if (temp < puntos) {
+                puntos = temp;
+                ganador = j;
+            }
+        }
+        turno = ganador; // marcamos al ganador como el jugador del turno para dsp contar los puntos.
+    }
+
     private void determinarSiJugadorGano() {
         if (turno.getPuntos() >= LIMITEPUNTOS) {
             notifyObserver(Evento.FIN_DEL_JUEGO, turno);
@@ -154,7 +170,6 @@ public class Juego implements IJuego, ISubject {
         Collections.shuffle(pozo.getFichas());
         iniciarJuego();
     }
-
 
     private void juntarFichasTablero() {
         for (IFicha f : Tablero.getFichas()) {
@@ -185,10 +200,20 @@ public class Juego implements IJuego, ISubject {
         if (jugadorJugoTodasSusFichas(turno)) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
+        } else if (detectarCierre()) {
+            casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
             notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         }
+    }
+
+    private void casoCierre() {
+        detectarJugadorGanadorCierre();
+        turno.getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
+        contarPuntosJugadores();
+        determinarSiJugadorGano();
+        notifyObserver(Evento.CAMBIO_RONDA, turno, jugadores);
     }
 
     // determina si el jugador no tiene mas fichas.
@@ -220,6 +245,21 @@ public class Juego implements IJuego, ISubject {
             notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
         }
     }
+
+    // detecta si ningun jugador puede jugar una ficha y no hay mas en el pozo.
+    private boolean detectarCierre() {
+        boolean cierre = false;
+        if (pozo.getFichas().isEmpty()) {
+            for (IJugador j : jugadores) {
+                if (!j.puedoJugar()) {
+                    cierre = true;
+                }
+            }
+        }
+        return cierre;
+    }
+
+
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.
     private void pasarTurno() {

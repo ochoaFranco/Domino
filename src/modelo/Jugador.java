@@ -61,6 +61,22 @@ public class Jugador implements IJugador {
         fichas.remove(ficha);
     }
 
+    // determina si un jugador puede jugar una ficha.
+    public boolean puedoJugar() {
+        int extremoIzquierdo = Tablero.getExtremoIzq().getIzquierdo();
+        int extremoDerecho = Tablero.getExtremoDerec().getDerecho();
+        for (IFicha f: fichas) {
+            if (f.getIzquierdo() == extremoIzquierdo || f.getDerecho() == extremoIzquierdo) {
+                return true;
+            }
+            if (f.getIzquierdo() == extremoDerecho || f.getDerecho() == extremoDerecho) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public IFicha fichaDobleMayor() {
         IFicha dobleMayor = new Ficha(-1, -1);
         for (IFicha f : fichas) {

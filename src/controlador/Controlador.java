@@ -102,5 +102,4 @@ public class Controlador implements IObserver {
                 break;
         }
     }
-
 }

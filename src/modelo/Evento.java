@@ -9,5 +9,6 @@ public enum Evento {
     ACTUALIZAR_TABLERO,
     PASAR_TURNO,
     CAMBIO_RONDA,
+    CIERRE_JUEGO,
     FIN_DEL_JUEGO
 }
