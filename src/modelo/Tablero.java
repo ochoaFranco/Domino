@@ -54,7 +54,7 @@ public class Tablero {
                     int bkup = extremoIzq.getIzquierdo();
                     extremoIzq.setIzquierdo(extremoIzq.getDerecho());
                     extremoIzq.setDerecho(bkup);
-                    extremoIzq.darVuelta(true); // marcamos la ficha para luego darla vuelta cuadno la printeamos.
+                    extremoIzq.darVuelta(true); // marcamos la ficha para luego darla vuelta cuando se reinicia termina una ronda y se reinicia el juego.
                 }
             }
         }

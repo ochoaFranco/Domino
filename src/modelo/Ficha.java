@@ -1,9 +1,12 @@
 package modelo;
 
-public class Ficha implements IFicha{
+public class Ficha implements IFicha {
     private  int izquierdo;
     private  int derecho;
     private boolean dadaVuelta = false;
+    private boolean izqPosVert = false;
+    private boolean  derePosVert = false;
+
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;
@@ -34,4 +37,26 @@ public class Ficha implements IFicha{
     public void setDerecho(int derecho) {
         this.derecho = derecho;
     }
+
+    @Override
+    public void setDerePosVert(boolean derePosVert) {
+        this.derePosVert = derePosVert;
+    }
+
+    @Override
+    public void setIzqPosVert(boolean izqPosVert) {
+        this.izqPosVert = izqPosVert;
+    }
+
+    @Override
+    public boolean getIzqPosVert() {
+        return izqPosVert;
+    }
+
+    @Override
+    public boolean getDerPosVert() {
+        return derePosVert;
+    }
+
+
 }

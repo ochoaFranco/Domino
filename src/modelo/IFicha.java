@@ -8,4 +8,8 @@ public interface IFicha {
     void darVuelta(boolean darVuelta);
     void setIzquierdo(int izquierdo);
     void setDerecho(int derecho);
+    void setDerePosVert(boolean derePosVert);
+    void setIzqPosVert(boolean izqPosVert);
+    boolean getIzqPosVert();
+    boolean getDerPosVert();
 }

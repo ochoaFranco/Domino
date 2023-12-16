@@ -65,6 +65,14 @@ public class VistaConsola implements IVista {
         String comando =  inputCMD.getText();
         determinarComando(comando);
     }
+    private void mostrarComandos() {
+        consolaOutput.append("""
+                \n
+                1- nombre:
+                2- jugar
+                3- ficha: num num i/d/iarr/iab/darr/dab
+                4- robar.""");
+    }
 
     public void mostrar() {
         frame.setVisible(true);
@@ -170,13 +178,6 @@ public class VistaConsola implements IVista {
     }
 
 
-    private void mostrarComandos() {
-        consolaOutput.append("""
-                \n
-                1- nombre:
-                2- jugar
-                3- ficha: num num i/d/iarr/iab/darr/dab
-                4- robar.""");
-    }
+
 }
 

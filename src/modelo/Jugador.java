@@ -9,7 +9,7 @@ public class Jugador implements IJugador {
     private int puntos = 0;
     private Tablero tablero;
     private IFicha fichaJugada;
-    
+
     public Jugador(String nombre) {
         this.nombre = nombre;
         fichas = new ArrayList<>();
@@ -53,13 +53,25 @@ public class Jugador implements IJugador {
     }
 
     public void colocarFicha(IFicha ficha, String extremo) {
-        if (extremo.toLowerCase().equals("i")) {
+        extremo = extremo.toLowerCase();
+        if (extremo.equals("i")) {
             Tablero.setExtremoIzq(ficha);
-        } else if (extremo.toLowerCase().equals("d")) {
+        } else if (extremo.equals("d")) {
             Tablero.setExtremoDerec(ficha);
+        } else if (extremo.equals("iarr")) {
+
+        } else if(extremo.equals("iab")) {
+
+        } else if(extremo.equals("dab")) {
+
         }
+        else if(extremo.equals("darr")) {
+
+        }
+
         fichas.remove(ficha);
     }
+
 
     // determina si un jugador puede jugar una ficha.
     public boolean puedoJugar() {
