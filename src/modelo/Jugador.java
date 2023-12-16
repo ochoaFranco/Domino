@@ -54,20 +54,18 @@ public class Jugador implements IJugador {
 
     public void colocarFicha(IFicha ficha, String extremo) {
         extremo = extremo.toLowerCase();
-        if (extremo.equals("i")) {
-            Tablero.setExtremoIzq(ficha);
-        } else if (extremo.equals("d")) {
-            Tablero.setExtremoDerec(ficha);
-        } else if (extremo.equals("iarr")) {
-
-        } else if(extremo.equals("iab")) {
-
-        } else if(extremo.equals("dab")) {
-
-        }
-        else if(extremo.equals("darr")) {
-
-        }
+        if (extremo.equals("i"))
+            Tablero.setExtremoIzq(ficha, false, false);
+        else if (extremo.equals("d"))
+            Tablero.setExtremoDerec(ficha, false, false);
+        else if (extremo.equals("iarr"))
+            Tablero.setExtremoIzq(ficha, true, false);
+        else if (extremo.equals("iab"))
+            Tablero.setExtremoIzq(ficha, false, true);
+        else if (extremo.equals("darr"))
+            Tablero.setExtremoDerec(ficha, true, false);
+        else if (extremo.equals("daba"))
+            Tablero.setExtremoDerec(ficha, false, true);
 
         fichas.remove(ficha);
     }

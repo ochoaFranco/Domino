@@ -17,7 +17,7 @@ public class Tablero {
 
 
     // agrega una ficha en el extremo derecho.
-    public static void setExtremoDerec(IFicha extremoDerec) {
+    public static void setExtremoDerec(IFicha extremoDerec, boolean arriba, boolean abajo) {
         if (Tablero.extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
             int tableroDer = Tablero.extremoDerec.getDerecho();
             if (tableroDer == extremoDerec.getIzquierdo() || tableroDer == extremoDerec.getDerecho()) {
@@ -29,6 +29,8 @@ public class Tablero {
                 }
             }
         }
+        if (arriba) extremoDerec.setDerePosVertArr(true);
+        else if (abajo)  extremoDerec.setDerePosVertAba(true);
         Tablero.extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
         Tablero.extremoDerec = extremoDerec;
         Tablero.fichas.add(extremoDerec);
@@ -46,7 +48,7 @@ public class Tablero {
     }
 
     // agrega una ficha en el extremo izquierdo.
-    public static void setExtremoIzq(IFicha extremoIzq) {
+    public static void setExtremoIzq(IFicha extremoIzq, boolean arriba, boolean abajo) {
         if (Tablero.extremoIzq != null) {
             int tableroIzq = Tablero.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
@@ -58,10 +60,13 @@ public class Tablero {
                 }
             }
         }
+        if (arriba) extremoIzq.setIzqPosArr(true);
+        else if (abajo)  extremoIzq.setIzqPosAba(true);
         Tablero.extremosIgualesIzq();
         Tablero.extremoIzq = extremoIzq;
         Tablero.fichas.add(0, extremoIzq);
     }
+
 
     // falta ser implementada.
     private static boolean validarPosicion(int extremo) {

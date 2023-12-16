@@ -136,7 +136,13 @@ public class VistaConsola implements IVista {
         consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : (ArrayList<IFicha>)o) {
+            if (f.getDerPosVert()) {
+                ficha.append(f.getIzquierdo()).append("\n").append("__").append(f.getDerecho());
+            } else if (f.getIzqPosVert()) {
+                ficha.append(f.getDerecho()).append("\n").append("__").append(f.getIzquierdo());
+            } else {
             ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
+            }
         }
         consolaOutput.append(ficha.toString());
         consolaOutput.append("\n-------------------------------------------------------------\n");
