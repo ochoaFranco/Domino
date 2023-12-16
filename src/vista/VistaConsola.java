@@ -18,7 +18,6 @@ public class VistaConsola implements IVista {
     private JTextArea consolaOutput;
     private JTextField inputCMD;
     private JButton ejecutarBtn;
-    private boolean jugando = false;
 
     public VistaConsola() {
         frame = new JFrame("Domino");
@@ -29,8 +28,9 @@ public class VistaConsola implements IVista {
         consolaOutput.setEditable(false);
         Font font = new Font("Arial", Font.PLAIN, 16);
         consolaOutput.setFont(font);
-        consolaOutput.setText("Ingrese el nombre del jugador");
-
+        consolaOutput.setText("Bienvenido al juego del domino!\n");
+        consolaOutput.append("Para jugar debes escribir comandos, si no los conoces puedes escribir 'help' y tendras acceso a ellos, que te diviertas!\n");
+        consolaOutput.append("Ingrese el nombre del jugador: ");
         inputCMD = new JTextField();
         ejecutarBtn = new JButton("Ejecutar");
 
@@ -108,12 +108,13 @@ public class VistaConsola implements IVista {
         if (comando.startsWith("nombre:")) {
             altaJugador(comando);
         } else if (comando.equals("jugar")) {
-            jugando = true;
             jugar();
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
         } else if (comando.equalsIgnoreCase("robar")) {
             actualizarManoJugador();
+        } else if (comando.equalsIgnoreCase("help")) {
+            mostrarComandos();
         }
     }
     // el jugador roba una ficha del pozo y se actualiza la mano.
@@ -127,8 +128,6 @@ public class VistaConsola implements IVista {
         consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : (ArrayList<IFicha>)o) {
-            SimpleAttributeSet atributoColor = new SimpleAttributeSet();
-            StyleConstants.setForeground(atributoColor, Color.RED);
             ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
         }
         consolaOutput.append(ficha.toString());
@@ -171,11 +170,13 @@ public class VistaConsola implements IVista {
     }
 
 
-
-    public void limpiarPantalla() {
-        Timer timer = new Timer(1000, e -> consolaOutput.setText(""));
-        timer.setRepeats(false);
-        timer.start();
+    private void mostrarComandos() {
+        consolaOutput.append("""
+                \n
+                1- nombre:
+                2- jugar
+                3- ficha: num num i/d/iarr/iab/darr/dab
+                4- robar.""");
     }
 }
 
