@@ -32,6 +32,7 @@ public class VistaConsola implements IVista {
         consolaOutput.setFont(font);
         consolaOutput.setText("Ingrese el nombre del jugador");
 
+
         inputCMD = new JTextField();
         ejecutarBtn = new JButton("Ejecutar");
 
@@ -44,9 +45,7 @@ public class VistaConsola implements IVista {
         frame.add(inputPanel, BorderLayout.SOUTH);
 
 
-
         // FUNCIONALIDAD DEL BOTON
-
         inputCMD.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -117,6 +116,7 @@ public class VistaConsola implements IVista {
             actualizarManoJugador();
         }
     }
+
     // el jugador roba una ficha del pozo y se actualiza la mano.
     private void actualizarManoJugador() {
         controlador.robarFicha();
@@ -174,11 +174,5 @@ public class VistaConsola implements IVista {
     }
 
 
-
-    public void limpiarPantalla() {
-        Timer timer = new Timer(1000, e -> consolaOutput.setText(""));
-        timer.setRepeats(false);
-        timer.start();
-    }
 }
 

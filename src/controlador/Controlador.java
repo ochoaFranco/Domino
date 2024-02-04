@@ -31,6 +31,7 @@ public class Controlador implements IObserver {
         modelo.iniciarJuego();
     }
 
+
     public void gestionarTurnos(int extremIzq, int extremDer, String extremo) throws FichaInexistente {
         modelo.realizarJugada(extremIzq, extremDer, extremo);
     }

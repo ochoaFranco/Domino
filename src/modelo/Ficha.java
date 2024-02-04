@@ -4,6 +4,7 @@ public class Ficha implements IFicha{
     private  int izquierdo;
     private  int derecho;
     private boolean dadaVuelta = false;
+    private boolean vertical = false;
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;
@@ -33,5 +34,15 @@ public class Ficha implements IFicha{
 
     public void setDerecho(int derecho) {
         this.derecho = derecho;
+    }
+
+    @Override
+    public boolean isVertical() {
+        return vertical;
+    }
+
+    @Override
+    public void setVertical(boolean vertical) {
+        this.vertical = vertical;
     }
 }

@@ -19,6 +19,7 @@ public class Juego implements IJuego, ISubject {
     private Jugador jugadorMano = null;
     private Queue<IJugador> colaTurnos = new LinkedList<>();
 
+
     public Juego() {
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
@@ -47,6 +48,7 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
+
     public void iniciarJuego() {
         repartir();
         determinarJugadorMano();
@@ -65,6 +67,8 @@ public class Juego implements IJuego, ISubject {
             notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
         }
     }
+
+
 
     private void determinarJugadorMano() {
         ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();

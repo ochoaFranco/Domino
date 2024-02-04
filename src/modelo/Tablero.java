@@ -6,6 +6,7 @@ public class Tablero {
     private static ArrayList<IFicha> fichas = new ArrayList<>();
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
+    private final static int cantMaxFichasTablero = 10;
 
     public static IFicha getExtremoDerec() {
         return extremoDerec;
@@ -50,6 +51,7 @@ public class Tablero {
         if (Tablero.extremoIzq != null) {
             int tableroIzq = Tablero.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
+                Tablero.colocarVertical(extremoIzq); // si se lleno el tablero marco la ficha como vertical.
                 if (extremoIzq.getDerecho() != tableroIzq) {
                     int bkup = extremoIzq.getIzquierdo();
                     extremoIzq.setIzquierdo(extremoIzq.getDerecho());
@@ -61,6 +63,13 @@ public class Tablero {
         Tablero.extremosIgualesIzq();
         Tablero.extremoIzq = extremoIzq;
         Tablero.fichas.add(0, extremoIzq);
+    }
+
+    // si se lleno el tablero, se coloca vertical.
+    private static void colocarVertical(IFicha ficha) {
+        if (fichas.size() == Tablero.cantMaxFichasTablero) {
+            ficha.setVertical(true);
+        }
     }
 
     // falta ser implementada.
