@@ -6,7 +6,8 @@ public class Tablero {
     private static ArrayList<IFicha> fichas = new ArrayList<>();
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
-    private static int cantFichasMaxTab = 4;
+    private final static int cantVertical = 3;
+    private static int cantFichasMaxTab = 3;
 
     public static IFicha getExtremoDerec() {
         return extremoDerec;
@@ -70,9 +71,8 @@ public class Tablero {
 
     // si se lleno el tablero, se coloca vertical.
     private static void colocarVertical(IFicha ficha) {
-        if (fichas.size() == Tablero.cantFichasMaxTab) {
+        if (fichas.size() >= Tablero.cantFichasMaxTab && fichas.size() <= Tablero.cantFichasMaxTab + cantVertical) {
             ficha.setVertical(true);
-            Tablero.cantFichasMaxTab = 7;
         }
     }
 

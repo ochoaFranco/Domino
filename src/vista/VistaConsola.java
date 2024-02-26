@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Controlador;
+import modelo.Ficha;
 import modelo.IFicha;
 import modelo.IJugador;
 import modelo.exceptions.FichaInexistente;
@@ -133,8 +134,10 @@ public class VistaConsola implements IVista {
             if (f.isVertical()) {
                 if (f.isDerecho())
                     consolaOutput.append("Es vertical y derecho.");
-                else
-                    colaFichasVerticales.offer(f);
+                else {
+                    if (!colaFichasVerticales.contains(f))
+                        colaFichasVerticales.offer(f);
+                }
             } else {
                 ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
             }
@@ -142,7 +145,7 @@ public class VistaConsola implements IVista {
         // Muestro las fichas verticales izquierdas.
         if (!colaFichasVerticales.isEmpty()) {
             for (IFicha f : colaFichasVerticales) {
-                ficha.append("\n|").append(f.getIzquierdo()).append("|\n").append("|").append(f.getDerecho()).append("|").append(" ");
+                ficha.append("\n|").append(f.getDerecho()).append("|\n").append("|").append(f.getIzquierdo()).append("|").append(" ");
             }
         }
         consolaOutput.append(ficha.toString());
