@@ -1,10 +1,13 @@
 package modelo;
 
-public class Ficha implements IFicha{
+public class Ficha implements IFicha {
     private  int izquierdo;
     private  int derecho;
     private boolean dadaVuelta = false;
     private boolean vertical = false;
+    private boolean derechoFlag = false;
+    private boolean izquierdoFlag = false;
+
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;
@@ -42,7 +45,27 @@ public class Ficha implements IFicha{
     }
 
     @Override
+    public boolean isDerecho() {
+        return this.derechoFlag;
+    }
+
+    @Override
+    public boolean isIzquierdo() {
+        return this.izquierdoFlag;
+    }
+
+    @Override
     public void setVertical(boolean vertical) {
         this.vertical = vertical;
+    }
+
+    @Override
+    public void setDerecho(boolean derecho) {
+        this.derechoFlag = derecho;
+    }
+
+    @Override
+    public void setIzquierdo(boolean izquierdo) {
+        this.izquierdoFlag = izquierdo;
     }
 }

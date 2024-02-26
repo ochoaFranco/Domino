@@ -6,7 +6,7 @@ public class Tablero {
     private static ArrayList<IFicha> fichas = new ArrayList<>();
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
-    private final static int cantMaxFichasTablero = 10;
+    private static int cantFichasMaxTab = 4;
 
     public static IFicha getExtremoDerec() {
         return extremoDerec;
@@ -32,7 +32,9 @@ public class Tablero {
         }
         Tablero.extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
         Tablero.extremoDerec = extremoDerec;
+        extremoDerec.setDerecho(true);
         Tablero.fichas.add(extremoDerec);
+        Tablero.colocarVertical(extremoDerec); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
     private static void extremosIgualesIzq() {
@@ -51,7 +53,6 @@ public class Tablero {
         if (Tablero.extremoIzq != null) {
             int tableroIzq = Tablero.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
-                Tablero.colocarVertical(extremoIzq); // si se lleno el tablero marco la ficha como vertical.
                 if (extremoIzq.getDerecho() != tableroIzq) {
                     int bkup = extremoIzq.getIzquierdo();
                     extremoIzq.setIzquierdo(extremoIzq.getDerecho());
@@ -62,13 +63,16 @@ public class Tablero {
         }
         Tablero.extremosIgualesIzq();
         Tablero.extremoIzq = extremoIzq;
+        extremoIzq.setIzquierdo(true);
         Tablero.fichas.add(0, extremoIzq);
+        Tablero.colocarVertical(extremoIzq); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
     // si se lleno el tablero, se coloca vertical.
     private static void colocarVertical(IFicha ficha) {
-        if (fichas.size() == Tablero.cantMaxFichasTablero) {
+        if (fichas.size() == Tablero.cantFichasMaxTab) {
             ficha.setVertical(true);
+            Tablero.cantFichasMaxTab = 7;
         }
     }
 

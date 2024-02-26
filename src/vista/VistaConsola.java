@@ -12,6 +12,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -19,7 +21,7 @@ public class VistaConsola implements IVista {
     private JTextArea consolaOutput;
     private JTextField inputCMD;
     private JButton ejecutarBtn;
-    private boolean jugando = false;
+    private Queue<IFicha> colaFichasVerticales = new LinkedList<>();
 
     public VistaConsola() {
         frame = new JFrame("Domino");
@@ -108,7 +110,6 @@ public class VistaConsola implements IVista {
         if (comando.startsWith("nombre:")) {
             altaJugador(comando);
         } else if (comando.equals("jugar")) {
-            jugando = true;
             jugar();
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
@@ -127,10 +128,22 @@ public class VistaConsola implements IVista {
         consolaOutput.append("TABLERO\n");
         consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
+        // Muestro las fichas del tablero.
         for (IFicha f : (ArrayList<IFicha>)o) {
-            SimpleAttributeSet atributoColor = new SimpleAttributeSet();
-            StyleConstants.setForeground(atributoColor, Color.RED);
-            ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
+            if (f.isVertical()) {
+                if (f.isDerecho())
+                    consolaOutput.append("Es vertical y derecho.");
+                else
+                    colaFichasVerticales.offer(f);
+            } else {
+                ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
+            }
+        }
+        // Muestro las fichas verticales izquierdas.
+        if (!colaFichasVerticales.isEmpty()) {
+            for (IFicha f : colaFichasVerticales) {
+                ficha.append("\n|").append(f.getIzquierdo()).append("|\n").append("|").append(f.getDerecho()).append("|").append(" ");
+            }
         }
         consolaOutput.append(ficha.toString());
         consolaOutput.append("\n-------------------------------------------------------------\n");
