@@ -6,7 +6,7 @@ public class Tablero {
     private static ArrayList<IFicha> fichas = new ArrayList<>();
     private static IFicha extremoIzq;
     private static IFicha extremoDerec;
-    private static int cantFichasMaxTab = 3;
+    private static int cantFichasMaxTab = 5;
 
     public static IFicha getExtremoDerec() {
         return extremoDerec;
