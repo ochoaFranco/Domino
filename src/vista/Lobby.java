@@ -44,10 +44,10 @@ public class Lobby implements IVista {
         // Add the panel to the frame
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-        frame.getContentPane().add(panel, BorderLayout.CENTER);
-
-        // se agrega el texto y el boton al frame.
-        frame.getContentPane().add(panel, BorderLayout.CENTER);
+//        frame.getContentPane().add(panel, BorderLayout.CENTER);
+//
+//        // se agrega el texto y el boton al frame.
+//        frame.getContentPane().add(panel, BorderLayout.CENTER);
 
     }
 
@@ -56,8 +56,14 @@ public class Lobby implements IVista {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                ImageIcon background = new ImageIcon(("/home/frank/Documents/Unlu/2ndYear/OOP/Domino/Domino/resources/img/dominoes.jpg")); // todo que se puede pasar un relative path.
-                g.drawImage(background.getImage(), 0, 0, this);
+                System.out.println(getClass().getResource("../resources/img/dominoes.jpg"));
+                try {
+                    ImageIcon background = new ImageIcon(getClass().getResource("/resources/img/dominoes.jpg"));// Assuming the image is in a "resources/img" folder
+                    g.drawImage(background.getImage(), 0, 0, this);
+                } catch (NullPointerException e ) {
+                    throw new RuntimeException();
+                }
+
             }
         };
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
