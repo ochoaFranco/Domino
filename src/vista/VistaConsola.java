@@ -209,12 +209,12 @@ public class VistaConsola implements IVista {
                 }
 
             } catch (NumberFormatException ex) {
-                consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
+                consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)\n");
             } catch (FichaInexistente e ) {
                 consolaOutput.append("Ficha inexistente!\n");
             }
         } else {
-            consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
+            consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)\n");
         }
     }
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
