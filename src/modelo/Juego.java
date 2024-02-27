@@ -209,9 +209,10 @@ public class Juego implements IJuego, ISubject {
 
     // Logica principal del juego.
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente {
-        IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
-        IFicha ficha = buscarFicha(extremIzq, extremDerec, jugador);
+        assert colaTurnos.peek() != null;
+        IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
         if (ficha == null) throw new FichaInexistente();
+        IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         jugador.colocarFicha(ficha, extremo);
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
