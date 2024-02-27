@@ -114,6 +114,8 @@ public class VistaConsola implements IVista {
             jugada(comando);
         } else if (comando.equalsIgnoreCase("robar")) {
             actualizarManoJugador();
+        } else if (comando.startsWith("jugadores:")) {
+            setearJugadores(comando);
         }
     }
 
@@ -167,13 +169,23 @@ public class VistaConsola implements IVista {
             }
         }
 
-
-
         consolaOutput.append(ficha.toString());
         consolaOutput.append("\n-------------------------------------------------------------\n");
     }
 
-
+    // establezco la cantidad maxima de jugadores.
+    private void setearJugadores(String comando) {
+        String[] partes = comando.split("\\s+"); // express.regular para separar por caracteres en blanco.
+        int numero = 0;
+        if (partes.length == 2) {
+            try {
+                numero = Integer.parseInt(partes[1]);
+            } catch (NumberFormatException N) {
+                consolaOutput.append("Debe ingresar un numero como valor para jugadores.\n");
+            }
+        }
+        consolaOutput.append("Cantidad de jugadores establecida.\n");
+    }
 
 
     private void altaJugador(String nombre) {
@@ -183,9 +195,7 @@ public class VistaConsola implements IVista {
     }
 
     private void jugar() {
-
         controlador.iniciarJuego();
-
     }
 
     // metodo que permite generar espacios.
