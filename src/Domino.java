@@ -1,6 +1,7 @@
 import controlador.Controlador;
 import modelo.Juego;
 import vista.IVista;
+import vista.Lobby;
 import vista.VistaConsola;
 
 public class Domino {
@@ -14,7 +15,9 @@ public class Domino {
         controlador2.setModelo(modelo);
         vista1.setControlador(controlador1);
         vista2.setControlador(controlador2);
-        vista1.mostrar();
-        vista2.mostrar();
+        Lobby lobby = new Lobby();
+        lobby.mostrar();
+//        vista1.mostrar();
+//        vista2.mostrar();
  }
 }
