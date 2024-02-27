@@ -12,9 +12,7 @@ import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -22,7 +20,6 @@ public class VistaConsola implements IVista {
     private JTextArea consolaOutput;
     private JTextField inputCMD;
     private JButton ejecutarBtn;
-    private Queue<IFicha> colaFichasVerticales = new LinkedList<>();
 
     public VistaConsola() {
         frame = new JFrame("Domino");
@@ -129,27 +126,65 @@ public class VistaConsola implements IVista {
         consolaOutput.append("TABLERO\n");
         consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
-        // Muestro las fichas del tablero.
-        for (IFicha f : (ArrayList<IFicha>)o) {
-            if (f.isVertical()) {
-                if (f.isDerecho())
-                    consolaOutput.append("Es vertical y derecho.");
-                else {
-                    if (!colaFichasVerticales.contains(f))
-                        colaFichasVerticales.offer(f);
-                }
-            } else {
+        String espacios = generarEspacios(17);
+        Queue<IFicha> colaFichasVerticalesIzquierdas = new LinkedList<>();
+        ArrayList<IFicha> pilaFichasVerticalesDerechas = new ArrayList<>();
+
+        // Muestro las fichas verticales derechas.
+
+        // Busco tiles verticales.
+        buscarTilesVerticales((ArrayList<IFicha>) o, pilaFichasVerticalesDerechas, colaFichasVerticalesIzquierdas);
+        //Muestro las fichas verticales izquierdas.
+        mostrarFichasVertDerec(pilaFichasVerticalesDerechas, ficha, espacios);
+
+
+        mostrarFichaHorizontal((ArrayList<IFicha>) o, ficha);
+
+        mostrarFichasVertIzq(colaFichasVerticalesIzquierdas, ficha);
+
+
+
+        consolaOutput.append(ficha.toString());
+        consolaOutput.append("\n-------------------------------------------------------------\n");
+    }
+
+    private static void mostrarFichaHorizontal(ArrayList<IFicha> o, StringBuilder ficha) {
+        for (IFicha f : o) {
+            if (!f.isVertical()) {
                 ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
             }
         }
-        // Muestro las fichas verticales izquierdas.
-        if (!colaFichasVerticales.isEmpty()) {
-            for (IFicha f : colaFichasVerticales) {
+    }
+
+    private void buscarTilesVerticales(ArrayList<IFicha> o, ArrayList<IFicha> pilaFichasVerticalesDerechas, Queue<IFicha> colaFichasVerticalesIzquierdas) {
+        for (IFicha f : o) {
+            if (f.isVertical()) {
+                if (f.isDerecho()) {
+                    if (!pilaFichasVerticalesDerechas.contains(f))
+                        pilaFichasVerticalesDerechas.add(f);
+                } else {
+                    if (!colaFichasVerticalesIzquierdas.contains(f))
+                        colaFichasVerticalesIzquierdas.offer(f);
+                }
+            }
+        }
+    }
+
+    private static void mostrarFichasVertDerec(ArrayList<IFicha> pilaFichasVerticalesDerechas, StringBuilder ficha, String espacios) {
+        Collections.reverse(pilaFichasVerticalesDerechas);
+        if (!pilaFichasVerticalesDerechas.isEmpty()) {
+            for (IFicha f : pilaFichasVerticalesDerechas) {
+                ficha.append(espacios).append("|").append(f.getIzquierdo()).append("|\n").append(espacios + "|").append(f.getDerecho()).append("|").append("\n");
+            }
+        }
+    }
+
+    private void mostrarFichasVertIzq(Queue<IFicha> colaFichasVerticalesIzquierdas, StringBuilder ficha) {
+        if (!colaFichasVerticalesIzquierdas.isEmpty()) {
+            for (IFicha f : colaFichasVerticalesIzquierdas) {
                 ficha.append("\n|").append(f.getDerecho()).append("|\n").append("|").append(f.getIzquierdo()).append("|").append(" ");
             }
         }
-        consolaOutput.append(ficha.toString());
-        consolaOutput.append("\n-------------------------------------------------------------\n");
     }
 
     private void altaJugador(String nombre) {
@@ -161,6 +196,12 @@ public class VistaConsola implements IVista {
     private void jugar() {
         controlador.iniciarJuego();
     }
+
+    // metodo que permite generar espacios.
+    private String generarEspacios(int espacios) {
+        return String.format("%" + espacios + "s", "");
+    }
+
 
     private void jugada(String comando) {
         String[] partes = comando.split("\\s+"); // express.regular para separar por caracteres en blanco.
@@ -188,7 +229,5 @@ public class VistaConsola implements IVista {
         }
         consolaOutput.append("\n");
     }
-
-
 }
 
