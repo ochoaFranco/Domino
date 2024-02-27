@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.exceptions.FichaIncorrecta;
+
 import java.util.ArrayList;
 
 public class Tablero {
@@ -18,7 +20,7 @@ public class Tablero {
 
 
     // agrega una ficha en el extremo derecho.
-    public static void setExtremoDerec(IFicha extremoDerec) {
+    public static void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta{
         if (Tablero.extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
             int tableroDer = Tablero.extremoDerec.getDerecho();
             if (tableroDer == extremoDerec.getIzquierdo() || tableroDer == extremoDerec.getDerecho()) {
@@ -28,6 +30,8 @@ public class Tablero {
                     extremoDerec.setIzquierdo(bkup);
                     extremoDerec.darVuelta(true); // marcamos la ficha para luego darla vuelta cuando repartamos nuevamente.
                 }
+            } else {
+                throw new FichaIncorrecta();
             }
         }
         Tablero.extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
@@ -49,7 +53,7 @@ public class Tablero {
     }
 
     // agrega una ficha en el extremo izquierdo.
-    public static void setExtremoIzq(IFicha extremoIzq) {
+    public static void setExtremoIzq(IFicha extremoIzq) throws FichaIncorrecta {
         if (Tablero.extremoIzq != null) {
             int tableroIzq = Tablero.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
@@ -59,6 +63,8 @@ public class Tablero {
                     extremoIzq.setDerecho(bkup);
                     extremoIzq.darVuelta(true); // marcamos la ficha para luego darla vuelta cuadno la printeamos.
                 }
+            } else {
+                throw new FichaIncorrecta();
             }
         }
         Tablero.extremosIgualesIzq();

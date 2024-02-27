@@ -3,6 +3,7 @@ package controlador;
 import modelo.*;
 import modelo.IJugador;
 import modelo.IObserver;
+import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import vista.IVista;
 
@@ -32,7 +33,7 @@ public class Controlador implements IObserver {
     }
 
 
-    public void gestionarTurnos(int extremIzq, int extremDer, String extremo) throws FichaInexistente {
+    public void gestionarTurnos(int extremIzq, int extremDer, String extremo) throws FichaInexistente, FichaIncorrecta {
         modelo.realizarJugada(extremIzq, extremDer, extremo);
     }
 

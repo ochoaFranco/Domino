@@ -1,6 +1,7 @@
 package modelo;
 
 import modelo.Ficha;
+import modelo.exceptions.FichaIncorrecta;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public interface IJugador {
     IFicha fichaDobleMayor();
     void setMano(boolean mano);
     boolean getMano();
-    void colocarFicha(IFicha ficha, String extremo);
+    void colocarFicha(IFicha ficha, String extremo) throws FichaIncorrecta;
     boolean puedoJugar();
     void recibirFicha(IFicha ficha);
     int contarPuntosFicha();

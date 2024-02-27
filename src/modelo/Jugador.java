@@ -1,5 +1,7 @@
 package modelo;
 
+import modelo.exceptions.FichaIncorrecta;
+
 import java.util.ArrayList;
 
 public class Jugador implements IJugador {
@@ -52,7 +54,7 @@ public class Jugador implements IJugador {
         return fichas;
     }
 
-    public void colocarFicha(IFicha ficha, String extremo) {
+    public void colocarFicha(IFicha ficha, String extremo) throws FichaIncorrecta {
         if (extremo.toLowerCase().equals("i")) {
             Tablero.setExtremoIzq(ficha);
         } else if (extremo.toLowerCase().equals("d")) {

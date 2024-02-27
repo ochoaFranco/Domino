@@ -1,5 +1,6 @@
 package modelo;
 
+import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class Juego implements IJuego, ISubject {
 
 
 
-    private void determinarJugadorMano() {
+    private void determinarJugadorMano()  {
         ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
         Jugador jugadorFichaSimpleMasAlta = null;
@@ -102,11 +103,15 @@ public class Juego implements IJuego, ISubject {
         ArrayList<IFicha> fichasJugador = jugadorMano.getFichas();
         fichasJugador.remove(primeraFicha);
         // agrego al tablero las fichas.
-        setearTablero(primeraFicha);
+        try {
+            setearTablero(primeraFicha);
+        } catch (FichaIncorrecta f) {
+            throw new RuntimeException();
+        }
         moverJugFinalTurno();
     }
 
-    private void setearTablero(IFicha ficha) {
+    private void setearTablero(IFicha ficha) throws FichaIncorrecta {
         Tablero.setExtremoDerec(ficha);
         Tablero.setExtremoIzq(ficha);
     }
@@ -170,7 +175,7 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
-    private void reiniciarRonda() {
+    private void reiniciarRonda()  {
         juntarFichasTablero();
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
@@ -208,12 +213,13 @@ public class Juego implements IJuego, ISubject {
     }
 
     // Logica principal del juego.
-    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente {
+    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta {
         assert colaTurnos.peek() != null;
         IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
         if (ficha == null) throw new FichaInexistente();
-        IJugador jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
+        IJugador jugador = colaTurnos.peek();
         jugador.colocarFicha(ficha, extremo);
+        jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
         // dermino si el jugador jugo todas sus fichas.

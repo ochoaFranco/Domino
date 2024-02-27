@@ -4,6 +4,7 @@ import controlador.Controlador;
 import modelo.Ficha;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
@@ -182,7 +183,9 @@ public class VistaConsola implements IVista {
     }
 
     private void jugar() {
+
         controlador.iniciarJuego();
+
     }
 
     // metodo que permite generar espacios.
@@ -199,7 +202,11 @@ public class VistaConsola implements IVista {
                 int izq = Integer.parseInt(partes[1]);
                 int der = Integer.parseInt(partes[2]);
                 String extremo = partes[3];
-                controlador.gestionarTurnos(izq, der, extremo);
+                try {
+                    controlador.gestionarTurnos(izq, der, extremo);
+                } catch (FichaIncorrecta f) {
+                    consolaOutput.append("Ficha incorrecta!!! \n");
+                }
 
             } catch (NumberFormatException ex) {
                 consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)");
