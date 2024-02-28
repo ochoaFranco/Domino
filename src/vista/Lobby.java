@@ -68,7 +68,8 @@ public class Lobby implements IVista {
 
 
     private void ejecutarMenu() {
-        MenuJuego menu = new MenuJuego();
+        MenuJuego menu = new MenuJuego(frame);
+        menu.mostrar();
     }
 
     // configuro el BG para el panel.
