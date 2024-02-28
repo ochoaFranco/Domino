@@ -31,10 +31,27 @@ public class Login  extends JDialog implements IVista {
         panel.add(lblNombre);
 
         JLabel lblConsola = new JLabel("Interfaz");
-        lblConsola.setBounds(180, 20, 100, 20);
+        lblConsola.setBounds(80, 50, 100, 20);
         lblConsola.setForeground(Color.white);
         lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(lblConsola);
+
+        // agrego los text fields
+        JTextField txtF1 = new JTextField();
+        txtF1.setBounds(180, 20, 100, 20);
+        panel.add(txtF1);
+
+        // Agrego un menu de opciones.
+        String[] interfazOpciones = {"Grafica", "Consola"};
+        JComboBox<String> interfazComboBox = new JComboBox<>(interfazOpciones);
+        interfazComboBox.setBounds(180, 50, 100, 20);
+        panel.add(interfazComboBox);
+
+        // agrego los botones.
+        JButton okayBtn = new JButton("Ok");
+        okayBtn.setBounds(180, 100, 100, 20);
+        panel.add(okayBtn);
+
 
         this.getContentPane().add(panel);
     }
