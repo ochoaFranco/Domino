@@ -44,15 +44,16 @@ public class MenuJuego extends JDialog implements IVista {
         soloBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                login();
+                loginUsuario();
             }
         });
 
 
     }
 
-    private void login() {
-        Login login = new Login();
+    private void loginUsuario() {
+        Login login = new Login((JFrame) this.getParent());
+        login.mostrar();
     }
 
 
