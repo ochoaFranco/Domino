@@ -3,6 +3,7 @@ package vista;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.Juego;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class Lobby implements IVista {
     private Controlador controlador;
     private final JFrame frame;
     private JLabel background = new JLabel();
+    private Juego juego = new Juego();
 
 
     public Lobby()  {
@@ -68,7 +70,7 @@ public class Lobby implements IVista {
 
 
     private void ejecutarMenu() {
-        MenuJuego menu = new MenuJuego(frame);
+        MenuJuego menu = new MenuJuego(frame, juego);
         menu.mostrar();
     }
 
@@ -104,10 +106,6 @@ public class Lobby implements IVista {
 
     }
 
-    @Override
-    public void setControlador(Controlador controlador) {
-
-    }
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
@@ -131,6 +129,11 @@ public class Lobby implements IVista {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
+
+    }
+
+    @Override
+    public void setControlador(Controlador controlador) {
 
     }
 }

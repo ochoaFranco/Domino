@@ -21,8 +21,10 @@ public class VistaConsola implements IVista {
     private JTextArea consolaOutput;
     private JTextField inputCMD;
     private JButton ejecutarBtn;
+    private String nombre;
 
-    public VistaConsola() {
+    public VistaConsola(String nombre) {
+        this.nombre = nombre;
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -31,8 +33,6 @@ public class VistaConsola implements IVista {
         consolaOutput.setEditable(false);
         Font font = new Font("Arial", Font.PLAIN, 16);
         consolaOutput.setFont(font);
-        consolaOutput.setText("Ingrese el nombre del jugador");
-
 
         inputCMD = new JTextField();
         ejecutarBtn = new JButton("Ejecutar");
@@ -45,6 +45,8 @@ public class VistaConsola implements IVista {
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
 
+        // alta del jugador.
+        altaJugador(nombre);
 
         // FUNCIONALIDAD DEL BOTON
         inputCMD.addActionListener(new ActionListener() {
@@ -82,10 +84,7 @@ public class VistaConsola implements IVista {
         consolaOutput.append(ficha);
     }
 
-    @Override
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
-    }
+
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
@@ -104,11 +103,16 @@ public class VistaConsola implements IVista {
         consolaOutput.append(ficha);
     }
 
+    public void setControlador(Controlador controlador) {
+        this.controlador = controlador;
+        if (nombre != null) {
+            controlador.conectarJugador(nombre);
+        }
+    }
+
     private void determinarComando(String comando) {
         comando = comando.toLowerCase();
-        if (comando.startsWith("nombre:")) {
-            altaJugador(comando);
-        } else if (comando.equals("jugar")) {
+        if (comando.equals("jugar")) {
             jugar();
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
@@ -189,9 +193,7 @@ public class VistaConsola implements IVista {
 
 
     private void altaJugador(String nombre) {
-        String jugadorNombre = nombre.substring("NOMBRE:".length());
-        consolaOutput.append("\nBienvenido " + jugadorNombre + "!\n");
-        controlador.conectarJugador(jugadorNombre);
+        consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }
 
     private void jugar() {

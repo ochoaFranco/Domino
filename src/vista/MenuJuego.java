@@ -3,6 +3,7 @@ package vista;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.Juego;
 
 import javax.sound.midi.VoiceStatus;
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class MenuJuego extends JDialog implements IVista {
     private static final int totalDeVentanasCerradasEsperadas = 2;
     private static JFrame parent;
 
-    public MenuJuego(JFrame parent) {
+    public MenuJuego(JFrame parent, Juego juego) {
         super(parent, "Domino", true);
         MenuJuego.parent = parent; // Ventana anterior.
         setTitle("Domino");
@@ -48,16 +49,16 @@ public class MenuJuego extends JDialog implements IVista {
         soloBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginUsuario();
+                loginUsuario(juego);
             }
         });
 
 
     }
 
-    private void loginUsuario() {
-        Login usuario1 = new Login((JFrame) this.getParent());
-        Login usuario2 = new Login((JFrame) this.getParent());
+    private void loginUsuario(Juego juego) {
+        Login usuario1 = new Login((JFrame) this.getParent(), juego);
+        Login usuario2 = new Login((JFrame) this.getParent(), juego);
 
         usuario1.mostrar();
         usuario2.mostrar();
@@ -66,13 +67,9 @@ public class MenuJuego extends JDialog implements IVista {
 
     public static void incrementarVentanasCerradas() {
         MenuJuego.ventanasCerradas += 1;
-        if (MenuJuego.ventanasCerradas == MenuJuego.totalDeVentanasCerradasEsperadas) {
-            IVista vistaConsola1 = new VistaConsola();
-            IVista vistaConsola2 = new VistaConsola();
-            vistaConsola1.mostrar();
-            vistaConsola2.mostrar();
+        if (MenuJuego.ventanasCerradas == MenuJuego.totalDeVentanasCerradasEsperadas)
             MenuJuego.parent.dispose();
-        }
+
     }
 
     @Override

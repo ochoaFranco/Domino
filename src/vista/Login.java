@@ -3,6 +3,7 @@ package vista;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.Juego;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +16,11 @@ public class Login  extends JDialog implements IVista {
     JComboBox<String> interfazComboBox;
     JTextField txtF1 = new JTextField();
     JFrame parent;
+    Juego juego;
 
-    public Login(JFrame parent) {
+    public Login(JFrame parent, Juego juego) {
         super(parent, "Login", false);
+        this.juego = juego;
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos
@@ -72,9 +75,17 @@ public class Login  extends JDialog implements IVista {
 
     // funcionalidad para el clicked btn
     private void okayBtnPresionado() {
+        IVista vista;
         String usuario = txtF1.getText();
         String opSeleccionada = (String) interfazComboBox.getSelectedItem();
-
+        // comprobamos la seleccion
+        if (opSeleccionada.equalsIgnoreCase("Consola")) {
+            vista = new VistaConsola(usuario);
+            controlador = new Controlador(vista);
+            controlador.setModelo(juego);
+            vista.setControlador(controlador);
+            vista.mostrar();
+        }
         dispose();
         MenuJuego.incrementarVentanasCerradas();
 
@@ -87,11 +98,6 @@ public class Login  extends JDialog implements IVista {
 
     @Override
     public void mostrarFichasRecibidas(IJugador jugador) {
-
-    }
-
-    @Override
-    public void setControlador(Controlador controlador) {
 
     }
 
@@ -117,6 +123,11 @@ public class Login  extends JDialog implements IVista {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
+
+    }
+
+    @Override
+    public void setControlador(Controlador controlador) {
 
     }
 }
