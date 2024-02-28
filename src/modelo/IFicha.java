@@ -14,5 +14,4 @@ public interface IFicha {
     void setVertical(boolean vertical);
     void setDerecho(boolean derecho);
     void setIzquierdo(boolean izquierdo);
-
 }

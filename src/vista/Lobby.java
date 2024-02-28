@@ -14,6 +14,7 @@ public class Lobby implements IVista {
 
     private Controlador controlador;
     private final JFrame frame;
+    private JLabel background = new JLabel();
 
     //resources/img/dominoes.jpg"
     public Lobby()  {
@@ -23,8 +24,24 @@ public class Lobby implements IVista {
         frame.setResizable(false);
 
         // establacer color del background.
-        frame.getContentPane().setBackground(Color.BLACK);
-        JPanel panel = getjPanel();
+        frame.getContentPane().setBackground(Color.PINK);
+        JPanel panel = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                System.out.println(getClass().getResource("img/dominoes.jpg"));
+                try {
+                    ImageIcon background = new ImageIcon(getClass().getResource("img/dominoes.jpg"));// Assuming the image is in a "resources/img" folder
+                    g.drawImage(background.getImage(), 0, 0, this);
+                } catch (NullPointerException e ) {
+                    throw new RuntimeException();
+                }
+            }
+
+        };
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setOpaque(false);
 
         JLabel texto = new JLabel("Bienvenidos al juego del Domino.");
         texto.setForeground(Color.WHITE);
@@ -44,32 +61,8 @@ public class Lobby implements IVista {
         // Add the panel to the frame
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
-//        frame.getContentPane().add(panel, BorderLayout.CENTER);
-//
-//        // se agrega el texto y el boton al frame.
-//        frame.getContentPane().add(panel, BorderLayout.CENTER);
-
     }
 
-    private JPanel getjPanel() {
-        JPanel panel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                System.out.println(getClass().getResource("../resources/img/dominoes.jpg"));
-                try {
-                    ImageIcon background = new ImageIcon(getClass().getResource("/resources/img/dominoes.jpg"));// Assuming the image is in a "resources/img" folder
-                    g.drawImage(background.getImage(), 0, 0, this);
-                } catch (NullPointerException e ) {
-                    throw new RuntimeException();
-                }
-
-            }
-        };
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setOpaque(false);
-        return panel;
-    }
 
     @Override
     public void mostrarMensaje(String mensaje) {
