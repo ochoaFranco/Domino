@@ -16,24 +16,26 @@ public class MenuJuego extends JFrame implements IVista {
     public MenuJuego() {
         setTitle("Domino");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200);
+        setSize(450, 200);
         setResizable(false);
 
-        JPanel panel = new JPanel();
+        JPanel panel = Lobby.getjPanel();
         panel.setLayout(null);
         // agrego un label
         JLabel label = new JLabel("Elija la modalidad con la que desea jugar.");
-        label.setBounds(80, 20, 260, 20);
+        label.setBounds(80, 20, 400, 20);
+        label.setForeground(Color.white);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(label);
 
         // creo los botones
         JButton soloBtn = new JButton("Solo");
-        soloBtn.setBounds(100, 60, 80, 20);
+        soloBtn.setBounds(120, 60, 80, 20);
 
         panel.add(soloBtn);
 
         JButton grupoBtn = new JButton("Grupo");
-        grupoBtn.setBounds(200, 60, 80, 20);
+        grupoBtn.setBounds(250, 60, 80, 20);
         panel.add(grupoBtn);
 
 

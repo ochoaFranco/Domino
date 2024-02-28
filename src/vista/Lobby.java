@@ -18,13 +18,14 @@ public class Lobby implements IVista {
     private final JFrame frame;
     private JLabel background = new JLabel();
 
+
     public Lobby()  {
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 768);
         frame.setResizable(false);
 
-        JPanel panel = getjPanel();
+        JPanel panel = Lobby.getjPanel();
 
         // set texto attributos.
         JLabel texto = new JLabel("Bienvenidos al juego del Domino.");
@@ -71,7 +72,7 @@ public class Lobby implements IVista {
     }
 
     // configuro el BG para el panel.
-    private JPanel getjPanel() {
+    public static JPanel getjPanel() {
         JPanel panel = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
