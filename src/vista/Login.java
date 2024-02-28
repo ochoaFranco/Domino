@@ -17,7 +17,7 @@ public class Login  extends JDialog implements IVista {
     JFrame parent;
 
     public Login(JFrame parent) {
-        super(parent, "Login", true);
+        super(parent, "Login", false);
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos
@@ -74,7 +74,9 @@ public class Login  extends JDialog implements IVista {
     private void okayBtnPresionado() {
         String usuario = txtF1.getText();
         String opSeleccionada = (String) interfazComboBox.getSelectedItem();
-        parent.dispose(); // cierro todas las ventanas.
+
+        dispose();
+        MenuJuego.incrementarVentanasCerradas();
 
     }
 
