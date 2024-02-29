@@ -10,25 +10,30 @@ import java.awt.*;
 public class VistaGrafica extends JFrame implements IVista {
     private String nombre;
     private Controlador controlador;
-
+    private JPanel panel;
     public VistaGrafica(String nombre) {
         setTitle("Domino");
         this.nombre = nombre;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 400);
+        setSize(800, 600);
         setResizable(false);
 
         // creo un panel junto con su backgorund.
-        JPanel panel = Lobby.getjPanel();
+        panel = Lobby.getjPanel();
 
         this.getContentPane().add(panel);
     }
 
 
+
     @Override
     public void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje, "Recibiendo fichas", JOptionPane.INFORMATION_MESSAGE);
-
+        JLabel lbl = new JLabel(mensaje);
+        lbl.setForeground(Color.black);
+        lbl.setFont(new Font("Arial", Font.BOLD, 18));
+        lbl.setAlignmentX(Component.CENTER_ALIGNMENT); // alinear el lbl al centro.
+        panel.add(lbl);
+        this.getContentPane().add(panel);
     }
 
     @Override

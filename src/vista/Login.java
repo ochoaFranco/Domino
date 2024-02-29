@@ -90,8 +90,10 @@ public class Login  extends JDialog implements IVista {
         vista.setControlador(controlador);
         vista.mostrar();
 
+        // si es gui ejecuto el juego.
         if (vista instanceof VistaGrafica)
             ((VistaGrafica) vista).jugar();
+
         dispose();
         MenuJuego.incrementarVentanasCerradas();
 
