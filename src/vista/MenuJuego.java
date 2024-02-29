@@ -24,7 +24,7 @@ public class MenuJuego extends JDialog implements IVista {
         setSize(450, 200);
         setResizable(false);
 
-        JPanel panel = Lobby.getjPanel();
+        JPanel panel = Lobby.getjPanel("img/dominoes.jpg");
         panel.setLayout(null);
         // agrego un label
         JLabel label = new JLabel("Elija la modalidad con la que desea jugar.");

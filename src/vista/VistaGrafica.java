@@ -6,6 +6,7 @@ import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class VistaGrafica extends JFrame implements IVista {
     private String nombre;
@@ -15,11 +16,11 @@ public class VistaGrafica extends JFrame implements IVista {
         setTitle("Domino");
         this.nombre = nombre;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 500);
         setResizable(false);
 
         // creo un panel junto con su backgorund.
-        panel = Lobby.getjPanel();
+        panel = Lobby.getjPanel("img/tablero.png");
 
         this.getContentPane().add(panel);
     }
@@ -33,7 +34,7 @@ public class VistaGrafica extends JFrame implements IVista {
         lbl.setFont(new Font("Arial", Font.BOLD, 18));
         lbl.setAlignmentX(Component.CENTER_ALIGNMENT); // alinear el lbl al centro.
         panel.add(lbl);
-        this.getContentPane().add(panel);
+
     }
 
     @Override
@@ -42,7 +43,16 @@ public class VistaGrafica extends JFrame implements IVista {
     }
 
     @Override
-    public void mostrarFichasJugador(IJugador jugador) {
+    public void mostrarFichasJugador(IJugador jugador)  {
+        ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
+
+        for (IFicha ficha: fichas) {
+            VistaFicha fichaComponente = new VistaFicha(ficha);
+            panel.add(fichaComponente);
+        }
+
+        panel.revalidate();
+        panel.repaint();
 
     }
 

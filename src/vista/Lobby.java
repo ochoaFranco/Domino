@@ -26,7 +26,7 @@ public class Lobby implements IVista {
         frame.setSize(1024, 768);
         frame.setResizable(false);
 
-        JPanel panel = Lobby.getjPanel();
+        JPanel panel = Lobby.getjPanel("img/dominoes.jpg");
 
         // set texto attributos.
         JLabel texto = new JLabel("Bienvenidos al juego del Domino.");
@@ -74,13 +74,13 @@ public class Lobby implements IVista {
     }
 
     // configuro el BG para el panel.
-    public static JPanel getjPanel() {
+    public static JPanel getjPanel(String path) {
         JPanel panel = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 try {
-                    ImageIcon background = new ImageIcon(getClass().getResource("img/dominoes.jpg"));
+                    ImageIcon background = new ImageIcon(getClass().getResource(path));
                     g.drawImage(background.getImage(), 0, 0, this);
                 } catch (NullPointerException e ) {
                     throw new RuntimeException();

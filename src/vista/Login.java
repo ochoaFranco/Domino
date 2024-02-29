@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login  extends JDialog implements IVista {
 
@@ -30,7 +32,7 @@ public class Login  extends JDialog implements IVista {
         setResizable(false);
 
         // se crea un panel
-        JPanel panel = Lobby.getjPanel();
+        JPanel panel = Lobby.getjPanel("img/dominoes.jpg");
         panel.setLayout(null);
 
         // atributos de los labels.
@@ -71,7 +73,27 @@ public class Login  extends JDialog implements IVista {
                 okayBtnPresionado();
             }
         });
+
+        // agrego un listener al textfield y combo box
+        txtF1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    okayBtn.doClick();
+            }
+        });
+
+        interfazComboBox.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    okayBtn.doClick();
+                }
+            }
+        });
     }
+
+
 
     // funcionalidad para el clicked btn
     private void okayBtnPresionado() {
@@ -98,6 +120,7 @@ public class Login  extends JDialog implements IVista {
         MenuJuego.incrementarVentanasCerradas();
 
     }
+
 
     @Override
     public void mostrarMensaje(String mensaje) {
