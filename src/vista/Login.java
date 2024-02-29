@@ -81,11 +81,17 @@ public class Login  extends JDialog implements IVista {
         // comprobamos la seleccion
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
             vista = new VistaConsola(usuario);
-            controlador = new Controlador(vista);
-            controlador.setModelo(juego);
-            vista.setControlador(controlador);
-            vista.mostrar();
+        } else {
+            vista = new VistaGrafica(usuario);
         }
+        // seteamos el oontrolador e iniciamos el juego.
+        controlador = new Controlador(vista);
+        controlador.setModelo(juego);
+        vista.setControlador(controlador);
+        vista.mostrar();
+
+        if (vista instanceof VistaGrafica)
+            ((VistaGrafica) vista).jugar();
         dispose();
         MenuJuego.incrementarVentanasCerradas();
 

@@ -17,7 +17,6 @@ public class Lobby implements IVista {
 
     private Controlador controlador;
     private final JFrame frame;
-    private JLabel background = new JLabel();
     private Juego juego = new Juego();
 
 
