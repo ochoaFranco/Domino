@@ -12,7 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuJuego extends JDialog implements IVista {
+    private static final int MAXJUGSOLO = 2;
     private static int ventanasCerradas = 0;
+    private static int jugadoresListos = 0;
+
     private static final int totalDeVentanasCerradasEsperadas = 2;
     private static JFrame parent;
 
@@ -65,11 +68,18 @@ public class MenuJuego extends JDialog implements IVista {
         dispose();
     }
 
+    // cuenta la cantidad de ventanas cerradas para cerrar el resto.
     public static void incrementarVentanasCerradas() {
         MenuJuego.ventanasCerradas += 1;
         if (MenuJuego.ventanasCerradas == MenuJuego.totalDeVentanasCerradasEsperadas)
             MenuJuego.parent.dispose();
 
+    }
+
+    // comprueba si todos los jugadores estan listos.
+    public  static Boolean jugadoresListos() {
+        MenuJuego.jugadoresListos += 1;
+        return  MenuJuego.jugadoresListos == MAXJUGSOLO;
     }
 
     @Override

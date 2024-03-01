@@ -15,10 +15,11 @@ import java.awt.event.KeyEvent;
 public class Login  extends JDialog implements IVista {
 
     private Controlador controlador;
-    JComboBox<String> interfazComboBox;
-    JTextField txtF1 = new JTextField();
-    JFrame parent;
-    Juego juego;
+    private JComboBox<String> interfazComboBox;
+    private JTextField txtF1 = new JTextField();
+    private JFrame parent;
+    private Juego juego;
+    private static boolean isJuegoIniciado = false;
 
     public Login(JFrame parent, Juego juego) {
         super(parent, "Login", false);
@@ -110,17 +111,42 @@ public class Login  extends JDialog implements IVista {
         controlador = new Controlador(vista);
         controlador.setModelo(juego);
         vista.setControlador(controlador);
+
+//        checkJugadoresListos(vista);
         vista.mostrar();
 
         // si es gui ejecuto el juego.
-        if (vista instanceof VistaGrafica)
+        if (vista instanceof VistaGrafica && !isJuegoIniciado) {
             ((VistaGrafica) vista).jugar();
-
+            Login.isJuegoIniciado = true;
+        }
         dispose();
         MenuJuego.incrementarVentanasCerradas();
 
     }
 
+
+    // se encarga de checkear si los jugadors estan listos.
+    private void checkJugadoresListos(IVista vista) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (!MenuJuego.jugadoresListos()) {
+                    try {
+                        Thread.sleep(4000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        vista.mostrar();
+                    }
+                });
+            }
+        }).start();
+    }
 
     @Override
     public void mostrarMensaje(String mensaje) {

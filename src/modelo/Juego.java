@@ -106,7 +106,7 @@ public class Juego implements IJuego, ISubject {
         try {
             setearTablero(primeraFicha);
         } catch (FichaIncorrecta f) {
-            throw new RuntimeException();
+            throw new RuntimeException("ficha incorrecta!!!");
         }
         moverJugFinalTurno();
     }

@@ -18,7 +18,11 @@ public class VistaFicha extends JComponent {
     private void cargarImagen() {
         String nombreArchivo = "img/" + ficha.getIzquierdo() + "-" + ficha.getDerecho() + ".png";
         // cargo la imagen y manejo errores.
-        imageIcon = new ImageIcon(nombreArchivo);
+        try {
+            imageIcon = new ImageIcon(getClass().getResource(nombreArchivo));
+        } catch (NullPointerException e) {
+            throw new RuntimeException();
+        }
         if (imageIcon.getImageLoadStatus() == ImageObserver.ERROR) {
             System.err.println("Error cargando imagen: " + nombreArchivo);
         }

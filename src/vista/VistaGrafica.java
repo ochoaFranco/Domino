@@ -21,6 +21,8 @@ public class VistaGrafica extends JFrame implements IVista {
 
         // creo un panel junto con su backgorund.
         panel = Lobby.getjPanel("img/tablero.png");
+        panel.setLayout(null);
+
 
         this.getContentPane().add(panel);
     }
@@ -56,9 +58,14 @@ public class VistaGrafica extends JFrame implements IVista {
 
     }
 
+    // muestra la primera ficha.
     @Override
     public void mostrarFicha(IFicha ficha) {
-
+        VistaFicha f = new VistaFicha(ficha);
+        f.setBounds(300, 100, 100, 100);
+        panel.add(f);
+        panel.revalidate();
+        panel.repaint();
     }
 
     public void jugar() {
