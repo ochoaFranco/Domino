@@ -63,6 +63,7 @@ public class Juego implements IJuego, ISubject {
                 IFicha ficha = pozo.sacarFicha();
                 if (ficha != null) {
                     j.recibirFicha(ficha);
+
                 }
             }
             notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);

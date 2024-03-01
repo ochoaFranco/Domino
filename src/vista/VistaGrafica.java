@@ -82,7 +82,6 @@ public class VistaGrafica extends JFrame implements IVista {
     }
 
 
-
     // muestra la primera ficha.
     @Override
     public void mostrarFicha(IFicha ficha) {
