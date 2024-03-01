@@ -88,28 +88,36 @@ public class VistaGrafica extends JFrame implements IVista {
     public void mostrarFicha(IFicha ficha) {
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha);
-        // obtengo la imagen de la ficha
-        ImageIcon imagenFicha = f.getImageIcon();
-
-        // convierto el toolkitimage  a bufferedIMage
-        Image imagenOriginal =  imagenFicha.getImage();
-        BufferedImage bufferedImage = new BufferedImage(imagenOriginal.getWidth(null), imagenOriginal.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-        Graphics2D g2d = bufferedImage.createGraphics();
-        g2d.drawImage(imagenOriginal, 0,0, null);
-        g2d.dispose();
-
-        // creo una nueva imagen con la imagen rotada.
-        BufferedImage imagenRotada = rotarImagen(bufferedImage, Math.toRadians(90));
-
-        // creo una imagen con la imagen rotada.
-        ImageIcon iconoImagenRotada = new ImageIcon(imagenRotada);
-        f.setImageIcon(iconoImagenRotada);
-
-        f.setBounds(300, 100, imagenRotada.getWidth(), imagenRotada.getHeight());
-
+        rotarImagenWrapper(f, 300, 100, ficha.esFichaDoble());
         panel.add(f);
         panel.revalidate();
         panel.repaint();
+    }
+
+    // dado una ficha, la rota y la muestra en las coordenadas indicadas.
+    private void rotarImagenWrapper(VistaFicha f, int x, int y, boolean isDoble) {
+        // obtengo la imagen de la ficha
+        ImageIcon imagenFicha = f.getImageIcon();
+
+        // si es doble la muestro vertical, caso contrario horizontal.
+        if (isDoble) {
+            f.setBounds(x, y, imagenFicha.getIconWidth(), imagenFicha.getIconHeight());
+        } else {
+            // convierto el toolkitimage  a bufferedIMage
+            Image imagenOriginal = imagenFicha.getImage();
+            BufferedImage bufferedImage = new BufferedImage(imagenOriginal.getWidth(null), imagenOriginal.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = bufferedImage.createGraphics();
+            g2d.drawImage(imagenOriginal, 0, 0, null);
+            g2d.dispose();
+
+            // creo una nueva imagen con la imagen rotada.
+            BufferedImage imagenRotada = rotarImagen(bufferedImage, Math.toRadians(90));
+
+            // creo una imagen con la imagen rotada.
+            ImageIcon iconoImagenRotada = new ImageIcon(imagenRotada);
+            f.setImageIcon(iconoImagenRotada);
+            f.setBounds(x, y, imagenRotada.getWidth(), imagenRotada.getHeight());
+        }
     }
 
     private BufferedImage rotarImagen(BufferedImage img, double angulo) {
