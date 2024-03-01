@@ -71,7 +71,7 @@ public class VistaGrafica extends JFrame implements IVista {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
         int i = 0;
         for (IFicha ficha: fichas) {
-            VistaFicha fichaComponente = new VistaFicha(ficha);
+            VistaFicha fichaComponente = new VistaFicha(ficha, true);
             fichaComponente.setBounds(x + i, y, 50, 100);
             panel.add(fichaComponente);
             i += 35;
@@ -86,7 +86,7 @@ public class VistaGrafica extends JFrame implements IVista {
     @Override
     public void mostrarFicha(IFicha ficha) {
         VistaGrafica.primeraFicha = ficha;
-        VistaFicha f = new VistaFicha(ficha);
+        VistaFicha f = new VistaFicha(ficha, false);
         rotarImagenWrapper(f, 300, 100, ficha.esFichaDoble());
         panel.add(f);
         panel.revalidate();

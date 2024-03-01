@@ -14,9 +14,11 @@ public class VistaFicha extends JComponent {
     private IFicha ficha;
     private ImageIcon imageIcon;
     private boolean elegida = false;
+    private boolean cambiarTamanio = false;
 
-    public VistaFicha(IFicha ficha) {
+    public VistaFicha(IFicha ficha, boolean cambiarTamanio) {
         this.ficha = ficha;
+        this.cambiarTamanio = cambiarTamanio;
         cargarImagen();
 
 
@@ -24,7 +26,8 @@ public class VistaFicha extends JComponent {
             @Override
             public void mouseEntered(MouseEvent e) {
                 // mover la ficha hacia arrba
-                setElegida(true);
+                if (cambiarTamanio)
+                    setElegida(true);
             }
 
             // se resetea el borde.
@@ -40,15 +43,15 @@ public class VistaFicha extends JComponent {
 
 
         // funcionalidad para cuando una ficha es elegida.
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (contains(e.getPoint())) {
-                    elegida = !elegida; // activo el estado de elegida.
-                    repaint();
-                }
-            }
-        });
+//        addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if (contains(e.getPoint())) {
+//                    elegida = !elegida; // activo el estado de elegida.
+//                    repaint();
+//                }
+//            }
+//        });
     }
 
     private void cargarImagen() {
