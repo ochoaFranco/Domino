@@ -13,6 +13,7 @@ public class VistaGrafica extends JFrame implements IVista {
     private Controlador controlador;
     private JPanel panel;
     private static int cantMensajes = 0;
+    private static int posicionFichas = 1;
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -55,13 +56,22 @@ public class VistaGrafica extends JFrame implements IVista {
 
     }
 
+    // funcionalidad encargada de mostrar las fichas del jugador.
     @Override
     public void mostrarFichasJugador(IJugador jugador)  {
+        int x = 1 + posicionFichas * 50;
+        int y = 400;
+        mostrarFichasJugador(jugador, x, y);
+        VistaGrafica.posicionFichas += 1;
+
+    }
+
+    public void mostrarFichasJugador(IJugador jugador, int x, int y)  {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
 
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha);
-            fichaComponente.setBounds(300, 100, 100, 100);
+            fichaComponente.setBounds(x, y, 100, 100);
             panel.add(fichaComponente);
         }
 
@@ -69,6 +79,8 @@ public class VistaGrafica extends JFrame implements IVista {
         panel.repaint();
 
     }
+
+
 
     // muestra la primera ficha.
     @Override
