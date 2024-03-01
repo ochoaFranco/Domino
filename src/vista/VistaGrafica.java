@@ -12,6 +12,8 @@ public class VistaGrafica extends JFrame implements IVista {
     private String nombre;
     private Controlador controlador;
     private JPanel panel;
+    private static int cantMensajes = 0;
+
     public VistaGrafica(String nombre) {
         setTitle("Domino");
         this.nombre = nombre;
@@ -31,12 +33,21 @@ public class VistaGrafica extends JFrame implements IVista {
 
     @Override
     public void mostrarMensaje(String mensaje) {
+        // calculo la posicion del mensaj en la pantalla.
+        int x = 30;
+        int y = 300 + cantMensajes * 50;
+        mostrarMensaje(mensaje, x, y);
+        VistaGrafica.cantMensajes += 1;
+    }
+
+    public void mostrarMensaje(String mensaje, int x, int y) {
         JLabel lbl = new JLabel(mensaje);
         lbl.setForeground(Color.black);
         lbl.setFont(new Font("Arial", Font.BOLD, 18));
-        lbl.setAlignmentX(Component.CENTER_ALIGNMENT); // alinear el lbl al centro.
+        lbl.setBounds(x, y, 400, 40);
         panel.add(lbl);
-
+        panel.revalidate();
+        panel.repaint();
     }
 
     @Override
@@ -50,6 +61,7 @@ public class VistaGrafica extends JFrame implements IVista {
 
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha);
+            fichaComponente.setBounds(300, 100, 100, 100);
             panel.add(fichaComponente);
         }
 
