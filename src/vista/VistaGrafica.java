@@ -13,6 +13,7 @@ public class VistaGrafica extends JFrame implements IVista {
     private Controlador controlador;
     private JPanel panel;
     private static int cantMensajes = 0;
+    private static IFicha primeraFicha;
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -72,7 +73,6 @@ public class VistaGrafica extends JFrame implements IVista {
             panel.add(fichaComponente);
             i += 35;
         }
-
         panel.revalidate();
         panel.repaint();
 
@@ -83,6 +83,7 @@ public class VistaGrafica extends JFrame implements IVista {
     // muestra la primera ficha.
     @Override
     public void mostrarFicha(IFicha ficha) {
+        VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha);
         f.setBounds(300, 100, 100, 100);
         panel.add(f);

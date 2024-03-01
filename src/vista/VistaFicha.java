@@ -4,6 +4,8 @@ import modelo.IFicha;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 
 public class VistaFicha extends JComponent {
@@ -28,6 +30,9 @@ public class VistaFicha extends JComponent {
         }
 
     }
+
+
+
 
     @Override
     protected void paintComponent(Graphics g) {

@@ -56,6 +56,7 @@ public class Controlador implements IObserver {
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
                 }
+
                 break;
             case CAMBIO_RONDA:
                 vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
