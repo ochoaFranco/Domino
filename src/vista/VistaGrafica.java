@@ -36,7 +36,7 @@ public class VistaGrafica extends JFrame implements IVista {
     public void mostrarMensaje(String mensaje) {
         // calculo la posicion del mensaj en la pantalla.
         int x = 30;
-        int y = 300 + cantMensajes * 50;
+        int y = 200 + cantMensajes * 50;
         mostrarMensaje(mensaje, x, y);
         VistaGrafica.cantMensajes += 1;
     }

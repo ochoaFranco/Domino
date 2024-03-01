@@ -20,6 +20,8 @@ public class Login  extends JDialog implements IVista {
     private JFrame parent;
     private Juego juego;
     private static boolean isJuegoIniciado = false;
+    private static int cantVentanasAbiertas = 0;
+    private final static int cantMaxVentanasAbiertas = 2;
 
     public Login(JFrame parent, Juego juego) {
         super(parent, "Login", false);
@@ -111,42 +113,23 @@ public class Login  extends JDialog implements IVista {
         controlador = new Controlador(vista);
         controlador.setModelo(juego);
         vista.setControlador(controlador);
-
-//        checkJugadoresListos(vista);
         vista.mostrar();
+        Login.cantVentanasAbiertas += 1;
+
 
         // si es gui ejecuto el juego.
-        if (vista instanceof VistaGrafica && !isJuegoIniciado) {
+        if (vista instanceof VistaGrafica && !isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
             ((VistaGrafica) vista).jugar();
             Login.isJuegoIniciado = true;
         }
+
+
         dispose();
         MenuJuego.incrementarVentanasCerradas();
 
     }
 
 
-    // se encarga de checkear si los jugadors estan listos.
-    private void checkJugadoresListos(IVista vista) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (!MenuJuego.jugadoresListos()) {
-                    try {
-                        Thread.sleep(4000);
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        vista.mostrar();
-                    }
-                });
-            }
-        }).start();
-    }
 
     @Override
     public void mostrarMensaje(String mensaje) {
