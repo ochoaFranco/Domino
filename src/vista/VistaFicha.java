@@ -19,6 +19,27 @@ public class VistaFicha extends JComponent {
         this.ficha = ficha;
         cargarImagen();
 
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // mover la ficha hacia arrba
+                setElegida(true);
+            }
+
+            // se resetea el borde.
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // reestablacer la escala cuando el mouse sale.
+                elegida = false;
+                repaint();
+            }
+        });
+
+
+
+
+        // funcionalidad para cuando una ficha es elegida.
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -57,12 +78,13 @@ public class VistaFicha extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (imageIcon != null) {
-            imageIcon.paintIcon(this, g, 0, 0);
+            Graphics2D graphics2D = (Graphics2D) g.create();
 
             if (elegida) {
-                g.setColor(Color.red);
-                g.drawRect(0, 0, getWidth() - 10, getHeight() - 2);
+                graphics2D.scale(1.1, 1.1);
             }
+        imageIcon.paintIcon(this, graphics2D, 0, 0);
+            graphics2D.dispose();
         }
     }
 
