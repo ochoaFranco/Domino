@@ -6,6 +6,9 @@ import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class VistaGrafica extends JFrame implements IVista {
@@ -85,10 +88,34 @@ public class VistaGrafica extends JFrame implements IVista {
     public void mostrarFicha(IFicha ficha) {
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha);
-        f.setBounds(300, 100, 100, 100);
+        // obtengo la imagen de la ficha
+        ImageIcon imagenFicha = f.getImageIcon();
+
+        // convierto el toolkitimage  a bufferedIMage
+        Image imagenOriginal =  imagenFicha.getImage();
+        BufferedImage bufferedImage = new BufferedImage(imagenOriginal.getWidth(null), imagenOriginal.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bufferedImage.createGraphics();
+        g2d.drawImage(imagenOriginal, 0,0, null);
+        g2d.dispose();
+
+        // creo una nueva imagen con la imagen rotada.
+        BufferedImage imagenRotada = rotarImagen(bufferedImage, Math.toRadians(90));
+
+        // creo una imagen con la imagen rotada.
+        ImageIcon iconoImagenRotada = new ImageIcon(imagenRotada);
+        f.setImageIcon(iconoImagenRotada);
+
+        f.setBounds(300, 100, imagenRotada.getWidth(), imagenRotada.getHeight());
+
         panel.add(f);
         panel.revalidate();
         panel.repaint();
+    }
+
+    private BufferedImage rotarImagen(BufferedImage img, double angulo) {
+        AffineTransform transformar = new AffineTransform();
+        transformar.rotate(angulo, img.getWidth() / 2, img.getHeight() / 2);
+        return new AffineTransformOp(transformar, AffineTransformOp.TYPE_BILINEAR).filter(img, null);
     }
 
     public void jugar() {

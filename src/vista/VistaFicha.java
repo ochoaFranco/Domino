@@ -31,8 +31,13 @@ public class VistaFicha extends JComponent {
 
     }
 
+    public ImageIcon getImageIcon() {
+        return imageIcon;
+    }
 
-
+    public void setImageIcon(ImageIcon imageIcon) {
+        this.imageIcon = imageIcon;
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
