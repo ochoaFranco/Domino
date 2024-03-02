@@ -135,4 +135,14 @@ public class Lobby implements IVista {
     public void setControlador(Controlador controlador) {
 
     }
+
+    @Override
+    public void ocultarBoton() {
+
+    }
+
+    @Override
+    public void mostrarBoton() {
+
+    }
 }

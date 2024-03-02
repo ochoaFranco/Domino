@@ -14,14 +14,13 @@ public class VistaFicha extends JComponent {
     private IFicha ficha;
     private ImageIcon imageIcon;
     private boolean elegida = false;
-    private boolean cambiarTamanio = false;
+    private static boolean isFichaEnMano = false;
 
     public VistaFicha(IFicha ficha, boolean cambiarTamanio) {
         this.ficha = ficha;
-        this.cambiarTamanio = cambiarTamanio;
         cargarImagen();
 
-
+//        // cambia el tamanio de la ficha al hacer hover.
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -40,18 +39,17 @@ public class VistaFicha extends JComponent {
         });
 
 
-
-
-        // funcionalidad para cuando una ficha es elegida.
-//        addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                if (contains(e.getPoint())) {
-//                    elegida = !elegida; // activo el estado de elegida.
-//                    repaint();
+         //funcionalidad para cuando una ficha es elegida.
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+//                if (!VistaGrafica.isFichaEnMano() ) {
+//                    VistaGrafica.setIsFichaEnMano(true);
+                    setVisible(false);
+                    repaint();
 //                }
-//            }
-//        });
+            }
+        });
     }
 
     private void cargarImagen() {
@@ -86,7 +84,7 @@ public class VistaFicha extends JComponent {
             if (elegida) {
                 graphics2D.scale(1.1, 1.1);
             }
-        imageIcon.paintIcon(this, graphics2D, 0, 0);
+            imageIcon.paintIcon(this, graphics2D, 0, 0);
             graphics2D.dispose();
         }
     }
@@ -104,4 +102,6 @@ public class VistaFicha extends JComponent {
     public Dimension getPreferredSize() {
         return new Dimension(imageIcon.getIconWidth(), imageIcon.getIconHeight());
     }
+
+
 }

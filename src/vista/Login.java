@@ -114,12 +114,17 @@ public class Login  extends JDialog implements IVista {
         controlador.setModelo(juego);
         vista.setControlador(controlador);
         vista.mostrar();
+        if (vista instanceof VistaConsola)
+            vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
 
 
         // si es gui ejecuto el juego.
-        if (vista instanceof VistaGrafica && !isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
-            ((VistaGrafica) vista).jugar();
+        if ( !isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
+            if (vista instanceof VistaGrafica)
+                ((VistaGrafica) vista).jugar();
+            else
+                ((VistaConsola)vista).jugar();
             Login.isJuegoIniciado = true;
         }
 
@@ -168,6 +173,16 @@ public class Login  extends JDialog implements IVista {
 
     @Override
     public void setControlador(Controlador controlador) {
+
+    }
+
+    @Override
+    public void ocultarBoton() {
+
+    }
+
+    @Override
+    public void mostrarBoton() {
 
     }
 }

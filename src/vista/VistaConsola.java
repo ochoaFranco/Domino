@@ -22,6 +22,7 @@ public class VistaConsola implements IVista {
     private JTextField inputCMD;
     private JButton ejecutarBtn;
     private String nombre;
+    private static boolean jugando = false;
 
     public VistaConsola(String nombre) {
         this.nombre = nombre;
@@ -44,6 +45,7 @@ public class VistaConsola implements IVista {
         frame.setLayout(new BorderLayout());
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
+
 
         // alta del jugador.
         altaJugador(nombre);
@@ -192,12 +194,26 @@ public class VistaConsola implements IVista {
     }
 
 
+    public void ocultarBoton() {
+        ejecutarBtn.setEnabled(false);
+        inputCMD.setEditable(false);
+        inputCMD.setText("");
+    }
+    public void mostrarBoton() {
+        ejecutarBtn.setEnabled(true);
+        inputCMD.setEditable(true);
+    }
+
     private void altaJugador(String nombre) {
         consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }
 
-    private void jugar() {
-        controlador.iniciarJuego();
+    public void jugar() {
+        if (!VistaConsola.jugando) {
+            controlador.iniciarJuego();
+            VistaConsola.jugando = true;
+        }
+
     }
 
     // metodo que permite generar espacios.

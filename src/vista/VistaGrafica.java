@@ -17,6 +17,7 @@ public class VistaGrafica extends JFrame implements IVista {
     private JPanel panel;
     private static int cantMensajes = 0;
     private static IFicha primeraFicha;
+    private static boolean isFichaEnMano = false;
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -33,7 +34,13 @@ public class VistaGrafica extends JFrame implements IVista {
         this.getContentPane().add(panel);
     }
 
+    public static void setIsFichaEnMano(boolean isFichaEnMano) {
+        VistaGrafica.isFichaEnMano = isFichaEnMano;
+    }
 
+    public static boolean isFichaEnMano() {
+        return isFichaEnMano;
+    }
 
     @Override
     public void mostrarMensaje(String mensaje) {
@@ -150,5 +157,15 @@ public class VistaGrafica extends JFrame implements IVista {
         this.controlador = controlador;
         if (nombre != null)
             controlador.conectarJugador(nombre);
+    }
+
+    @Override
+    public void ocultarBoton() {
+
+    }
+
+    @Override
+    public void mostrarBoton() {
+
     }
 }

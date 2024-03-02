@@ -51,10 +51,12 @@ public class Controlador implements IObserver {
             case INICIAR_JUEGO:
                 vista.mostrarFicha((IFicha) o1);
                 if (modelo.getTurno() == jugador) {
+                    vista.mostrarBoton();
                     vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
                     vista.mostrarFichasJugador(jugador);
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+                    vista.ocultarBoton();
                 }
 
                 break;
@@ -81,10 +83,12 @@ public class Controlador implements IObserver {
             case ACTUALIZAR_TABLERO:
                 vista.mostrarTablero(o);
                 if (modelo.getTurno() == jugador) {
+                    vista.mostrarBoton();
                     vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
                     vista.mostrarFichasJugador(jugador);
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+                    vista.ocultarBoton();
                 }
                 break;
             case PASAR_TURNO:
@@ -94,6 +98,7 @@ public class Controlador implements IObserver {
                     vista.mostrarFichasJugador(jugador);
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
+                    vista.ocultarBoton();
                 }
                 break;
             case FIN_DEL_JUEGO:

@@ -98,6 +98,16 @@ public class MenuJuego extends JDialog implements IVista {
     }
 
     @Override
+    public void ocultarBoton() {
+
+    }
+
+    @Override
+    public void mostrarBoton() {
+
+    }
+
+    @Override
     public void mostrarFichasJugador(IJugador jugador) {
 
     }

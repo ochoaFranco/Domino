@@ -13,4 +13,6 @@ public interface IVista {
     void mostrarTablero(Object o);
     void mostrarTablaPuntos(Object o);
     void setControlador(Controlador controlador);
+    void ocultarBoton();
+    void mostrarBoton();
 }
