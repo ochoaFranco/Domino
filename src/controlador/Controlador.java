@@ -53,7 +53,6 @@ public class Controlador implements IObserver {
                 if (modelo.getTurno() == jugador) {
                     vista.mostrarBoton();
                     vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                    vista.mostrarFichasJugador(jugador);
                 } else {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
                     vista.ocultarBoton();

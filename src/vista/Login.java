@@ -20,6 +20,8 @@ public class Login  extends JDialog implements IVista {
     private JFrame parent;
     private Juego juego;
     private static boolean isJuegoIniciado = false;
+    private static IVista vistaConsola = null;
+    private static IVista vistaGrafica = null;
     private static int cantVentanasAbiertas = 0;
     private final static int cantMaxVentanasAbiertas = 2;
 
@@ -119,8 +121,9 @@ public class Login  extends JDialog implements IVista {
         Login.cantVentanasAbiertas += 1;
 
 
+
         // si es gui ejecuto el juego.
-        if ( !isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
+        if (!isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
             if (vista instanceof VistaGrafica)
                 ((VistaGrafica) vista).jugar();
             else
