@@ -5,7 +5,6 @@ import modelo.IFicha;
 import modelo.IJugador;
 import modelo.Juego;
 
-import javax.sound.midi.VoiceStatus;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

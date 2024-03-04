@@ -6,12 +6,8 @@ import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
@@ -90,12 +86,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         f.setBounds(300, 100, 40, 52);
         panel.add(f);
     }
-
-
-
-
-
-
 
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
