@@ -20,7 +20,7 @@ public class Tablero {
 
 
     // agrega una ficha en el extremo derecho.
-    public static void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta{
+    public static void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta {
         if (Tablero.extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
             int tableroDer = Tablero.extremoDerec.getDerecho();
             if (tableroDer == extremoDerec.getIzquierdo() || tableroDer == extremoDerec.getDerecho()) {
