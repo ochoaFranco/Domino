@@ -45,6 +45,18 @@ public class MenuJuego extends JDialog implements IVista {
         grupoBtn.setBounds(250, 60, 80, 20);
         panel.add(grupoBtn);
 
+        // calculo la posicion de la pantalla.
+        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = tamanioPantalla.width;
+        int screenHeight = tamanioPantalla.height;
+        int frameWidth = this.getWidth();
+        int frameHeight = this.getHeight();
+        int x = (screenWidth - frameWidth) / 2;
+        int y = (screenHeight - frameHeight) / 2;
+
+        // Set frame location
+        this.setLocation(x, y);
+
         this.getContentPane().add(panel);
 
         // Funcionalidad para un solo jugador.

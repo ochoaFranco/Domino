@@ -46,6 +46,16 @@ public class VistaConsola implements IVista {
         frame.add(new JScrollPane(consolaOutput), BorderLayout.CENTER);
         frame.add(inputPanel, BorderLayout.SOUTH);
 
+        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int screenWidth = tamanioPantalla.width;
+        int screenHeight = tamanioPantalla.height;
+        int frameWidth = frame.getWidth();
+        int frameHeight = frame.getHeight();
+        int x = (screenWidth - frameWidth) / 2;
+        int y = (screenHeight - frameHeight) / 2;
+
+        // Set frame location
+        frame.setLocation(x, y);
 
         // alta del jugador.
         altaJugador(nombre);
