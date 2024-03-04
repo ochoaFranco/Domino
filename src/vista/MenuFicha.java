@@ -6,9 +6,11 @@ import modelo.IJugador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MenuFicha extends JDialog implements IVista {
-
+    private JButton btn1, btn2, btn3;
 
     public MenuFicha() {
         setTitle("Domino");
@@ -23,22 +25,34 @@ public class MenuFicha extends JDialog implements IVista {
         label.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(label);
         // creo los botones
-        JButton btn1 = new JButton("Izquieda");
+        btn1 = new JButton("Izquieda");
         btn1.setBounds(140, 60, 100, 20);
 
         panel.add(btn1);
 
-        JButton btn2 = new JButton("Derecha");
+        btn2 = new JButton("Derecha");
         btn2.setBounds(250, 60, 100, 20);
         panel.add(btn2);
 
-        JButton btn3 = new JButton("Elegir otra ficha");
+        btn3 = new JButton("Elegir otra ficha");
         btn3.setBounds(170, 120, 138, 20);
         panel.add(btn3);
 
         this.getContentPane().add(panel);
-        mostrar();
     }
+
+    public void agregarListeners(VistaFicha f) {
+        btn3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                f.setVisible(true);
+                dispose();
+                VistaGrafica.decrementarClicks();
+            }
+        });
+    }
+
+
 
     @Override
     public void mostrarMensaje(String mensaje) {

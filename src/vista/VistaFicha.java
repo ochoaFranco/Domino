@@ -48,6 +48,8 @@ public class VistaFicha extends JLabel {
                     setVisible(false); // oculta la ficha.
                     VistaFicha.fichaEnMano = ficha;
                     MenuFicha menuFicha = new MenuFicha();
+                    menuFicha.agregarListeners(VistaFicha.this);
+                    menuFicha.mostrar();
                 }
                 System.out.printf("Tile on your hand: " + VistaFicha.fichaEnMano.getIzquierdo() + "|" + VistaFicha.fichaEnMano.getDerecho());
             }

@@ -131,6 +131,9 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public static void incrementarClicks() {
         VistaGrafica.cantClicks += 1;
     }
+    public static void decrementarClicks() {
+        VistaGrafica.cantClicks -=1;
+    }
 
     @Override
     public void mostrar() {
