@@ -100,11 +100,6 @@ public class Lobby implements IVista {
 
     }
 
-    @Override
-    public void mostrarFichasRecibidas(IJugador jugador) {
-
-    }
-
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {

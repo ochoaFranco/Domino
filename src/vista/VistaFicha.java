@@ -2,16 +2,10 @@ package vista;
 
 import modelo.IFicha;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.io.IOException;
-import java.net.URL;
 
 
 public class VistaFicha extends JLabel {
@@ -19,6 +13,7 @@ public class VistaFicha extends JLabel {
     private boolean elegida = false;
     private boolean isDoble;
     private boolean eventosMouseHabilitados;
+    private static IFicha fichaEnMano = null;
 
     public VistaFicha(IFicha ficha, boolean cambiarTamanio, boolean eventosMouseHabilitados) {
         this.ficha = ficha;
@@ -28,8 +23,6 @@ public class VistaFicha extends JLabel {
             agregarListeners(cambiarTamanio);
         }
         cargarImagen();
-
-
     }
 
     private void agregarListeners(boolean cambiarTamanio) {
@@ -50,7 +43,12 @@ public class VistaFicha extends JLabel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                setVisible(false); // oculta la ficha.
+                VistaGrafica.incrementarClicks();
+                if (!(VistaGrafica.getCantClicks() > 1)) {
+                    setVisible(false); // oculta la ficha.
+                    VistaFicha.fichaEnMano = ficha;
+                }
+                System.out.printf("Tile on your hand: " + VistaFicha.fichaEnMano.getIzquierdo() + "|" + VistaFicha.fichaEnMano.getDerecho());
             }
         });
     }
@@ -64,18 +62,6 @@ public class VistaFicha extends JLabel {
         setIcon(icon);
     }
 
-    public boolean isElegida() {
-        return elegida;
-    }
-
-    public void setElegida(boolean elegida) {
-        this.elegida = elegida;
-        if (elegida) {
-            setBorder(BorderFactory.createLineBorder(Color.RED)); // agrega un borde.
-        } else {
-            setBorder(null); // saca el borde.
-        }
-    }
 }
 
 

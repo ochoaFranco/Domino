@@ -144,10 +144,6 @@ public class Login  extends JDialog implements IVista {
 
     }
 
-    @Override
-    public void mostrarFichasRecibidas(IJugador jugador) {
-
-    }
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {

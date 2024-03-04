@@ -8,12 +8,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class VistaGrafica extends JFrame implements IVista {
+public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
     private Controlador controlador;
     private JPanel panel;
@@ -32,8 +33,8 @@ public class VistaGrafica extends JFrame implements IVista {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
-
         this.getContentPane().add(panel);
+        this.addMouseListener(this);
     }
 
 
@@ -55,13 +56,6 @@ public class VistaGrafica extends JFrame implements IVista {
         panel.revalidate();
         panel.repaint();
     }
-
-    @Override
-    public void mostrarFichasRecibidas(IJugador jugador) {
-
-    }
-
-
 
 
     // funcionalidad encargada de mostrar las fichas del jugador.
@@ -95,8 +89,6 @@ public class VistaGrafica extends JFrame implements IVista {
         VistaFicha f = new VistaFicha(ficha, false, false);
         f.setBounds(300, 100, 40, 52);
         panel.add(f);
-
-
     }
 
 
@@ -178,6 +170,34 @@ public class VistaGrafica extends JFrame implements IVista {
 
     @Override
     public void mostrarBoton() {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (getBounds().contains(e.getPoint()))
+            System.out.printf("Player clicked on the board\n");
+        else
+            System.out.printf("Player did not click on the board\n");
+    }
+
+    @Override
+    public void mousePressed(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent mouseEvent) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent mouseEvent) {
 
     }
 }

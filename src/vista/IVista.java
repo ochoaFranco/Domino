@@ -6,7 +6,6 @@ import modelo.IJugador;
 
 public interface IVista {
     void mostrarMensaje(String mensaje);
-    void mostrarFichasRecibidas(IJugador jugador);
     void mostrarFichasJugador(IJugador jugador);
     void mostrarFicha(IFicha ficha);
     void mostrar();

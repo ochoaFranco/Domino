@@ -88,11 +88,6 @@ public class MenuJuego extends JDialog implements IVista {
     }
 
     @Override
-    public void mostrarFichasRecibidas(IJugador jugador) {
-
-    }
-
-    @Override
     public void setControlador(Controlador controlador) {
 
     }

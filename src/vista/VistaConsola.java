@@ -80,13 +80,6 @@ public class VistaConsola implements IVista {
         consolaOutput.append(mensaje);
     }
 
-    @Override
-    public void mostrarFichasRecibidas(IJugador jugador) {
-        String ficha = "|" + jugador.getUltimaFicha().getIzquierdo() + "|" + jugador.getUltimaFicha().getDerecho() + "|  \n";
-        consolaOutput.append(ficha);
-    }
-
-
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
@@ -139,8 +132,50 @@ public class VistaConsola implements IVista {
         ArrayList<IFicha> FichasVerticalesIzquierdas = new ArrayList<>();
         ArrayList<IFicha> fichasVerticalesDerechas = new ArrayList<>();
 
+        buscarFichasVerticales((ArrayList<IFicha>) o, fichasVerticalesDerechas, FichasVerticalesIzquierdas);
+
+        //Muestro las fichas verticales derechas.
+        mostrarFichasVerticales(fichasVerticalesDerechas, ficha, espacios);
+
+        // mostrar ficha horizontal.
+        mostrarFichasHorizontales((ArrayList<IFicha>) o, ficha);
+
+        // mostrar fichas verticales izquierdas.
+        mostrarFichasVerticalesIzq(FichasVerticalesIzquierdas, ficha);
+
+        consolaOutput.append(ficha.toString());
+        consolaOutput.append("\n-------------------------------------------------------------\n");
+    }
+
+    private static void mostrarFichasVerticalesIzq(ArrayList<IFicha> FichasVerticalesIzquierdas, StringBuilder ficha) {
+        Collections.reverse(FichasVerticalesIzquierdas);
+        if (!FichasVerticalesIzquierdas.isEmpty()) {
+            for (IFicha f : FichasVerticalesIzquierdas) {
+                ficha.append("\n|").append(f.getDerecho()).append("|\n").append("|").append(f.getIzquierdo()).append("|").append(" ");
+            }
+        }
+    }
+
+    private static void mostrarFichasHorizontales(ArrayList<IFicha> o, StringBuilder ficha) {
+        for (IFicha f : o) {
+            if (!f.isVertical()) {
+                ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
+            }
+        }
+    }
+
+    private static void mostrarFichasVerticales(ArrayList<IFicha> fichasVerticalesDerechas, StringBuilder ficha, String espacios) {
+        Collections.reverse(fichasVerticalesDerechas);
+        if (!fichasVerticalesDerechas.isEmpty()) {
+            for (IFicha f : fichasVerticalesDerechas) {
+                ficha.append(espacios).append("|").append(f.getDerecho()).append("|\n").append(espacios + "|").append(f.getIzquierdo()).append("|").append("\n");
+            }
+        }
+    }
+
+    private static void buscarFichasVerticales(ArrayList<IFicha> o, ArrayList<IFicha> fichasVerticalesDerechas, ArrayList<IFicha> FichasVerticalesIzquierdas) {
         // Busco tiles verticales.
-        for (IFicha f : (ArrayList<IFicha>)o) {
+        for (IFicha f : o) {
             if (f.isVertical()) {
                 if (f.isDerecho()) {
                     if (!fichasVerticalesDerechas.contains(f))
@@ -151,32 +186,6 @@ public class VistaConsola implements IVista {
                 }
             }
         }
-
-        //Muestro las fichas verticales derechas.
-        Collections.reverse(fichasVerticalesDerechas);
-        if (!fichasVerticalesDerechas.isEmpty()) {
-            for (IFicha f : fichasVerticalesDerechas) {
-                ficha.append(espacios).append("|").append(f.getDerecho()).append("|\n").append(espacios + "|").append(f.getIzquierdo()).append("|").append("\n");
-            }
-        }
-
-        // mostrar ficha horizontal.
-        for (IFicha f : (ArrayList<IFicha>)o) {
-            if (!f.isVertical()) {
-                ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");
-            }
-        }
-
-        // mostrar fichas verticales izquierdas.
-        Collections.reverse(FichasVerticalesIzquierdas);
-        if (!FichasVerticalesIzquierdas.isEmpty()) {
-            for (IFicha f : FichasVerticalesIzquierdas) {
-                ficha.append("\n|").append(f.getDerecho()).append("|\n").append("|").append(f.getIzquierdo()).append("|").append(" ");
-            }
-        }
-
-        consolaOutput.append(ficha.toString());
-        consolaOutput.append("\n-------------------------------------------------------------\n");
     }
 
     // establezco la cantidad maxima de jugadores.
