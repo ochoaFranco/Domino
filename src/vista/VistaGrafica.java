@@ -87,10 +87,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         IFicha ficha = vistaFicha.getFicha();
         try {
             VistaGrafica.controlador.gestionarTurnos(ficha.getIzquierdo(), ficha.getDerecho(), extremo);
-        } catch (FichaIncorrecta | FichaInexistente f) {
-            System.out.printf("WRONG TILE!!!!");
+        } catch (FichaIncorrecta f) {
+            System.out.printf("WRONG TILE!!!!\n");
             vistaFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
+        } catch (FichaInexistente i) {
+            System.out.printf("The tile does not exist!!!\n");
         }
     }
 
@@ -169,7 +171,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
+        VistaGrafica.controlador = controlador;
         if (nombre != null)
             controlador.conectarJugador(nombre);
     }

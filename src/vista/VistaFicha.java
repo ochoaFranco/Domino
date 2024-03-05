@@ -53,6 +53,7 @@ public class VistaFicha extends JLabel {
                     setVisible(false); // oculta la ficha.
                     VistaFicha.fichaEnMano = ficha;
                     MenuFicha menuFicha = new MenuFicha();
+                    MenuFicha.setJugar(true);
                     menuFicha.agregarListeners(VistaFicha.this);
                     menuFicha.mostrar();
                 }

@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 public class MenuFicha extends JDialog implements IVista {
     private JButton izquierdaBtn, derechaBtn, salirBtn;
+    private static boolean jugar = false;
 
     public MenuFicha() {
         setTitle("Domino");
@@ -59,11 +60,14 @@ public class MenuFicha extends JDialog implements IVista {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 f.setVisible(true); // devuelvo la ficha y cierro la ventana.
+                jugar = false;
                 dispose();
                 VistaGrafica.decrementarClicks();
             }
         });
+
     }
+
 
     // se juega la ficha en el lado izquierdo.
     private void jugarFichaIzq(VistaFicha f) {
@@ -71,21 +75,36 @@ public class MenuFicha extends JDialog implements IVista {
         izquierdaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                VistaGrafica.realizarJugada("i", f);
-                dispose();
+                if (jugar) {
+                    VistaGrafica.realizarJugada("i", f);
+                    jugar = false;
+                    dispose();
+                }
             }
         });
     }
 
+
     private void jugarFichaDerec(VistaFicha f) {
         IFicha ficha = f.getFicha();
-        izquierdaBtn.addActionListener(new ActionListener() {
+        derechaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                VistaGrafica.realizarJugada("d", f);
-                dispose();
+                if (jugar) {
+                    VistaGrafica.realizarJugada("d", f);
+                    jugar = false;
+                    dispose();
+                }
             }
         });
+    }
+
+    public static boolean isJugar() {
+        return jugar;
+    }
+
+    public static void setJugar(boolean jugar) {
+        MenuFicha.jugar = jugar;
     }
 
 
