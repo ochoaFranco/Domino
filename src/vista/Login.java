@@ -69,16 +69,7 @@ public class Login  extends JDialog implements IVista {
         panel.add(okayBtn);
 
         // calculo tamanio pantalla.
-        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = tamanioPantalla.width;
-        int screenHeight = tamanioPantalla.height;
-        int frameWidth = this.getWidth();
-        int frameHeight = this.getHeight();
-        int x = (screenWidth - frameWidth) / 2;
-        int y = (screenHeight - frameHeight) / 2;
-
-        // Set frame location
-        this.setLocation(x, y);
+        this.setLocationRelativeTo(null);
 
 
 

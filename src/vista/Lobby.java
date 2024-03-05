@@ -48,17 +48,7 @@ public class Lobby implements IVista {
 
         // calculo tamanio pantalla.
 
-        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = tamanioPantalla.width;
-        int screenHeight = tamanioPantalla.height;
-        int frameWidth = frame.getWidth();
-        int frameHeight = frame.getHeight();
-        int x = (screenWidth - frameWidth) / 2;
-        int y = (screenHeight - frameHeight) / 2;
-
-        // Set frame location
-        frame.setLocation(x, y);
-
+        frame.setLocationRelativeTo(null);
 
         // Funcionalidad del boton.
 

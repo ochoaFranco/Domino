@@ -25,6 +25,10 @@ public class VistaFicha extends JLabel {
         cargarImagen();
     }
 
+    public IFicha getFicha() {
+        return ficha;
+    }
+
     private void agregarListeners(boolean cambiarTamanio) {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -44,6 +48,7 @@ public class VistaFicha extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 VistaGrafica.incrementarClicks();
+                // maneja cuando un jugador tiene la ficha en la mano.
                 if (!(VistaGrafica.getCantClicks() > 1)) {
                     setVisible(false); // oculta la ficha.
                     VistaFicha.fichaEnMano = ficha;
@@ -55,8 +60,6 @@ public class VistaFicha extends JLabel {
             }
         });
     }
-
-
 
     private void cargarImagen() {
         String nombreArchivo = "img/" + ficha.getIzquierdo() + "-" + ficha.getDerecho() + ".png";

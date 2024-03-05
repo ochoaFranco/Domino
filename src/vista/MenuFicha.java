@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuFicha extends JDialog implements IVista {
-    private JButton btn1, btn2, btn3;
+    private JButton izquierdaBtn, derechaBtn, salirBtn;
 
     public MenuFicha() {
         setTitle("Domino");
@@ -25,45 +25,68 @@ public class MenuFicha extends JDialog implements IVista {
         label.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(label);
         // creo los botones
-        btn1 = new JButton("Izquieda");
-        btn1.setBounds(140, 60, 100, 20);
+        izquierdaBtn = new JButton("Izquieda");
+        izquierdaBtn.setBounds(140, 60, 100, 20);
 
-        panel.add(btn1);
+        panel.add(izquierdaBtn);
 
-        btn2 = new JButton("Derecha");
-        btn2.setBounds(250, 60, 100, 20);
-        panel.add(btn2);
+        derechaBtn = new JButton("Derecha");
+        derechaBtn.setBounds(250, 60, 100, 20);
+        panel.add(derechaBtn);
 
-        btn3 = new JButton("Elegir otra ficha");
-        btn3.setBounds(170, 120, 138, 20);
-        panel.add(btn3);
+        salirBtn = new JButton("Elegir otra ficha");
+        salirBtn.setBounds(170, 120, 138, 20);
+        panel.add(salirBtn);
 
         // calculo la posicion en la pantalla
-        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = tamanioPantalla.width;
-        int screenHeight = tamanioPantalla.height;
-        int frameWidth = this.getWidth();
-        int frameHeight = this.getHeight();
-        int x = (screenWidth - frameWidth) / 2;
-        int y = (screenHeight - frameHeight) / 2;
-
-        // Set frame location
-        this.setLocation(x, y);
+        this.setLocationRelativeTo(null);
 
         this.getContentPane().add(panel);
     }
 
+
     public void agregarListeners(VistaFicha f) {
-        btn3.addActionListener(new ActionListener() {
+        IFicha ficha = f.getFicha();
+        // funcionalidad para elegir otra ficha.
+        elegirOtraFicha(f);
+        // listeners para extremo izq o derec.
+        jugarFichaIzq(f);
+        jugarFichaDerec(f);
+    }
+
+    private void elegirOtraFicha(VistaFicha f) {
+        salirBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                f.setVisible(true);
+                f.setVisible(true); // devuelvo la ficha y cierro la ventana.
                 dispose();
                 VistaGrafica.decrementarClicks();
             }
         });
     }
 
+    // se juega la ficha en el lado izquierdo.
+    private void jugarFichaIzq(VistaFicha f) {
+        IFicha ficha = f.getFicha();
+        izquierdaBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                VistaGrafica.realizarJugada("i", f);
+                dispose();
+            }
+        });
+    }
+
+    private void jugarFichaDerec(VistaFicha f) {
+        IFicha ficha = f.getFicha();
+        izquierdaBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                VistaGrafica.realizarJugada("d", f);
+                dispose();
+            }
+        });
+    }
 
 
     @Override

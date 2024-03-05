@@ -3,6 +3,8 @@ package vista;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
+import modelo.exceptions.FichaIncorrecta;
+import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
-    private Controlador controlador;
+    private static Controlador controlador;
     private JPanel panel;
     private static int cantMensajes = 0;
     private static IFicha primeraFicha;
@@ -30,20 +32,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.setLayout(null);
 
         // tamanio pantalla
-        Dimension tamanioPantalla = Toolkit.getDefaultToolkit().getScreenSize();
-        int screenWidth = tamanioPantalla.width;
-        int screenHeight = tamanioPantalla.height;
-        int frameWidth = this.getWidth();
-        int frameHeight = this.getHeight();
-        int x = (screenWidth - frameWidth) / 2;
-        int y = (screenHeight - frameHeight) / 2;
-
-        // Set frame location
-        this.setLocation(x, y);
-
-
-
-
+        setLocationRelativeTo(null);
         this.getContentPane().add(panel);
         this.addMouseListener(this);
     }
@@ -90,6 +79,19 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.revalidate();
         panel.repaint();
 
+    }
+
+    //TODO add funcionality for adding new tiles on the board.
+    public static void realizarJugada(String extremo, VistaFicha vFicha) {
+        VistaFicha vistaFicha = vFicha;
+        IFicha ficha = vistaFicha.getFicha();
+        try {
+            VistaGrafica.controlador.gestionarTurnos(ficha.getIzquierdo(), ficha.getDerecho(), extremo);
+        } catch (FichaIncorrecta | FichaInexistente f) {
+            System.out.printf("WRONG TILE!!!!");
+            vistaFicha.setVisible(true);
+            VistaGrafica.decrementarClicks();
+        }
     }
 
 
