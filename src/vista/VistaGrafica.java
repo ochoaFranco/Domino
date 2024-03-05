@@ -20,6 +20,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
     private JButton robarBtn;
+    JLabel mensaje = new JLabel();
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -44,6 +45,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
 
+    private static void reiniciarLabels() {
+
+    }
+
     public static int getCantClicks() {
         return cantClicks;
     }
@@ -58,17 +63,18 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarMensaje(String mensaje) {
         // calculo la posicion del mensaj en la pantalla.
         int x = 30;
-        int y = 200 + cantMensajes * 50;
+        int y = 350;
         mostrarMensaje(mensaje, x, y);
-        VistaGrafica.cantMensajes += 1;
     }
 
-    public void mostrarMensaje(String mensaje, int x, int y) {
-        JLabel lbl = new JLabel(mensaje);
-        lbl.setForeground(Color.black);
-        lbl.setFont(new Font("Arial", Font.BOLD, 18));
-        lbl.setBounds(x, y, 400, 40);
-        panel.add(lbl);
+
+
+    public void mostrarMensaje(String msj, int x, int y) {
+        mensaje.setText(msj);
+        mensaje.setForeground(Color.black);
+        mensaje.setFont(new Font("Arial", Font.BOLD, 18));
+        mensaje.setBounds(x, y, 400, 40);
+        panel.add(mensaje);
         panel.revalidate();
         panel.repaint();
     }
