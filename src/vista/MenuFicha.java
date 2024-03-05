@@ -79,6 +79,7 @@ public class MenuFicha extends JDialog implements IVista {
                     VistaGrafica.realizarJugada("i", f);
                     jugar = false;
                     dispose();
+                    VistaGrafica.decrementarClicks();
                 }
             }
         });
@@ -94,6 +95,7 @@ public class MenuFicha extends JDialog implements IVista {
                     VistaGrafica.realizarJugada("d", f);
                     jugar = false;
                     dispose();
+                    VistaGrafica.decrementarClicks();
                 }
             }
         });

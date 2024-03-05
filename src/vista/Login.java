@@ -13,15 +13,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Login  extends JDialog implements IVista {
-
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
     private Juego juego;
     private static boolean isJuegoIniciado = false;
-    private static IVista vistaConsola = null;
-    private static IVista vistaGrafica = null;
     private static int cantVentanasAbiertas = 0;
     private final static int cantMaxVentanasAbiertas = 2;
 
@@ -41,27 +38,16 @@ public class Login  extends JDialog implements IVista {
         panel.setLayout(null);
 
         // atributos de los labels.
-        JLabel lblNombre = new JLabel("Nombre");
-        lblNombre.setBounds(80, 20, 100, 20);
-        lblNombre.setForeground(Color.white);
-        lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
-        panel.add(lblNombre);
+        agregarLabels(panel);
 
-        JLabel lblConsola = new JLabel("Interfaz");
-        lblConsola.setBounds(80, 50, 100, 20);
-        lblConsola.setForeground(Color.white);
-        lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
-        panel.add(lblConsola);
+        agregarLblConsola(panel);
 
         // agrego los text fields
         txtF1.setBounds(180, 20, 100, 20);
         panel.add(txtF1);
 
         // Agrego un menu de opciones.
-        String[] interfazOpciones = {"Grafica", "Consola"};
-        interfazComboBox = new JComboBox<>(interfazOpciones);
-        interfazComboBox.setBounds(180, 50, 100, 20);
-        panel.add(interfazComboBox);
+        agregarMenuOpciones(panel);
 
         // agrego los botones.
         JButton okayBtn = new JButton("Ok");
@@ -70,10 +56,6 @@ public class Login  extends JDialog implements IVista {
 
         // calculo tamanio pantalla.
         this.setLocationRelativeTo(null);
-
-
-
-
 
 
         this.getContentPane().add(panel);
@@ -106,6 +88,28 @@ public class Login  extends JDialog implements IVista {
         });
     }
 
+    private void agregarMenuOpciones(JPanel panel) {
+        String[] interfazOpciones = {"Grafica", "Consola"};
+        interfazComboBox = new JComboBox<>(interfazOpciones);
+        interfazComboBox.setBounds(180, 50, 100, 20);
+        panel.add(interfazComboBox);
+    }
+
+    private void agregarLblConsola(JPanel panel) {
+        JLabel lblConsola = new JLabel("Interfaz");
+        lblConsola.setBounds(80, 50, 100, 20);
+        lblConsola.setForeground(Color.white);
+        lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
+        panel.add(lblConsola);
+    }
+
+    private void agregarLabels(JPanel panel) {
+        JLabel lblNombre = new JLabel("Nombre");
+        lblNombre.setBounds(80, 20, 100, 20);
+        lblNombre.setForeground(Color.white);
+        lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
+        panel.add(lblNombre);
+    }
 
 
     // funcionalidad para el clicked btn
@@ -127,7 +131,6 @@ public class Login  extends JDialog implements IVista {
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
-
 
 
         // si es gui ejecuto el juego.

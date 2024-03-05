@@ -63,10 +63,20 @@ public class VistaFicha extends JLabel {
     }
 
     private void cargarImagen() {
-        String nombreArchivo = "img/" + ficha.getIzquierdo() + "-" + ficha.getDerecho() + ".png";
+        String nombreArchivo = "";
+        if (ficha.isDadaVuelta())
+            nombreArchivo = "img/" + ficha.getDerecho() + "-" + ficha.getIzquierdo() + ".png";
+        else
+            nombreArchivo = "img/" + ficha.getIzquierdo() + "-" + ficha.getDerecho() + ".png";
+
         // cargar imagen.
-        ImageIcon icon = new ImageIcon(getClass().getResource(nombreArchivo));
-        setIcon(icon);
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource(nombreArchivo));
+            setIcon(icon);
+        } catch (NullPointerException n) {
+            System.out.printf("The value is null");
+        }
+
     }
 
 }

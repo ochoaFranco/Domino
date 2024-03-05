@@ -44,6 +44,16 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
 
+    public static int getCantClicks() {
+        return cantClicks;
+    }
+    public static void incrementarClicks() {
+        VistaGrafica.cantClicks += 1;
+    }
+    public static void decrementarClicks() {
+        VistaGrafica.cantClicks -=1;
+    }
+
     @Override
     public void mostrarMensaje(String mensaje) {
         // calculo la posicion del mensaj en la pantalla.
@@ -84,7 +94,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         }
         panel.revalidate();
         panel.repaint();
-
     }
 
     //TODO add funcionality for adding new tiles on the board.
@@ -111,6 +120,30 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         f.setBounds(300, 100, 40, 52);
         panel.add(f);
     }
+
+    @Override
+    public void mostrarTablero(Object o) {
+        int x = 300;
+        int y = 100;
+        int offsetX = 0;
+        int offsetY= 0;
+        int width = 40;
+        int height = 52;
+
+        for (IFicha f : (ArrayList<IFicha>) o) {
+            VistaFicha vistaFicha = new VistaFicha(f, false, false);
+            if (!f.isVertical()) {
+                vistaFicha.setBounds(x + offsetX, y, width, height);
+                offsetX += 35;
+                panel.add(vistaFicha);
+            }
+        }
+        panel.revalidate();
+        panel.repaint();
+
+    }
+
+
 
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
@@ -150,25 +183,13 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
 
-    public static int getCantClicks() {
-        return cantClicks;
-    }
-    public static void incrementarClicks() {
-        VistaGrafica.cantClicks += 1;
-    }
-    public static void decrementarClicks() {
-        VistaGrafica.cantClicks -=1;
-    }
 
     @Override
     public void mostrar() {
         setVisible(true);
     }
 
-    @Override
-    public void mostrarTablero(Object o) {
 
-    }
 
     @Override
     public void mostrarTablaPuntos(Object o) {
@@ -193,10 +214,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (getBounds().contains(e.getPoint()))
-            System.out.printf("Player clicked on the board\n");
-        else
-            System.out.printf("Player did not click on the board\n");
+
     }
 
     @Override
