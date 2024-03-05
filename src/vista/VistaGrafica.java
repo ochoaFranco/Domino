@@ -19,6 +19,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private static int cantMensajes = 0;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
+    private JButton robarBtn;
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -30,6 +31,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // creo un panel junto con su backgorund.
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
+
+        // agrego boton
+        robarBtn = new JButton("Robar");
+        robarBtn.setBounds(670, 350, 100, 20);
+        panel.add(robarBtn);
 
         // tamanio pantalla
         setLocationRelativeTo(null);
