@@ -104,13 +104,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     //TODO add funcionality for adding new tiles on the board.
     public static void realizarJugada(String extremo, VistaFicha vFicha) {
-        VistaFicha vistaFicha = vFicha;
-        IFicha ficha = vistaFicha.getFicha();
+        IFicha ficha = vFicha.getFicha();
         try {
             VistaGrafica.controlador.gestionarTurnos(ficha.getIzquierdo(), ficha.getDerecho(), extremo);
         } catch (FichaIncorrecta f) {
             System.out.printf("WRONG TILE!!!!\n");
-            vistaFicha.setVisible(true);
+            vFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
         } catch (FichaInexistente i) {
             System.out.printf("The tile does not exist!!!\n");
@@ -139,18 +138,21 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false);
             if (!f.isVertical()) {
-                vistaFicha.setBounds(x + offsetX, y, width, height);
-                offsetX += 35;
+                if (f.isDerecho()) {
+                    vistaFicha.setBounds(x + offsetX, y, width, height);
+                    offsetX += 35;
+
+                } else {
+                    offsetX -= 30;
+                    vistaFicha.setBounds(x + offsetX, y, width, height);
+                }
                 panel.add(vistaFicha);
             }
         }
         panel.revalidate();
         panel.repaint();
-
     }
-
-
-
+    
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
 //    private void rotarImagenWrapper(VistaFicha f, int x, int y, boolean isDoble) {

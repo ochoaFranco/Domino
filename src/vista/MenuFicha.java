@@ -10,7 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuFicha extends JDialog implements IVista {
-    private JButton izquierdaBtn, derechaBtn, salirBtn;
+    private JButton izquierdaBtn;
+    private JButton derechaBtn;
+    private JButton salirBtn;
     private static boolean jugar = false;
 
     public MenuFicha() {
@@ -71,7 +73,6 @@ public class MenuFicha extends JDialog implements IVista {
 
     // se juega la ficha en el lado izquierdo.
     private void jugarFichaIzq(VistaFicha f) {
-        IFicha ficha = f.getFicha();
         izquierdaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -87,7 +88,6 @@ public class MenuFicha extends JDialog implements IVista {
 
 
     private void jugarFichaDerec(VistaFicha f) {
-        IFicha ficha = f.getFicha();
         derechaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
