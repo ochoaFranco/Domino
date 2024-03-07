@@ -74,7 +74,7 @@ public class VistaFicha extends JLabel {
             ImageIcon icon = new ImageIcon(getClass().getResource(nombreArchivo));
             setIcon(icon);
         } catch (NullPointerException n) {
-            System.out.printf("The value is null");
+            throw new RuntimeException();
         }
 
     }

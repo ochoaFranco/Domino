@@ -8,6 +8,8 @@ import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -42,12 +44,20 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setLocationRelativeTo(null);
         this.getContentPane().add(panel);
         this.addMouseListener(this);
+
+        robarBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                actualizarManoJugador();
+            }
+        });
     }
 
-
-    private static void reiniciarLabels() {
-
+    // se roba una ficha.
+    private void actualizarManoJugador() {
+        controlador.robarFicha();
     }
+
 
     public static int getCantClicks() {
         return cantClicks;
@@ -91,6 +101,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     public void mostrarFichasJugador(IJugador jugador, int x, int y)  {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
+        limpiarFichasJugador(fichas);
         int i = 0;
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha, true, true);
@@ -100,6 +111,19 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         }
         panel.revalidate();
         panel.repaint();
+    }
+
+    // limpia las fichas del jugador.
+    private void limpiarFichasJugador(ArrayList<IFicha> fichasJ) {
+        Component[] componentes = panel.getComponents();
+        for (Component c: componentes) {
+            if (c instanceof VistaFicha) {
+                IFicha f =  ((VistaFicha )c).getFicha();
+                boolean estaEnTablero = f.getIzquierdo() == primeraFicha.getIzquierdo() && f.getDerecho() == primeraFicha.getDerecho();
+                if (fichasJ.contains(((VistaFicha) c).getFicha()) ||  estaEnTablero)
+                    panel.remove(c);
+            }
+        }
     }
 
     //TODO add funcionality for adding new tiles on the board.
@@ -113,6 +137,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             VistaGrafica.decrementarClicks();
         } catch (FichaInexistente i) {
             System.out.printf("The tile does not exist!!!\n");
+            vFicha.setVisible(true);
+            VistaGrafica.decrementarClicks();
         }
     }
 
