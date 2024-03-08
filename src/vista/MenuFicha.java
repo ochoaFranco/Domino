@@ -72,12 +72,12 @@ public class MenuFicha extends JDialog implements IVista {
 
 
     // se juega la ficha en el lado izquierdo.
-    private void jugarFichaIzq(VistaFicha f) {
+    private void jugarFichaIzq(VistaFicha original) {
         izquierdaBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (jugar) {
-                    VistaGrafica.realizarJugada("i", f);
+                    VistaGrafica.realizarJugada("i", original);
                     jugar = false;
                     dispose();
                     VistaGrafica.decrementarClicks();

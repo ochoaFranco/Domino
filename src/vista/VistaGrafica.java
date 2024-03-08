@@ -101,14 +101,18 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     public void mostrarFichasJugador(IJugador jugador, int x, int y)  {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
-        limpiarFichasJugador(fichas);
         int i = 0;
+
+        if (primeraFicha != null)
+            limpiarFichasJugador(fichas);
+
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha, true, true);
             fichaComponente.setBounds(x + i, y, 50, 100);
             panel.add(fichaComponente);
             i += 35;
         }
+
         panel.revalidate();
         panel.repaint();
     }
@@ -120,8 +124,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             if (c instanceof VistaFicha) {
                 IFicha f =  ((VistaFicha )c).getFicha();
                 boolean estaEnTablero = f.getIzquierdo() == primeraFicha.getIzquierdo() && f.getDerecho() == primeraFicha.getDerecho();
-                if (fichasJ.contains(((VistaFicha) c).getFicha()) ||  estaEnTablero)
-                    panel.remove(c);
+                if (fichasJ.contains(((VistaFicha) c).getFicha()) )
+                    ((VistaFicha)c).eliminarFicha();
             }
         }
     }
@@ -169,7 +173,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                     offsetX += 35;
 
                 } else {
-                    offsetX -= 30;
+                    offsetX -= 40;
                     vistaFicha.setBounds(x + offsetX, y, width, height);
                 }
                 panel.add(vistaFicha);

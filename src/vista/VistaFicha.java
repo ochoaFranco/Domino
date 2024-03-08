@@ -76,7 +76,10 @@ public class VistaFicha extends JLabel {
         } catch (NullPointerException n) {
             throw new RuntimeException();
         }
+    }
 
+    public void eliminarFicha() {
+        getParent().remove(VistaFicha.this);
     }
 
 }
