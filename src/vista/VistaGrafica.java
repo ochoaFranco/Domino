@@ -1,6 +1,7 @@
 package vista;
 
 import controlador.Controlador;
+import modelo.Ficha;
 import modelo.IFicha;
 import modelo.IJugador;
 import modelo.exceptions.FichaIncorrecta;
@@ -14,6 +15,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+/* TODO
+* HACER QUE EL TABLERO COMPONENTE Y EL JUGADORCOMPONENTE CHECKEEN SI SUS FICHAS FUERON AGREGADAS O  NO.
+* */
+
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
     private static Controlador controlador;
@@ -21,6 +26,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private static int cantMensajes = 0;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
+    private static int offsetFicha = 1;
+    private static int fichasJugadorMostradas = 0;
+    private static ArrayList<VistaFicha> compoenentesEnTablero = new ArrayList<>();
+    private static ArrayList<VistaFicha> compoenentesEnJugadores = new ArrayList<>();
     private JButton robarBtn;
     JLabel mensaje = new JLabel();
 
@@ -107,25 +116,51 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             limpiarFichasJugador(fichas);
 
         for (IFicha ficha: fichas) {
-            VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
-            fichaComponente.setBounds(x + i, y, 50, 100);
-            panel.add(fichaComponente);
-            i += 35;
+            if (VistaGrafica.fichasJugadorMostradas == 2) { // cantJugadores.
+                colocarComponenteFichaEnTablero(x, y, ficha, i);
+            } else {
+                if (!existeComponenteEnTablero(ficha)) {
+                    i = colocarComponenteFichaEnTablero(x, y, ficha, i);
+                }
+            }
         }
-
+        VistaGrafica.fichasJugadorMostradas += 1;
         panel.revalidate();
         panel.repaint();
     }
 
+
+    // recibe las coordenadas, una ficha y una variable que sirve como offset y coloca un componenteFicha en el tablero.
+    private int colocarComponenteFichaEnTablero(int x, int y, IFicha ficha, int i) {
+        VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
+        fichaComponente.setBounds(x + i, y, 50, 100);
+        panel.add(fichaComponente);
+        i += 35;
+        VistaGrafica.compoenentesEnTablero.add(fichaComponente);
+        return i;
+    }
+
+    // Recibe una ficha y devuelve un booleano que indica si existe el componente en el tablero.
+    private boolean existeComponenteEnTablero(IFicha ficha) {
+        for (VistaFicha vistaFicha: VistaGrafica.compoenentesEnTablero) {
+            IFicha f = vistaFicha.getFicha();
+            if (f.getIzquierdo() == ficha.getIzquierdo() && f.getDerecho() == ficha.getDerecho())
+                return true;
+        }
+        return false;
+    }
+
+
+
     // limpia las fichas del jugador.
     private void limpiarFichasJugador(ArrayList<IFicha> fichasJ) {
-        Component[] componentes = panel.getComponents();
-        for (Component c: componentes) {
-            if (c instanceof VistaFicha) {
-                if (fichasJ.contains(((VistaFicha) c).getFicha()))
-                    ((VistaFicha)c).eliminarFicha();
-            }
-        }
+//        Component[] componentes = panel.getComponents();
+//        for (Component c: componentes) {
+//            if (c instanceof VistaFicha) {
+//                if (fichasJ.contains(((VistaFicha) c).getFicha()))
+//                    ((VistaFicha)c).eliminarFicha();
+//            }
+//        }
     }
 
     //TODO add funcionality for adding new tiles on the board.
@@ -165,17 +200,18 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            if (!f.isVertical()) {
-                if (f.isDerecho()) {
-                    vistaFicha.setBounds(x + offsetX, y, width, height);
-                    offsetX += 35;
+            if (existeComponenteEnTablero(f))
+                continue;
+            if (f.isDerecho()) {
+                vistaFicha.setBounds(x + offsetX, y, width, height);
+                offsetX += 45 * VistaGrafica.offsetFicha;
 
-                } else {
-                    offsetX -= 40;
-                    vistaFicha.setBounds(x + offsetX, y, width, height);
-                }
-                panel.add(vistaFicha);
+            } else {
+                offsetX -= 40;
+                vistaFicha.setBounds(x + offsetX, y, width, height);
             }
+            panel.add(vistaFicha);
+            VistaGrafica.offsetFicha += 1;
         }
         panel.revalidate();
         panel.repaint();
