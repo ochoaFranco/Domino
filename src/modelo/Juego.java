@@ -30,6 +30,20 @@ public class Juego implements IJuego, ISubject {
         observers = new ArrayList<>();
     }
 
+    public static List<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public static Pozo getPozo() {
+        return pozo;
+    }
+
+    public IJugador getTurno() {
+        return turno;
+    }
+
+
+
     @Override
     public Jugador conectarJugador(String nombre) {
         Jugador jugador = new Jugador(nombre);
@@ -66,7 +80,7 @@ public class Juego implements IJuego, ISubject {
 
                 }
             }
-            notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
+//            notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
         }
     }
 
@@ -292,18 +306,6 @@ public class Juego implements IJuego, ISubject {
         colaTurnos.offer(jugador);
         determinarJugadorTurno(); // actualizo el turno
         notifyObserver(Evento.PASAR_TURNO, turno);
-    }
-
-    public static List<Jugador> getJugadores() {
-        return jugadores;
-    }
-
-    public static Pozo getPozo() {
-        return pozo;
-    }
-
-    public IJugador getTurno() {
-        return turno;
     }
 
     @Override

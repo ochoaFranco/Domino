@@ -14,11 +14,14 @@ public class VistaFicha extends JLabel {
     private boolean isDoble;
     private boolean eventosMouseHabilitados;
     private static IFicha fichaEnMano = null;
+    private boolean primeraFicha = false;
 
-    public VistaFicha(IFicha ficha, boolean cambiarTamanio, boolean eventosMouseHabilitados) {
+    public VistaFicha(IFicha ficha, boolean cambiarTamanio, boolean eventosMouseHabilitados, boolean primeraFicha) {
         this.ficha = ficha;
         this.isDoble = ficha.esFichaDoble();
         this.eventosMouseHabilitados = eventosMouseHabilitados;
+        this.primeraFicha = primeraFicha;
+
         if (eventosMouseHabilitados) {
             agregarListeners(cambiarTamanio);
         }
@@ -27,6 +30,10 @@ public class VistaFicha extends JLabel {
 
     public IFicha getFicha() {
         return ficha;
+    }
+
+    public boolean isPrimeraFicha() {
+        return primeraFicha;
     }
 
     private void agregarListeners(boolean cambiarTamanio) {
@@ -62,8 +69,10 @@ public class VistaFicha extends JLabel {
         });
     }
 
+
+
     private void cargarImagen() {
-        String nombreArchivo = "";
+        String nombreArchivo;
         if (ficha.isDadaVuelta())
             nombreArchivo = "img/" + ficha.getDerecho() + "-" + ficha.getIzquierdo() + ".png";
         else

@@ -56,8 +56,9 @@ public class Controlador implements IObserver {
                     vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
                     vista.ocultarBoton();
                 }
-
+                vista.mostrarFichasJugador(jugador);
                 break;
+
             case CAMBIO_RONDA:
                 vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
                 vista.mostrarTablaPuntos(o2);
@@ -65,7 +66,6 @@ public class Controlador implements IObserver {
                 break;
         }
     }
-
     @Override
     public void update(Evento e, Object o) {
         switch (e) {

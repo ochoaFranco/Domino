@@ -49,7 +49,7 @@ public class Jugador implements IJugador {
     public IFicha getUltimaFicha() {
         return fichas.get(fichas.size() - 1);
     }
-
+    @Override
     public ArrayList<IFicha> getFichas() {
         return fichas;
     }

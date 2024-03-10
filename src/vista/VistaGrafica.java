@@ -107,7 +107,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             limpiarFichasJugador(fichas);
 
         for (IFicha ficha: fichas) {
-            VistaFicha fichaComponente = new VistaFicha(ficha, true, true);
+            VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
             fichaComponente.setBounds(x + i, y, 50, 100);
             panel.add(fichaComponente);
             i += 35;
@@ -122,9 +122,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         Component[] componentes = panel.getComponents();
         for (Component c: componentes) {
             if (c instanceof VistaFicha) {
-                IFicha f =  ((VistaFicha )c).getFicha();
-                boolean estaEnTablero = f.getIzquierdo() == primeraFicha.getIzquierdo() && f.getDerecho() == primeraFicha.getDerecho();
-                if (fichasJ.contains(((VistaFicha) c).getFicha()) )
+                if (fichasJ.contains(((VistaFicha) c).getFicha()))
                     ((VistaFicha)c).eliminarFicha();
             }
         }
@@ -151,7 +149,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void mostrarFicha(IFicha ficha) {
         VistaGrafica.primeraFicha = ficha;
-        VistaFicha f = new VistaFicha(ficha, false, false);
+        VistaFicha f = new VistaFicha(ficha, false, false, true);
+
         f.setBounds(300, 100, 40, 52);
         panel.add(f);
     }
@@ -161,12 +160,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         int x = 300;
         int y = 100;
         int offsetX = 0;
-        int offsetY= 0;
         int width = 40;
         int height = 52;
 
         for (IFicha f : (ArrayList<IFicha>) o) {
-            VistaFicha vistaFicha = new VistaFicha(f, false, false);
+            VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
             if (!f.isVertical()) {
                 if (f.isDerecho()) {
                     vistaFicha.setBounds(x + offsetX, y, width, height);
@@ -249,6 +247,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarBoton() {
 
     }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
