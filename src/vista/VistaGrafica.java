@@ -1,7 +1,6 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.Ficha;
 import modelo.IFicha;
 import modelo.IJugador;
 import modelo.exceptions.FichaIncorrecta;
@@ -28,8 +27,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private static int cantClicks = 0;
     private static int offsetFicha = 1;
     private static int fichasJugadorMostradas = 0;
-    private static ArrayList<VistaFicha> compoenentesEnTablero = new ArrayList<>();
-    private static ArrayList<VistaFicha> compoenentesEnJugadores = new ArrayList<>();
+    private ArrayList<VistaFicha> compoenentesEnTablero = new ArrayList<>();
+    private ArrayList<VistaFicha> compoenentesEnJugadores = new ArrayList<>();
     private JButton robarBtn;
     JLabel mensaje = new JLabel();
 
@@ -86,8 +85,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         mostrarMensaje(mensaje, x, y);
     }
 
-
-
     public void mostrarMensaje(String msj, int x, int y) {
         mensaje.setText(msj);
         mensaje.setForeground(Color.black);
@@ -117,10 +114,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         for (IFicha ficha: fichas) {
             if (VistaGrafica.fichasJugadorMostradas == 2) { // cantJugadores.
-                colocarComponenteFichaEnTablero(x, y, ficha, i);
+                colocarComponenteFicha(x, y, ficha, i);
             } else {
-                if (!existeComponenteEnTablero(ficha)) {
-                    i = colocarComponenteFichaEnTablero(x, y, ficha, i);
+                if (!existeComponente(ficha, compoenentesEnJugadores)) {
+                    i = colocarComponenteFicha(x, y, ficha, i);
                 }
             }
         }
@@ -131,26 +128,24 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
 
     // recibe las coordenadas, una ficha y una variable que sirve como offset y coloca un componenteFicha en el tablero.
-    private int colocarComponenteFichaEnTablero(int x, int y, IFicha ficha, int i) {
+    private int colocarComponenteFicha(int x, int y, IFicha ficha, int i) {
         VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
         fichaComponente.setBounds(x + i, y, 50, 100);
         panel.add(fichaComponente);
         i += 35;
-        VistaGrafica.compoenentesEnTablero.add(fichaComponente);
+        compoenentesEnJugadores.add(fichaComponente);
         return i;
     }
 
     // Recibe una ficha y devuelve un booleano que indica si existe el componente en el tablero.
-    private boolean existeComponenteEnTablero(IFicha ficha) {
-        for (VistaFicha vistaFicha: VistaGrafica.compoenentesEnTablero) {
+    private boolean existeComponente(IFicha ficha, ArrayList<VistaFicha> fichasComponente) {
+        for (VistaFicha vistaFicha: fichasComponente) {
             IFicha f = vistaFicha.getFicha();
             if (f.getIzquierdo() == ficha.getIzquierdo() && f.getDerecho() == ficha.getDerecho())
                 return true;
         }
         return false;
     }
-
-
 
     // limpia las fichas del jugador.
     private void limpiarFichasJugador(ArrayList<IFicha> fichasJ) {
@@ -185,7 +180,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarFicha(IFicha ficha) {
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
-
+        compoenentesEnTablero.add(f);
         f.setBounds(300, 100, 40, 52);
         panel.add(f);
     }
@@ -200,7 +195,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            if (existeComponenteEnTablero(f))
+            if (existeComponente(f, compoenentesEnTablero))
                 continue;
             if (f.isDerecho()) {
                 vistaFicha.setBounds(x + offsetX, y, width, height);
@@ -212,9 +207,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             }
             panel.add(vistaFicha);
             VistaGrafica.offsetFicha += 1;
+            compoenentesEnTablero.add(vistaFicha);
         }
         panel.revalidate();
         panel.repaint();
+        compoenentesEnTablero.clear();
     }
     
 

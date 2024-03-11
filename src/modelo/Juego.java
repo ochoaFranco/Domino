@@ -80,7 +80,6 @@ public class Juego implements IJuego, ISubject {
 
                 }
             }
-//            notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, j);
         }
     }
 
