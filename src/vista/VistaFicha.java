@@ -19,12 +19,12 @@ public class VistaFicha extends JLabel {
     public VistaFicha(IFicha ficha, boolean cambiarTamanio, boolean eventosMouseHabilitados, boolean primeraFicha) {
         this.ficha = ficha;
         this.isDoble = ficha.esFichaDoble();
-        this.eventosMouseHabilitados = eventosMouseHabilitados;
+//        this.eventosMouseHabilitados = eventosMouseHabilitados;
         this.primeraFicha = primeraFicha;
 
-        if (eventosMouseHabilitados) {
-            agregarListeners(cambiarTamanio);
-        }
+//        if (eventosMouseHabilitados) {
+//            agregarListeners(cambiarTamanio);s
+//        }
         cargarImagen();
     }
 

@@ -39,7 +39,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setSize(800, 500);
         setResizable(false);
 
-        // creo un panel junto con su backgorund.
+        // creo un panel junto con su background
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
@@ -47,6 +47,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         robarBtn = new JButton("Robar");
         robarBtn.setBounds(670, 350, 100, 20);
         panel.add(robarBtn);
+
+        // agrego la seccion de las fichas del jugador.
+        ComponenteJugadorMano jugadorManoSeccion = new ComponenteJugadorMano();
+        jugadorManoSeccion.setBounds(0, 400, 800, 400); // Set position and size
+        panel.add(jugadorManoSeccion); // Add ComponenteJugadorMano panel
 
         // tamanio pantalla
         setLocationRelativeTo(null);
@@ -111,7 +116,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         if (primeraFicha != null)
             limpiarFichasJugador(fichas);
-
         for (IFicha ficha: fichas) {
             if (VistaGrafica.fichasJugadorMostradas == 2) { // cantJugadores.
                 colocarComponenteFicha(x, y, ficha, i);
@@ -120,11 +124,15 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                     i = colocarComponenteFicha(x, y, ficha, i);
                 }
             }
+
         }
+
         VistaGrafica.fichasJugadorMostradas += 1;
+        compoenentesEnJugadores.clear();
         panel.revalidate();
         panel.repaint();
     }
+
 
 
     // recibe las coordenadas, una ficha y una variable que sirve como offset y coloca un componenteFicha en el tablero.
@@ -193,13 +201,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         int width = 40;
         int height = 52;
 
+        int i = 0;
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
             if (existeComponente(f, compoenentesEnTablero))
                 continue;
             if (f.isDerecho()) {
+                offsetX += 20 * VistaGrafica.offsetFicha;
                 vistaFicha.setBounds(x + offsetX, y, width, height);
-                offsetX += 45 * VistaGrafica.offsetFicha;
 
             } else {
                 offsetX -= 40;
@@ -208,10 +217,13 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             panel.add(vistaFicha);
             VistaGrafica.offsetFicha += 1;
             compoenentesEnTablero.add(vistaFicha);
+            i+= 1;
         }
+
+
+        compoenentesEnTablero.clear();
         panel.revalidate();
         panel.repaint();
-        compoenentesEnTablero.clear();
     }
     
 
