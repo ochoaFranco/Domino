@@ -32,10 +32,6 @@ public class VistaFicha extends JLabel {
         return ficha;
     }
 
-    public boolean isPrimeraFicha() {
-        return primeraFicha;
-    }
-
     private void agregarListeners(boolean cambiarTamanio) {
         addMouseListener(new MouseAdapter() {
             @Override
@@ -70,7 +66,6 @@ public class VistaFicha extends JLabel {
     }
 
 
-
     private void cargarImagen() {
         String nombreArchivo;
         if (ficha.isDadaVuelta())
@@ -87,10 +82,17 @@ public class VistaFicha extends JLabel {
         }
     }
 
-    public void eliminarFicha() {
-        getParent().remove(VistaFicha.this);
-    }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (isDoble) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.rotate(Math.toRadians(90), getWidth() / 2, getHeight() / 2); // rotar 90 grados.
+            super.paintComponent(g2d);
+            g2d.dispose();
+        }
+    }
 }
 
 
