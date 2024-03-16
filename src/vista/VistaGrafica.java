@@ -148,6 +148,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.removeAll();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
+        rotarFicha(ficha, f);
         componenteTablero.agregarFicha(f);
     }
 
@@ -157,6 +158,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.removeAll();
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
+            rotarFicha(f, vistaFicha);
             if (f.isDerecho()) {
                 offsetX += 20 * VistaGrafica.offsetFicha;
 
@@ -166,10 +168,19 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             componenteTablero.agregarFicha(vistaFicha);
             VistaGrafica.offsetFicha += 1;
         }
-        panel.revalidate();
-        panel.repaint();
+//        panel.revalidate();
+//        panel.repaint();
     }
-    
+
+    private static void rotarFicha(IFicha f, VistaFicha vistaFicha) {
+        if (!f.esFichaDoble()) {
+            if (!f.isDadaVuelta())
+                vistaFicha.setAnguloRotacion(-90);
+            else
+                vistaFicha.setAnguloRotacion(90);
+        }
+    }
+
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
 

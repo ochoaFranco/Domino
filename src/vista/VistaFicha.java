@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 
 
 public class VistaFicha extends JLabel {
@@ -15,6 +16,7 @@ public class VistaFicha extends JLabel {
     private boolean eventosMouseHabilitados;
     private static IFicha fichaEnMano = null;
     private boolean primeraFicha = false;
+    private int anguloRotacion = 0;
 
     public VistaFicha(IFicha ficha, boolean cambiarTamanio, boolean eventosMouseHabilitados, boolean primeraFicha) {
         this.ficha = ficha;
@@ -82,16 +84,17 @@ public class VistaFicha extends JLabel {
         }
     }
 
+    public void setAnguloRotacion(int angulo) {
+        this.anguloRotacion = angulo;
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        if (isDoble) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            g2d.rotate(Math.toRadians(90), getWidth() / 2, getHeight() / 2); // rotar 90 grados.
-            super.paintComponent(g2d);
-            g2d.dispose();
-        }
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.rotate(Math.toRadians(anguloRotacion), getWidth() / 2, getHeight() / 2); // rotar 90 grados.
+        super.paintComponent(g2d);
+        g2d.dispose();
     }
 }
 
