@@ -7,7 +7,7 @@ import java.awt.*;
 public class ComponenteJugadorMano extends JPanel {
 
     public ComponenteJugadorMano() {
-        setLayout(new FlowLayout(FlowLayout.LEFT, 30, 10));
+        setLayout(new FlowLayout(FlowLayout.LEFT, 5, 10));
         setSize(800,200);
         setOpaque(false);
 

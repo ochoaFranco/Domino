@@ -118,7 +118,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
-            jugadorManoComponente.add(fichaComponente);
+            jugadorManoComponente.agregarFichaJugador(fichaComponente);
         }
         panel.revalidate();
         panel.repaint();
@@ -168,8 +168,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             componenteTablero.agregarFicha(vistaFicha);
             VistaGrafica.offsetFicha += 1;
         }
-//        panel.revalidate();
-//        panel.repaint();
     }
 
     private static void rotarFicha(IFicha f, VistaFicha vistaFicha) {
