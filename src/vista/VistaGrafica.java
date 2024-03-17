@@ -97,7 +97,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         mensaje.setText(msj);
         mensaje.setForeground(Color.black);
         mensaje.setFont(new Font("Arial", Font.BOLD, 18));
-        mensaje.setBounds(x, y, 400, 40);
+        mensaje.setBounds(x, y, 800, 40);
         panel.add(mensaje);
         panel.revalidate();
         panel.repaint();
