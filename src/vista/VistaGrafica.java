@@ -1,5 +1,6 @@
 package vista;
 
+import com.sun.source.tree.NewArrayTree;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
@@ -21,13 +22,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
     private static Controlador controlador;
     private JPanel panel;
-    private static int cantMensajes = 0;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
     private ComponenteJugadorMano jugadorManoComponente;
     private ComponenteTablero componenteTablero;
     private JButton robarBtn;
     private static int offsetFicha = 1;
+    private static int posicionX = 350;
+    private static int posicionY = 150;
     JLabel mensaje = new JLabel();
 
     public VistaGrafica(String nombre) {
@@ -41,20 +43,23 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
+
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
         componenteTablero.setBounds(0,0, 800, 382);
         panel.add(componenteTablero);
+
 
         // agrego boton
         robarBtn = new JButton("Robar");
         robarBtn.setBounds(670, 350, 100, 20);
         panel.add(robarBtn);
 
+
         // agrego la seccion de las fichas del jugador.
         jugadorManoComponente = new ComponenteJugadorMano();
         jugadorManoComponente.setBounds(0, 390, 800, 200); // Set position and size
-        panel.add(jugadorManoComponente); // Add ComponenteJugadorMano panel
+        panel.add(jugadorManoComponente);
 
         // tamanio pantalla
         setLocationRelativeTo(null);
@@ -107,13 +112,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     // funcionalidad encargada de mostrar las fichas del jugador.
     @Override
     public void mostrarFichasJugador(IJugador jugador)  {
-        int x = 10;
-        int y = 370;
-        mostrarFichasJugador(jugador, x, y);
-    }
-
-
-    public void mostrarFichasJugador(IJugador jugador, int x, int y)  {
         jugadorManoComponente.removeAll();
         ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
         for (IFicha ficha: fichas) {
@@ -149,27 +147,25 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
         rotarFicha(ficha, f);
+
         componenteTablero.agregarFicha(f);
+        componenteTablero.revalidate();
+        componenteTablero.repaint();
     }
 
     @Override
     public void mostrarTablero(Object o) {
-        int offsetX = 0;
         componenteTablero.removeAll();
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
             rotarFicha(f, vistaFicha);
-            if (f.isDerecho()) {
-                offsetX += 20 * VistaGrafica.offsetFicha;
-
-            } else {
-                offsetX -= 40;
-            }
             componenteTablero.agregarFicha(vistaFicha);
-            VistaGrafica.offsetFicha += 1;
         }
+        componenteTablero.revalidate();
+        componenteTablero.repaint();
     }
 
+    // dado una ficha, la rota y la muestra en las coordenadas indicadas.
     private static void rotarFicha(IFicha f, VistaFicha vistaFicha) {
         if (!f.esFichaDoble()) {
             if (!f.isDadaVuelta())
@@ -179,8 +175,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         }
     }
 
-
-    // dado una ficha, la rota y la muestra en las coordenadas indicadas.
 
     public void jugar() {
         controlador.iniciarJuego();

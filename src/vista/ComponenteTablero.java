@@ -1,17 +1,28 @@
 package vista;
 
+import modelo.Ficha;
+import modelo.IFicha;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ComponenteTablero extends JPanel {
-    public ComponenteTablero() {
-        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
+    private BoxLayout layout;
 
-        setSize(800, 300);
+    public ComponenteTablero() {
+        setSize(750, 300);
         setOpaque(false);
+        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(layout);
+
+
     }
+
 
     public void agregarFicha(VistaFicha ficha) {
         add(ficha);
     }
+
+
 }
+

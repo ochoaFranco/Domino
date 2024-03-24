@@ -62,7 +62,7 @@ public class VistaFicha extends JLabel {
                     menuFicha.agregarListeners(VistaFicha.this);
                     menuFicha.mostrar();
                 }
-                System.out.printf("Tile on your hand: " + VistaFicha.fichaEnMano.getIzquierdo() + "|" + VistaFicha.fichaEnMano.getDerecho());
+                System.out.printf("Tile on your hand: " + VistaFicha.fichaEnMano.getIzquierdo() + "|" + VistaFicha.fichaEnMano.getDerecho() + "\n");
             }
         });
     }
