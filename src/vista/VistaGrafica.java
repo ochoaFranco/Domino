@@ -66,6 +66,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         this.getContentPane().add(panel);
         this.addMouseListener(this);
 
+
         robarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -143,7 +144,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 //     muestra la primera ficha.
     @Override
     public void mostrarFicha(IFicha ficha) {
-        componenteTablero.removeAll();
+//        componenteTablero.removeAll();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
         rotarFicha(ficha, f);
@@ -155,7 +156,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarTablero(Object o) {
-        componenteTablero.removeAll();
+//        componenteTablero.removeAll();
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
             rotarFicha(f, vistaFicha);
