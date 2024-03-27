@@ -11,7 +11,6 @@ public class ComponenteTablero extends JPanel {
     private int cantFichasTablero = 0;
     private final JPanel segundoPanel;
 
-
     public ComponenteTablero() {
         setLayout(new BorderLayout());
         setSize(750, 300);
@@ -27,6 +26,10 @@ public class ComponenteTablero extends JPanel {
         cantFichasTablero += 1;
         segundoPanel.revalidate();
         segundoPanel.repaint();
+    }
+
+    public void limpiarFicha() {
+        segundoPanel.removeAll();
     }
 
 
