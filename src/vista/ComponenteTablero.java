@@ -23,7 +23,12 @@ public class ComponenteTablero extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = cantFichasTablero;
         gbc.gridy = 0;
+        gbc.insets = new Insets(0,0,0,0);
         gbc.anchor = GridBagConstraints.CENTER;
+        if (ficha.getFicha().esFichaDoble()) {
+            System.out.printf("SARACATUNGAA IM INNNNN \n");
+            gbc.insets = new Insets(0, -10, 0, -10);
+        }
         segundoPanel.add(ficha, gbc);
         cantFichasTablero += 1;
         segundoPanel.revalidate();

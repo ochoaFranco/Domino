@@ -83,8 +83,6 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
-
-
     private void determinarJugadorMano()  {
         ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;

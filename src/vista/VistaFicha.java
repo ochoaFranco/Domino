@@ -28,10 +28,16 @@ public class VistaFicha extends JLabel {
             agregarListeners(cambiarTamanio);
         }
         cargarImagen();
+        setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+        setPreferredSize(new Dimension(50,50));
     }
 
     public IFicha getFicha() {
         return ficha;
+    }
+
+    public int getAnguloRotacion() {
+        return anguloRotacion;
     }
 
     private void agregarListeners(boolean cambiarTamanio) {
