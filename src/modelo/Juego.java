@@ -12,7 +12,7 @@ import java.util.Queue;
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 20;
+    private final int LIMITEPUNTOS = 2000;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -191,6 +191,7 @@ public class Juego implements IJuego, ISubject {
         juntarFichasTablero();
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
+        Tablero.resetearTablero(); // limpio las fichas del tablero.
         iniciarJuego();
     }
 

@@ -52,6 +52,11 @@ public class Tablero {
         }
     }
 
+    public static void resetearTablero() {
+        extremoIzq = null;
+        extremoDerec = null;
+    }
+
     // agrega una ficha en el extremo izquierdo.
     public static void setExtremoIzq(IFicha extremoIzq) throws FichaIncorrecta {
         if (Tablero.extremoIzq != null) {
