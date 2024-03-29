@@ -18,7 +18,6 @@ public class Tablero {
         return extremoIzq;
     }
 
-
     // agrega una ficha en el extremo derecho.
     public static void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta {
         if (Tablero.extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
