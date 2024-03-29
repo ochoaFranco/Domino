@@ -41,6 +41,9 @@ public class MenuFicha extends JDialog implements IVista {
         salirBtn.setBounds(170, 120, 138, 20);
         panel.add(salirBtn);
 
+        this.setUndecorated(true); // saco los botones de salir.
+        this.setModal(true);
+
         // calculo la posicion en la pantalla
         this.setLocationRelativeTo(null);
 
