@@ -1,6 +1,5 @@
 package vista;
 
-import com.sun.source.tree.NewArrayTree;
 import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJugador;
@@ -13,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 
