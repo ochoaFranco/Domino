@@ -113,7 +113,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.repaint();
     }
 
-    //TODO add funcionality for adding new tiles on the board.
     public static void realizarJugada(String extremo, VistaFicha vFicha) {
         IFicha ficha = vFicha.getFicha();
         try {
