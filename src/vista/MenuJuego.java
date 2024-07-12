@@ -57,8 +57,6 @@ public class MenuJuego extends JDialog implements IVista {
                 loginUsuario(juego);
             }
         });
-
-
     }
 
     private void loginUsuario(Juego juego) {

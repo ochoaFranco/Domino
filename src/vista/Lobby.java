@@ -14,11 +14,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class Lobby implements IVista {
-
     private Controlador controlador;
     private final JFrame frame;
     private Juego juego = new Juego();
-
 
     public Lobby()  {
         frame = new JFrame("Domino");
@@ -70,7 +68,6 @@ public class Lobby implements IVista {
         panel.add(jugarBtn);
     }
 
-
     private void ejecutarMenu() {
         MenuJuego menu = new MenuJuego(frame, juego);
         menu.mostrar();
@@ -97,10 +94,8 @@ public class Lobby implements IVista {
         return panel;
     }
 
-
     @Override
     public void mostrarMensaje(String mensaje) {
-
     }
 
 
@@ -141,7 +136,6 @@ public class Lobby implements IVista {
 
     @Override
     public void mostrarBoton() {
-
     }
 
 }

@@ -20,7 +20,6 @@ public class Juego implements IJuego, ISubject {
     private Jugador jugadorMano = null;
     private Queue<IJugador> colaTurnos = new LinkedList<>();
 
-
     public Juego() {
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
@@ -42,8 +41,6 @@ public class Juego implements IJuego, ISubject {
         return turno;
     }
 
-
-
     @Override
     public Jugador conectarJugador(String nombre) {
         Jugador jugador = new Jugador(nombre);
@@ -63,7 +60,6 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
-
     public void iniciarJuego() {
         repartir();
         determinarJugadorMano();
@@ -77,7 +73,6 @@ public class Juego implements IJuego, ISubject {
                 IFicha ficha = pozo.sacarFicha();
                 if (ficha != null) {
                     j.recibirFicha(ficha);
-
                 }
             }
         }
@@ -151,7 +146,6 @@ public class Juego implements IJuego, ISubject {
     public void determinarJugadorTurno() {
         turno = colaTurnos.peek();
     }
-
 
     // cuento los puntos de las fichas de todos lo jugadores.
     private void contarPuntosJugadores() {

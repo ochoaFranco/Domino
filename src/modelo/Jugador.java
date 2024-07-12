@@ -78,7 +78,6 @@ public class Jugador implements IJugador {
         return false;
     }
 
-
     public IFicha fichaDobleMayor() {
         IFicha dobleMayor = new Ficha(-1, -1);
         for (IFicha f : fichas) {
@@ -118,8 +117,4 @@ public class Jugador implements IJugador {
     public boolean getMano() {
         return mano;
     }
-
-
-
-
 }

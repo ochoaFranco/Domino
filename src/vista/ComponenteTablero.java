@@ -27,7 +27,6 @@ public class ComponenteTablero extends JPanel {
         this.cantFichasTablero = cantFichasTablero;
     }
 
-
     public void agregarFicha(VistaFicha ficha) {
         if (cantFichasTablero < 5) {
             agregarFichasCentrales(ficha);

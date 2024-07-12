@@ -56,8 +56,6 @@ public class Login  extends JDialog implements IVista {
 
         // calculo tamanio pantalla.
         this.setLocationRelativeTo(null);
-
-
         this.getContentPane().add(panel);
 
         // Agrego la funcionalidad del boton.
@@ -111,7 +109,6 @@ public class Login  extends JDialog implements IVista {
         panel.add(lblNombre);
     }
 
-
     // funcionalidad para el clicked btn
     private void okayBtnPresionado() {
         IVista vista;
@@ -122,6 +119,7 @@ public class Login  extends JDialog implements IVista {
             vista = new VistaConsola(usuario);
         } else {
             vista = new VistaGrafica(usuario);
+            vista.ocultarBoton(); // ocultamos el boton 'Robar'
         }
         // seteamos el oontrolador e iniciamos el juego.
         controlador = new Controlador(vista);
@@ -132,23 +130,19 @@ public class Login  extends JDialog implements IVista {
             vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
 
-
         // si es gui ejecuto el juego.
         if (!isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
-            if (vista instanceof VistaGrafica)
+            if (vista instanceof VistaGrafica) {
+                ((VistaGrafica) vista).mostrarBoton();
                 ((VistaGrafica) vista).jugar();
+            }
             else
                 ((VistaConsola)vista).jugar();
             Login.isJuegoIniciado = true;
         }
-
-
         dispose();
         MenuJuego.incrementarVentanasCerradas();
-
     }
-
-
 
     @Override
     public void mostrarMensaje(String mensaje) {
@@ -195,5 +189,4 @@ public class Login  extends JDialog implements IVista {
     public void mostrarBoton() {
 
     }
-
 }

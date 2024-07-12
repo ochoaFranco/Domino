@@ -50,7 +50,6 @@ public class MenuFicha extends JDialog implements IVista {
         this.getContentPane().add(panel);
     }
 
-
     public void agregarListeners(VistaFicha f) {
         IFicha ficha = f.getFicha();
         // funcionalidad para elegir otra ficha.
@@ -88,7 +87,6 @@ public class MenuFicha extends JDialog implements IVista {
             }
         });
     }
-
 
     private void jugarFichaDerec(VistaFicha f) {
         derechaBtn.addActionListener(new ActionListener() {

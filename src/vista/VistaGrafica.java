@@ -14,8 +14,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-
-
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
     private static Controlador controlador;
@@ -41,18 +39,15 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
-
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
         componenteTablero.setBounds(0,0, 800, 382);
         panel.add(componenteTablero);
 
-
         // agrego boton
         robarBtn = new JButton("Robar");
         robarBtn.setBounds(670, 350, 100, 20);
         panel.add(robarBtn);
-
 
         // agrego la seccion de las fichas del jugador.
         jugadorManoComponente = new ComponenteJugadorMano();
@@ -63,7 +58,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setLocationRelativeTo(null);
         this.getContentPane().add(panel);
         this.addMouseListener(this);
-
 
         robarBtn.addActionListener(new ActionListener() {
             @Override
@@ -77,7 +71,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private void actualizarManoJugador() {
         controlador.robarFicha();
     }
-
 
     public static int getCantClicks() {
         return cantClicks;
@@ -107,7 +100,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.repaint();
     }
 
-
     // funcionalidad encargada de mostrar las fichas del jugador.
     @Override
     public void mostrarFichasJugador(IJugador jugador)  {
@@ -120,7 +112,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.revalidate();
         panel.repaint();
     }
-
 
     //TODO add funcionality for adding new tiles on the board.
     public static void realizarJugada(String extremo, VistaFicha vFicha) {
@@ -137,7 +128,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             VistaGrafica.decrementarClicks();
         }
     }
-
 
 //     muestra la primera ficha.
     @Override
@@ -175,19 +165,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         }
     }
 
-
     public void jugar() {
         controlador.iniciarJuego();
     }
-
-
 
     @Override
     public void mostrar() {
         setVisible(true);
     }
-
-
 
     @Override
     public void mostrarTablaPuntos(Object o) {
@@ -203,13 +188,13 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void ocultarBoton() {
+        robarBtn.setVisible(false);
     }
 
     @Override
     public void mostrarBoton() {
-
+        robarBtn.setVisible(true);
     }
-
 
     @Override
     public void mouseClicked(MouseEvent e) {
