@@ -203,7 +203,6 @@ public class VistaConsola implements IVista {
         consolaOutput.append("Cantidad de jugadores establecida.\n");
     }
 
-
     public void ocultarBoton() {
         ejecutarBtn.setEnabled(false);
         inputCMD.setEditable(false);
@@ -230,7 +229,6 @@ public class VistaConsola implements IVista {
     private String generarEspacios(int espacios) {
         return String.format("%" + espacios + "s", "");
     }
-
 
     private void jugada(String comando) {
         String[] partes = comando.split("\\s+"); // express.regular para separar por caracteres en blanco.

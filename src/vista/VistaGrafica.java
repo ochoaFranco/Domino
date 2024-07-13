@@ -136,7 +136,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
         rotarFicha(ficha, f);
-
         componenteTablero.agregarFicha(f);
         componenteTablero.revalidate();
         componenteTablero.repaint();
