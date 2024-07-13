@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 
 public class ComponenteTablero extends JPanel {
     private final JPanel segundoPanel;
+    private GridBagConstraints gbc;
 
     public ComponenteTablero() {
         setLayout(new BorderLayout());
@@ -17,13 +18,18 @@ public class ComponenteTablero extends JPanel {
         setOpaque(false);
         segundoPanel = new JPanel();
         segundoPanel.setOpaque(false);
-        segundoPanel.setLayout(new GridLayout(1, 0));
+        segundoPanel.setLayout(new GridBagLayout());
         add(segundoPanel, BorderLayout.CENTER);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(1, 1, 1, 1);
     }
 
     public void agregarFicha(VistaFicha ficha) {
-        segundoPanel.add(ficha);
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        segundoPanel.add(ficha, gbc);
         segundoPanel.revalidate();
+        segundoPanel.repaint();
     }
 
     public void setCantFichasTablero(int cantFichasTablero) {
