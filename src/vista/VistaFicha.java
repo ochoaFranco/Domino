@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
 public class VistaFicha extends JLabel {
     private IFicha ficha;
     private boolean elegida = false;
@@ -71,7 +70,6 @@ public class VistaFicha extends JLabel {
             }
         });
     }
-
 
     private void cargarImagen() {
         String nombreArchivo;
