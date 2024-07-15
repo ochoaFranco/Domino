@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class ComponenteTablero extends JPanel {
     private int cantFichasTableroHorizontales = 0;
-    private static final int CANT_HORIZONTALES_MAX = 5;
+    private static final int CANT_HORIZONTALES_MAX = 10;
     private boolean esTableroVertical = false;
     private final JPanel segundoPanel;
     private int ultimoXAgregado = 0; // Initialize with the starting x-position
