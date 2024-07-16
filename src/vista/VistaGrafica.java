@@ -134,8 +134,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.limpiarFicha();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
-        rotarFicha(ficha, f);
-
+        rotarFicha(ficha, f, false);
         componenteTablero.agregarFicha(f);
         componenteTablero.revalidate();
         componenteTablero.repaint();
@@ -147,7 +146,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.setCantFichasTablero(0); // reseteo la cantidad de fichas del tablero.
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            rotarFicha(f, vistaFicha);
+            boolean rotar = f.isVertical();
+            rotarFicha(f, vistaFicha, rotar);
             componenteTablero.agregarFicha(vistaFicha);
         }
         componenteTablero.revalidate();
@@ -155,13 +155,17 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
-    private static void rotarFicha(IFicha f, VistaFicha vistaFicha) {
+    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar) {
+
         if (!f.esFichaDoble()) {
-            if (!f.isDadaVuelta())
-                vistaFicha.setAnguloRotacion(-90);
-            else
-                vistaFicha.setAnguloRotacion(90);
-        }
+            if (!rotar) {
+                // roto la ficha dependiendo si esta dada vuelta o no.
+                vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+            }
+            // si se debe rotar, se gira la ficha 180 grados.
+            else if (f.isDadaVuelta()) vistaFicha.setAnguloRotacion(180);
+        } else if (rotar)
+            vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
     }
 
     public void jugar() {

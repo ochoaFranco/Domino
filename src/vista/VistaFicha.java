@@ -34,10 +34,6 @@ public class VistaFicha extends JLabel {
         return ficha;
     }
 
-    public int getAnguloRotacion() {
-        return anguloRotacion;
-    }
-
     private void agregarListeners(boolean cambiarTamanio) {
         addMouseListener(new MouseAdapter() {
             @Override
