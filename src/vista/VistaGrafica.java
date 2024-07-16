@@ -146,7 +146,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.setCantFichasTablero(0); // reseteo la cantidad de fichas del tablero.
         for (IFicha f : (ArrayList<IFicha>) o) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            boolean rotar = componenteTablero.esTableroVertical();
+            boolean rotar = f.isVertical();
             rotarFicha(f, vistaFicha, rotar);
             componenteTablero.agregarFicha(vistaFicha);
         }

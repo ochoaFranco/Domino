@@ -1,11 +1,12 @@
 package vista;
 
+import modelo.IFicha;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ComponenteTablero extends JPanel {
     private int cantFichasTableroHorizontales = 0;
-    private static final int CANT_HORIZONTALES_MAX = 10;
     private boolean esTableroVertical = false;
     private final JPanel segundoPanel;
     private int ultimoXAgregado = 0; // Initialize with the starting x-position
@@ -20,13 +21,6 @@ public class ComponenteTablero extends JPanel {
         segundoPanel.setLayout(new GridBagLayout());
         add(segundoPanel, BorderLayout.CENTER);
     }
-    public static int getCant_horizontales_max() {
-        return getCant_horizontales_max();
-    }
-    public boolean esTableroVertical() {
-        esTableroVertical = cantFichasTableroHorizontales >= CANT_HORIZONTALES_MAX;
-        return esTableroVertical;
-    }
 
     public int getCantFichasTablero() {
         return cantFichasTableroHorizontales;
@@ -37,12 +31,17 @@ public class ComponenteTablero extends JPanel {
     }
 
     public void agregarFicha(VistaFicha ficha) {
-        if (cantFichasTableroHorizontales < CANT_HORIZONTALES_MAX) {
+        IFicha f = ficha.getFicha();
+        if (!f.isVertical()) {
             agregarFichasCentrales(ficha);
+            cantFichasTableroHorizontales += 1;
         } else {
-            agregarFichasCentrales(ficha, ultimoXAgregado, ultimoYAgregado);
+            if (f.isDerecho())
+                agregarFichasVertDerechas(ficha, ultimoYAgregado);
+            else {
+
+            }
         }
-        cantFichasTableroHorizontales += 1;
     }
 
     private void agregarFichasCentrales(VistaFicha ficha) {
@@ -59,21 +58,14 @@ public class ComponenteTablero extends JPanel {
         ultimoYAgregado++;
     }
 
-    private void agregarFichasCentrales(VistaFicha ficha, int x, int y) {
+    private void agregarFichasVertDerechas(VistaFicha ficha, int y) {
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = CANT_HORIZONTALES_MAX - 1;
+        gbc.gridx = cantFichasTableroHorizontales - 1;
         gbc.gridy = y;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        if (ficha.getFicha().esFichaDoble())
-            gbc.insets = new Insets(0, -5, 0, -5);
+        ultimoYAgregado = y + 1;
         segundoPanel.add(ficha, gbc);
         segundoPanel.revalidate();
         segundoPanel.repaint();
-
-        // Update the position of the last added tile
-        ultimoXAgregado = CANT_HORIZONTALES_MAX;
-        ultimoYAgregado = y + 1;
     }
     private void agregarFichasVerticales(VistaFicha ficha) {
 
