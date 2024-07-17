@@ -7,62 +7,81 @@ import java.awt.*;
 
 
 public class ComponenteTablero extends JPanel {
-    private int cantFichasTableroHorizontales = 0;
-    private int ultimoYAgregado = 0;
-    private int YAnt = 200;
+    private int xCentral = 300;
+    private int yCentral = 50;
+    private int derechaVertX = 50;
+    private int derechaVertY = 50;
+    private int izquierdaVertX = 0;
+    private int izquierdaVertY = 100;
+    private int widthFicha = 50;
+    private int heightFicha = 100;
+    private JPanel PCentral;
+    private JPanel PVerticalIzq;
+    private JPanel PVerticalDer;
+    private JPanel PHorizontalArriba;
+    private JPanel PHorizontalAbajo;
+
+
 
     public ComponenteTablero() {
-        setLayout(new GridBagLayout());
-        setSize(750, 300);
+        // caracteristicas del contenedor.
+        setLayout(null);
+        setSize(750,300);
         setOpaque(false);
-    }
+        // Caracteristicas panel central.
+        PCentral = new JPanel();
+        PCentral.setSize(650, 100);
+        PCentral.setBounds(100, 100, 650, 100);
+        PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
+        PCentral.setOpaque(true);
+        PCentral.setBackground(Color.black);
 
-    public void setCantFichasTablero(int cantFichasTableroHorizontales) {
-        this.cantFichasTableroHorizontales = cantFichasTableroHorizontales;
+        PVerticalIzq = new JPanel();
+        PVerticalDer = new JPanel();
+        PHorizontalArriba = new JPanel();
+        PHorizontalAbajo = new JPanel();
+
+        add(PCentral);
+
     }
 
     public void agregarFicha(VistaFicha ficha) {
         IFicha f = ficha.getFicha();
         if (!f.isVertical()) {
             agregarFichasCentrales(ficha);
-            cantFichasTableroHorizontales += 1;
         } else {
             if (f.isDerecho())
-                agregarFichasVertDerechas(ficha, ultimoYAgregado);
+                agregarFichasVertDerechas(ficha);
             else {
-                agregarFichasVerticalesIzquierdas(ficha, YAnt);
+                agregarFichasVerticalesIzquierdas(ficha);
             }
         }
     }
 
     private void agregarFichasCentrales(VistaFicha ficha) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = cantFichasTableroHorizontales;
-        gbc.gridy = 0;
-        add(ficha, gbc);
-        revalidate();
-        repaint();
-        ultimoYAgregado++;
-    }
-
-    private void agregarFichasVertDerechas(VistaFicha ficha, int y) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = cantFichasTableroHorizontales - 1;
-        gbc.gridy = y;
-        ultimoYAgregado = y + 1;
-        add(ficha, gbc);
+        PCentral.add(ficha);
         revalidate();
         repaint();
     }
 
-    private void agregarFichasVerticalesIzquierdas(VistaFicha ficha, int y) {
-        ficha.setBounds(300, y, ficha.getPreferredSize().width, ficha.getPreferredSize().height);
-        add(ficha, JLayeredPane.PALETTE_LAYER);
-        YAnt = y + ficha.getHeight();
+    private void agregarFichasVertDerechas(VistaFicha ficha) {
+        derechaVertX = xCentral - widthFicha; // Align with the last central tile
+        System.out.println("Right Vertical Tile Position: (" + derechaVertX + ", " + derechaVertY + ")");
+        ficha.setBounds(derechaVertX, derechaVertY, widthFicha, heightFicha);
+        derechaVertY += heightFicha; // Move the next tile downthe next tile down
+
+    }
+
+    private void agregarFichasVerticalesIzquierdas(VistaFicha ficha) {
+        izquierdaVertX = xCentral; // Align with the last central tile
+        izquierdaVertY -= heightFicha;
+        ficha.setBounds(izquierdaVertX, izquierdaVertY, widthFicha, heightFicha);
     }
 
     public void limpiarFicha() {
-        removeAll();
+        PCentral.removeAll();
+        revalidate();
+        repaint();
     }
 }
 
