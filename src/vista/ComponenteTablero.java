@@ -2,6 +2,7 @@ package vista;
 import modelo.IFicha;
 import javax.swing.*;
 import java.awt.*;
+import java.lang.foreign.AddressLayout;
 
 public class ComponenteTablero extends JPanel {
     private JPanel PCentral;
@@ -15,27 +16,39 @@ public class ComponenteTablero extends JPanel {
         setLayout(null);
         setSize(750,300);
         setOpaque(false);
+
         // Caracteristicas panel central.
         PCentral = new JPanel();
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(false);
-//        PCentral.setBackground(Color.pink);
+        PCentral.setOpaque(true);
+        PCentral.setBackground(Color.pink);
+
         // Caracteristicas panel vertical derecho
         PVerticalDer = new JPanel();
         PVerticalDer.setSize(100, 300);
         PVerticalDer.setBounds(600, 160, 100, 300);
-//        PVerticalDer.setBackground(Color.BLACK);
+        PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(false);
+        PVerticalDer.setOpaque(true);
 
+        // Caracteristicas panel vertical izquierdo
         PVerticalIzq = new JPanel();
+
+        PVerticalIzq.setSize(100, 300);
+        PVerticalIzq.setBounds(100, 10, 100, 120);
+        PVerticalIzq.setBackground(Color.GRAY);
+        PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
+        PVerticalIzq.setOpaque(true);
+        PVerticalIzq.setBackground(Color.BLACK);
+
         PHorizontalArriba = new JPanel();
         PHorizontalAbajo = new JPanel();
 
         add(PCentral);
         add(PVerticalDer);
+        add(PVerticalIzq);
 
     }
 
@@ -65,12 +78,17 @@ public class ComponenteTablero extends JPanel {
     }
 
     private void agregarFichasVerticalesIzquierdas(VistaFicha ficha) {
-
+        PVerticalIzq.add(Box.createVerticalGlue()); // agrega componentes al final.
+        PVerticalIzq.add(ficha);
+        PVerticalIzq.add(Box.createVerticalStrut(5)); // agrego espacio entre fichas.
+        revalidate();
+        repaint();
     }
 
     public void limpiarFicha() {
         PCentral.removeAll();
         PVerticalDer.removeAll();
+        PVerticalIzq.removeAll();
         revalidate();
         repaint();
     }
