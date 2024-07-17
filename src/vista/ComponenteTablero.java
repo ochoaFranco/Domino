@@ -20,15 +20,15 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(true);
-        PCentral.setBackground(Color.pink);
+        PCentral.setOpaque(false);
+//        PCentral.setBackground(Color.pink);
         // Caracteristicas panel vertical derecho
         PVerticalDer = new JPanel();
-        PVerticalDer.setSize(100, 100);
-        PVerticalDer.setBounds(650, 200, 100, 300);
-        PVerticalDer.setBackground(Color.BLACK);
+        PVerticalDer.setSize(100, 300);
+        PVerticalDer.setBounds(600, 160, 100, 300);
+//        PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PCentral.setOpaque(true);
+        PVerticalDer.setOpaque(false);
 
         PVerticalIzq = new JPanel();
         PHorizontalArriba = new JPanel();
