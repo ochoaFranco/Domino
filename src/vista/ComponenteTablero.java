@@ -5,25 +5,16 @@ import modelo.IFicha;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class ComponenteTablero extends JPanel {
     private int cantFichasTableroHorizontales = 0;
-    private boolean esTableroVertical = false;
-    private final JPanel segundoPanel;
-    private int ultimoXAgregado = 0; // Initialize with the starting x-position
-    private int ultimoYAgregado = 0; // Initialize with the starting y-position
+    private int ultimoYAgregado = 0;
+    private int YAnt = 200;
 
     public ComponenteTablero() {
-        setLayout(new BorderLayout());
+        setLayout(new GridBagLayout());
         setSize(750, 300);
         setOpaque(false);
-        segundoPanel = new JPanel();
-        segundoPanel.setOpaque(false);
-        segundoPanel.setLayout(new GridBagLayout());
-        add(segundoPanel, BorderLayout.CENTER);
-    }
-
-    public int getCantFichasTablero() {
-        return cantFichasTableroHorizontales;
     }
 
     public void setCantFichasTablero(int cantFichasTableroHorizontales) {
@@ -39,7 +30,7 @@ public class ComponenteTablero extends JPanel {
             if (f.isDerecho())
                 agregarFichasVertDerechas(ficha, ultimoYAgregado);
             else {
-
+                agregarFichasVerticalesIzquierdas(ficha, YAnt);
             }
         }
     }
@@ -48,13 +39,9 @@ public class ComponenteTablero extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = cantFichasTableroHorizontales;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.anchor = GridBagConstraints.CENTER;
-        if (ficha.getFicha().esFichaDoble())
-            gbc.insets = new Insets(0, -10, 0, -10);
-        segundoPanel.add(ficha, gbc);
-        segundoPanel.revalidate();
-        segundoPanel.repaint();
+        add(ficha, gbc);
+        revalidate();
+        repaint();
         ultimoYAgregado++;
     }
 
@@ -63,16 +50,19 @@ public class ComponenteTablero extends JPanel {
         gbc.gridx = cantFichasTableroHorizontales - 1;
         gbc.gridy = y;
         ultimoYAgregado = y + 1;
-        segundoPanel.add(ficha, gbc);
-        segundoPanel.revalidate();
-        segundoPanel.repaint();
+        add(ficha, gbc);
+        revalidate();
+        repaint();
     }
-    private void agregarFichasVerticales(VistaFicha ficha) {
 
+    private void agregarFichasVerticalesIzquierdas(VistaFicha ficha, int y) {
+        ficha.setBounds(300, y, ficha.getPreferredSize().width, ficha.getPreferredSize().height);
+        add(ficha, JLayeredPane.PALETTE_LAYER);
+        YAnt = y + ficha.getHeight();
     }
 
     public void limpiarFicha() {
-        segundoPanel.removeAll();
+        removeAll();
     }
 }
 
