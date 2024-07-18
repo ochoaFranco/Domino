@@ -8,11 +8,12 @@ import java.lang.foreign.AddressLayout;
 public class ComponenteTablero extends JPanel {
     private final int MAX_VERTICALES = 2;
     private int offset = 0;
-    private JPanel PCentral;
-    private JPanel PVerticalIzq;
-    private JPanel PVerticalDer;
+    private int gridY = 350;
+    private JPanel PCentral = new JPanel();
+    private JPanel PVerticalIzq = new JPanel();
+    private JPanel PVerticalDer = new JPanel();
     private JPanel PHorizontalArriba;
-    private JPanel PHorizontalAbajo;
+    private JPanel PHorizontalAbajo = new JPanel();
 
     public ComponenteTablero() {
         // caracteristicas del contenedor.
@@ -21,31 +22,39 @@ public class ComponenteTablero extends JPanel {
         setOpaque(false);
 
         // Caracteristicas panel central.
-        PCentral = new JPanel();
+        panelCentral();
+
+        // Caracteristicas panel vertical derecho
+        panelVerticalDer();
+
+        // Caracteristicas panel vertical izquierdo
+        panelVerticalIzq();
+
+        // Caracteristicas panel horizontal arriba.
+        panelHorizontalArriba();
+
+        //PHorizontalAbajo = new JPanel();
+    }
+    // // Se agrega el panel central.
+    private void panelCentral() {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(true);
+        PCentral.setOpaque(false);
         PCentral.setBackground(Color.pink);
-
-        // Caracteristicas panel vertical derecho
-        PVerticalDer = new JPanel();
+        add(PCentral);
+    }
+    // Se agrega el panel vertical derecho.
+    private void panelVerticalDer() {
         PVerticalDer.setSize(100, 300);
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(true);
-
-        // Caracteristicas panel vertical izquierdo
-        PVerticalIzq = new JPanel();
-        PVerticalIzq.setSize(100, 300);
-        PVerticalIzq.setBounds(100, 0, 70, 120);
-        PVerticalIzq.setBackground(Color.GRAY);
-        PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
-        PVerticalIzq.setOpaque(true);
-        PVerticalIzq.setBackground(Color.BLACK);
-
-        // Caracteristicas panel horizontal arriba.
+        PVerticalDer.setOpaque(false);
+        add(PVerticalDer);
+    }
+    // Se agrega el panel horizontal de arriba
+    private void panelHorizontalArriba() {
         PHorizontalArriba = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -63,19 +72,40 @@ public class ComponenteTablero extends JPanel {
         PHorizontalArriba.setSize(100, 300);
         PHorizontalArriba.setBounds(200, 0, 300, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PHorizontalArriba.setOpaque(true);
+        PHorizontalArriba.setOpaque(false);
         PHorizontalArriba.setBackground(Color.BLUE);
-
-        //PHorizontalAbajo = new JPanel();
-
-        add(PCentral);
-        add(PVerticalDer);
-        add(PVerticalIzq);
         add(PHorizontalArriba);
+    }
+
+    // Se agrega el panel vertical izq
+    private void panelVerticalIzq() {
+        PVerticalIzq = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                AffineTransform original = g2.getTransform();
+                AffineTransform inverted = new AffineTransform();
+                inverted.scale(1, -1);
+                inverted.translate(0, -getHeight());
+                g2.setTransform(inverted);
+                super.paintComponent(g);
+                g2.setTransform(original);
+            }
+        };
+        PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
+        PVerticalIzq.setSize(100, 300);
+        PVerticalIzq.setBounds(100, 0, 70, 200);
+        PVerticalIzq.setOpaque(false);
+        PVerticalIzq.setBackground(Color.BLACK);
+        add(PVerticalIzq);
     }
 
     public void resetOffset() {
         offset = 0;
+    }
+
+    public int getOffset() {
+        return offset;
     }
 
     public void agregarFicha(VistaFicha ficha) {
@@ -86,9 +116,9 @@ public class ComponenteTablero extends JPanel {
             if (f.isDerecho())
                 agregarFichasVertDerechas(ficha);
             else {
-//                if (offset < 2)
-//                    agregarFichasVerticalesIzquierdas(ficha);
-//                else
+                if (offset < 2)
+                    agregarFichasVerticalesIzquierdas(ficha);
+                else
                     agregarFichasHorizontalesArriba(ficha);
             }
         }
@@ -98,14 +128,12 @@ public class ComponenteTablero extends JPanel {
     // agrega las fichas horizontales arriba.
     private void agregarFichasHorizontalesArriba(VistaFicha ficha) {
         PHorizontalArriba.add(ficha);
-        System.out.println("Adding to PHorizontalArriba\n");
         revalidate();
         repaint();
     }
 
     // agrega las fichas centrales.
     private void agregarFichasCentrales(VistaFicha ficha) {
-        System.out.println("Adding to PCentral\n");
         PCentral.add(ficha);
         revalidate();
         repaint();
@@ -113,15 +141,13 @@ public class ComponenteTablero extends JPanel {
 
     // agrega las fichas verticales derechas.
     private void agregarFichasVertDerechas(VistaFicha ficha) {
-        System.out.println("Adding to PVerticalDer\n");
         PVerticalDer.add(ficha);
         revalidate();
         repaint();
     }
     // agrega las fichas verticales izquierdas.
     private void agregarFichasVerticalesIzquierdas(VistaFicha ficha) {
-        System.out.println("Adding to PVerticalIzq\n");
-        PVerticalIzq.add(ficha);
+        PVerticalIzq.add(ficha,0);
         offset += 1;
         revalidate();
         repaint();
@@ -132,6 +158,8 @@ public class ComponenteTablero extends JPanel {
         PHorizontalArriba.removeAll();
         PVerticalIzq.removeAll();
         PVerticalDer.removeAll();
+        gridY = 0;  // reseteo contador
+
         revalidate();
         repaint();
     }

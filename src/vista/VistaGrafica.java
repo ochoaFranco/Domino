@@ -142,7 +142,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
-    //TODO create another array but only with vertical left tiles,
     @Override
     public void mostrarTablero(Object o) {
         componenteTablero.limpiarFicha();
@@ -167,7 +166,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             rotarFicha(f, vistaFicha, rotar);
             componenteTablero.agregarFicha(vistaFicha);
         }
-
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
