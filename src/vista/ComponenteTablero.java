@@ -37,7 +37,6 @@ public class ComponenteTablero extends JPanel {
         // Caracteristicas panel horizontal arriba.
         panelHorizontalArriba();
 
-
         //PHorizontalAbajo = new JPanel();
     }
 
@@ -104,14 +103,6 @@ public class ComponenteTablero extends JPanel {
         add(PVerticalIzq2);
     }
 
-    public void resetOffset() {
-        offset = 0;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
     public void agregarFicha(VistaFicha ficha) {
         IFicha f = ficha.getFicha();
         if (!f.isVertical()) {
@@ -126,7 +117,11 @@ public class ComponenteTablero extends JPanel {
                     agregarFichasHorizontalesArriba(ficha);
             }
         }
-        System.out.printf("offset: " + offset + "\n");
+    }
+
+    // Permite rotar correctamente las fichas del panel superior horizontal.
+    public boolean rotarHorizontalesArriba() {
+        return PVerticalIzq2.getComponentCount() > 0 && offset >=2;
     }
 
     // agrega las fichas horizontales arriba.
@@ -162,6 +157,7 @@ public class ComponenteTablero extends JPanel {
     }
 
     public void limpiarFicha() {
+        offset = 0; // reseteo offset.
         agregado = false;
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
