@@ -75,7 +75,7 @@ public class ComponenteTablero extends JPanel {
             }
         };
         PHorizontalArriba.setSize(100, 300);
-        PHorizontalArriba.setBounds(134, 0, 300, 120);
+        PHorizontalArriba.setBounds(140, 0, 300, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
         PHorizontalArriba.setOpaque(false);
         PHorizontalArriba.setBackground(Color.BLUE);
