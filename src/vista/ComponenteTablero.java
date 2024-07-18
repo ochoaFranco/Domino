@@ -8,12 +8,13 @@ import java.lang.foreign.AddressLayout;
 public class ComponenteTablero extends JPanel {
     private final int MAX_VERTICALES = 2;
     private int offset = 0;
-    private int gridY = 350;
+    private boolean agregado = false;
     private JPanel PCentral = new JPanel();
     private JPanel PVerticalIzq = new JPanel();
     private JPanel PVerticalDer = new JPanel();
     private JPanel PHorizontalArriba;
     private JPanel PHorizontalAbajo = new JPanel();
+    private JPanel  PVerticalIzq2 = new JPanel();
 
     public ComponenteTablero() {
         // caracteristicas del contenedor.
@@ -30,11 +31,16 @@ public class ComponenteTablero extends JPanel {
         // Caracteristicas panel vertical izquierdo
         panelVerticalIzq();
 
+        // Caracteristicas panel vertical izquierdo
+        panelVerticalIzq2();
+
         // Caracteristicas panel horizontal arriba.
         panelHorizontalArriba();
 
+
         //PHorizontalAbajo = new JPanel();
     }
+
     // // Se agrega el panel central.
     private void panelCentral() {
         PCentral.setSize(650, 100);
@@ -79,25 +85,23 @@ public class ComponenteTablero extends JPanel {
 
     // Se agrega el panel vertical izq
     private void panelVerticalIzq() {
-        PVerticalIzq = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                AffineTransform original = g2.getTransform();
-                AffineTransform inverted = new AffineTransform();
-                inverted.scale(1, -1);
-                inverted.translate(0, -getHeight());
-                g2.setTransform(inverted);
-                super.paintComponent(g);
-                g2.setTransform(original);
-            }
-        };
+        PVerticalIzq = new JPanel();
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
-        PVerticalIzq.setSize(100, 300);
-        PVerticalIzq.setBounds(100, 0, 70, 200);
+        PVerticalIzq.setSize(50, 50);
+        PVerticalIzq.setBounds(100, 65, 50, 50);
         PVerticalIzq.setOpaque(false);
         PVerticalIzq.setBackground(Color.BLACK);
         add(PVerticalIzq);
+    }
+
+    private void panelVerticalIzq2() {
+        PVerticalIzq2 = new JPanel();
+        PVerticalIzq2.setLayout(new BoxLayout(PVerticalIzq2, BoxLayout.Y_AXIS));
+        PVerticalIzq2.setSize(50, 50);
+        PVerticalIzq2.setBounds(100, 12, 50, 50);
+        PVerticalIzq2.setOpaque(false);
+        PVerticalIzq2.setBackground(Color.white);
+        add(PVerticalIzq2);
     }
 
     public void resetOffset() {
@@ -147,19 +151,22 @@ public class ComponenteTablero extends JPanel {
     }
     // agrega las fichas verticales izquierdas.
     private void agregarFichasVerticalesIzquierdas(VistaFicha ficha) {
-        PVerticalIzq.add(ficha,0);
-        offset += 1;
+        if (!agregado) {
+            PVerticalIzq.add(ficha, 0);
+            agregado = true;
+        } else
+            PVerticalIzq2.add(ficha, 0);
         revalidate();
         repaint();
+        offset += 1;
     }
 
     public void limpiarFicha() {
+        agregado = false;
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
         PVerticalIzq.removeAll();
         PVerticalDer.removeAll();
-        gridY = 0;  // reseteo contador
-
         revalidate();
         repaint();
     }
