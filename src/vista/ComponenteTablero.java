@@ -22,25 +22,25 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(true);
-        PCentral.setBackground(Color.pink);
+        PCentral.setOpaque(false);
+//        PCentral.setBackground(Color.pink);
 
         // Caracteristicas panel vertical derecho
         PVerticalDer = new JPanel();
         PVerticalDer.setSize(100, 300);
-        PVerticalDer.setBounds(600, 160, 100, 300);
-        PVerticalDer.setBackground(Color.BLACK);
+        PVerticalDer.setBounds(600, 166, 100, 150);
+//        PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(true);
+        PVerticalDer.setOpaque(false);
 
         // Caracteristicas panel vertical izquierdo
         PVerticalIzq = new JPanel();
 
         PVerticalIzq.setSize(100, 300);
-        PVerticalIzq.setBounds(100, 10, 100, 120);
-        PVerticalIzq.setBackground(Color.GRAY);
+        PVerticalIzq.setBounds(100, 0, 100, 120);
+//        PVerticalIzq.setBackground(Color.GRAY);
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
-        PVerticalIzq.setOpaque(true);
+        PVerticalIzq.setOpaque(false);
         PVerticalIzq.setBackground(Color.BLACK);
 
         PHorizontalArriba = new JPanel();
@@ -49,7 +49,6 @@ public class ComponenteTablero extends JPanel {
         add(PCentral);
         add(PVerticalDer);
         add(PVerticalIzq);
-
     }
 
     public void agregarFicha(VistaFicha ficha) {
@@ -80,7 +79,7 @@ public class ComponenteTablero extends JPanel {
     private void agregarFichasVerticalesIzquierdas(VistaFicha ficha) {
         PVerticalIzq.add(Box.createVerticalGlue()); // agrega componentes al final.
         PVerticalIzq.add(ficha);
-        PVerticalIzq.add(Box.createVerticalStrut(5)); // agrego espacio entre fichas.
+        PVerticalIzq.add(Box.createVerticalStrut(4)); // agrego espacio entre fichas.
         revalidate();
         repaint();
     }

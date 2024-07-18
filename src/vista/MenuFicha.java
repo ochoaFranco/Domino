@@ -69,7 +69,6 @@ public class MenuFicha extends JDialog implements IVista {
                 VistaGrafica.decrementarClicks();
             }
         });
-
     }
 
     // se juega la ficha en el lado izquierdo.
@@ -108,7 +107,6 @@ public class MenuFicha extends JDialog implements IVista {
     public static void setJugar(boolean jugar) {
         MenuFicha.jugar = jugar;
     }
-
 
     @Override
     public void mostrarMensaje(String mensaje) {

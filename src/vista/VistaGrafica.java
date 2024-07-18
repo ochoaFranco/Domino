@@ -155,7 +155,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
     private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar) {
-
         if (!f.esFichaDoble()) {
             if (!rotar) {
                 // roto la ficha dependiendo si esta dada vuelta o no.
