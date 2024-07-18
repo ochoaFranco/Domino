@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
@@ -139,18 +142,44 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
-
+    //TODO create another array but only with vertical left tiles,
     @Override
     public void mostrarTablero(Object o) {
         componenteTablero.limpiarFicha();
-        for (IFicha f : (ArrayList<IFicha>) o) {
+        componenteTablero.resetOffset();
+        List<IFicha> fichas = (ArrayList<IFicha>) o;
+        List<IFicha> fichasVerticales = buscarFichasVerticales(fichas);
+        Collections.reverse(fichasVerticales);
+
+        // itero sobre las fichas para agregarlas al tablero.
+        for (IFicha f : fichas) {
+            if (!(f.isVertical() && f.isIzquierdo())) {
+                VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
+                boolean rotar = f.isVertical();
+                rotarFicha(f, vistaFicha, rotar);
+                componenteTablero.agregarFicha(vistaFicha);
+            }
+        }
+        // itero sobre las fichas verticales izquierdas para agregarlas al tablero.
+        for (IFicha f : fichasVerticales) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
             boolean rotar = f.isVertical();
             rotarFicha(f, vistaFicha, rotar);
             componenteTablero.agregarFicha(vistaFicha);
         }
+
         componenteTablero.revalidate();
         componenteTablero.repaint();
+    }
+
+    // Dado una listas de fichas retorna una nueva lista con fichas verticales.
+    private List<IFicha> buscarFichasVerticales(List<IFicha> fichas) {
+        List<IFicha> fichasVerticales = new ArrayList<IFicha>();
+        for (IFicha f: fichas) {
+            if (f.isVertical() && f.isIzquierdo())
+                fichasVerticales.add(f);
+        }
+        return fichasVerticales;
     }
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
