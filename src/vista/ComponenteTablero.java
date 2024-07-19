@@ -22,7 +22,7 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(true);
+        PCentral.setOpaque(false);
         PCentral.setBackground(Color.pink);
 
         // Caracteristicas panel vertical derecho
@@ -31,7 +31,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(true);
+        PVerticalDer.setOpaque(false);
 
         // Caracteristicas panel vertical izquierdo
         PVerticalIzq = new JPanel();
@@ -40,7 +40,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq.setBounds(100, 0, 100, 120);
         PVerticalIzq.setBackground(Color.GRAY);
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
-        PVerticalIzq.setOpaque(true);
+        PVerticalIzq.setOpaque(false);
         PVerticalIzq.setBackground(Color.BLACK);
 
         PHorizontalArriba = new JPanel();
