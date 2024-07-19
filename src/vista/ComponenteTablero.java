@@ -36,8 +36,19 @@ public class ComponenteTablero extends JPanel {
 
         // Caracteristicas panel horizontal arriba.
         panelHorizontalArriba();
+        // Caracteristicas panel horizontal abajo.
+        panelHorizontalAbajo();
 
-        //PHorizontalAbajo = new JPanel();
+
+    }
+// TODO create a gridbag layout and start adding tiles and then decreasing the X coordinate for every tile added.
+    private void panelHorizontalAbajo() {
+        PHorizontalAbajo.setSize(100, 300);
+        PHorizontalAbajo.setBounds(100, 166, 600, 100);
+        PHorizontalAbajo.setBackground(Color.yellow);
+        PHorizontalAbajo.setLayout(new GridBagLayout());
+        PHorizontalAbajo.setOpaque(true);
+        add(PHorizontalAbajo);
     }
 
     // // Se agrega el panel central.
@@ -45,7 +56,7 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(false);
+        PCentral.setOpaque(true);
         PCentral.setBackground(Color.pink);
         add(PCentral);
     }
@@ -55,7 +66,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(false);
+        PVerticalDer.setOpaque(true);
         add(PVerticalDer);
     }
     // Se agrega el panel horizontal de arriba
@@ -88,7 +99,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
         PVerticalIzq.setSize(50, 50);
         PVerticalIzq.setBounds(100, 65, 50, 50);
-        PVerticalIzq.setOpaque(false);
+        PVerticalIzq.setOpaque(true);
         PVerticalIzq.setBackground(Color.BLACK);
         add(PVerticalIzq);
     }
@@ -98,7 +109,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq2.setLayout(new BoxLayout(PVerticalIzq2, BoxLayout.Y_AXIS));
         PVerticalIzq2.setSize(50, 50);
         PVerticalIzq2.setBounds(100, 12, 50, 50);
-        PVerticalIzq2.setOpaque(false);
+        PVerticalIzq2.setOpaque(true);
         PVerticalIzq2.setBackground(Color.white);
         add(PVerticalIzq2);
     }
