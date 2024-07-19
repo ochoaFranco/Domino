@@ -13,6 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
@@ -134,36 +137,74 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.limpiarFicha();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
-        rotarFicha(ficha, f, false);
+        rotarFicha(ficha, f, false, false);
         componenteTablero.agregarFicha(f);
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
-
     @Override
     public void mostrarTablero(Object o) {
         componenteTablero.limpiarFicha();
-        for (IFicha f : (ArrayList<IFicha>) o) {
+        List<IFicha> fichas = (ArrayList<IFicha>) o;
+        List<IFicha> fichasVerticales = buscarFichasVerticales(fichas);
+        Collections.reverse(fichasVerticales);
+
+        // itero sobre las fichas para agregarlas al tablero.
+        for (IFicha f : fichas) {
+            if (!(f.isVertical() && f.isIzquierdo())) {
+                VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
+                boolean rotar = f.isVertical();
+                rotarFicha(f, vistaFicha, rotar, false);
+                componenteTablero.agregarFicha(vistaFicha);
+            }
+        }
+        // itero sobre las fichas verticales izquierdas para agregarlas al tablero.
+        for (IFicha f : fichasVerticales) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            boolean rotar = f.isVertical();
-            rotarFicha(f, vistaFicha, rotar);
+            rotarFicha(f, vistaFicha, true, componenteTablero.rotarHorizontalesArriba());
             componenteTablero.agregarFicha(vistaFicha);
         }
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
 
+    // Dado una listas de fichas retorna una nueva lista con fichas verticales.
+    private List<IFicha> buscarFichasVerticales(List<IFicha> fichas) {
+        List<IFicha> fichasVerticales = new ArrayList<IFicha>();
+        for (IFicha f: fichas) {
+            if (f.isVertical() && f.isIzquierdo())
+                fichasVerticales.add(f);
+        }
+        return fichasVerticales;
+    }
+
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
-    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar) {
+    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar, boolean rotarHorizontales) {
         if (!f.esFichaDoble()) {
             if (!rotar) {
                 // roto la ficha dependiendo si esta dada vuelta o no.
                 vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+            } else {
+                if (f.isDadaVuelta() && !rotarHorizontales) // si se debe rotar, se gira la ficha 180 grados.
+                    vistaFicha.setAnguloRotacion(180);
+                else if (rotarHorizontales && !f.isDadaVuelta()) {
+                    vistaFicha.setAnguloRotacion(90);
+                    System.out.printf("FIcha:" + f.getIzquierdo() + "|" + f.getDerecho() + "\n");
+                }
+                else if (f.isDadaVuelta() && rotarHorizontales) {
+                    vistaFicha.setAnguloRotacion(-90);
+                    System.out.printf("FIcha:" + f.getIzquierdo() + "|" + f.getDerecho() + "\n");
+                }
             }
-            // si se debe rotar, se gira la ficha 180 grados.
-            else if (f.isDadaVuelta()) vistaFicha.setAnguloRotacion(180);
-        } else if (rotar)
-            vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+        } else if (rotar) {
+            if (!rotarHorizontales)
+                vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+            else
+                vistaFicha.setAnguloRotacion(360);
+        }
+
+
+
     }
 
     public void jugar() {
