@@ -71,20 +71,7 @@ public class ComponenteTablero extends JPanel {
     }
     // Se agrega el panel horizontal de arriba
     private void panelHorizontalArriba() {
-        PHorizontalArriba = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
-                AffineTransform original = g2.getTransform();
-                AffineTransform alreves = new AffineTransform();
-                alreves.scale(-1, 1);
-                alreves.translate(-getWidth(),0);
-                g2.setTransform(alreves);
-                super.paintComponent(g2);
-                g2.setTransform(original);
-            }
-        };
+        PHorizontalArriba = new JPanel();
         PHorizontalArriba.setSize(100, 300);
         PHorizontalArriba.setBounds(147, 0, 600, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
