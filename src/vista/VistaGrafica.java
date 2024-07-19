@@ -196,10 +196,13 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                     System.out.printf("FIcha:" + f.getIzquierdo() + "|" + f.getDerecho() + "\n");
                 }
             }
-
         } else if (rotar) {
-            vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+            if (!rotarHorizontales)
+                vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
+            else
+                vistaFicha.setAnguloRotacion(360);
         }
+
 
 
     }
