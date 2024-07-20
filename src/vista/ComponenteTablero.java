@@ -10,7 +10,7 @@ public class ComponenteTablero extends JPanel {
     private final int MAX_VERTICALES_DER = 3;
     private int offset = 0;
     private int offsetDerecha = 0;
-    private int xOffset = 0;
+    private int xOffset = 100;
     private int yPosicion = 250;
     private boolean agregado = false;
     private JPanel PCentral = new JPanel();
@@ -48,10 +48,10 @@ public class ComponenteTablero extends JPanel {
 // TODO create a gridbag layout and start adding tiles and then decreasing the X coordinate for every tile added.
     private void panelHorizontalAbajo() {
         PHorizontalAbajo.setSize(100, 300);
-        PHorizontalAbajo.setBounds(100, 250, 500, 100);
+        PHorizontalAbajo.setBounds(300, 250, 500, 100);
         PHorizontalAbajo.setBackground(Color.yellow);
         PHorizontalAbajo.setLayout(new GridBagLayout());
-        PHorizontalAbajo.setOpaque(true);
+        PHorizontalAbajo.setOpaque(false);
         add(PHorizontalAbajo);
     }
 
@@ -70,7 +70,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(true);
+        PVerticalDer.setOpaque(false);
         add(PVerticalDer);
     }
     // Se agrega el panel horizontal de arriba
@@ -111,10 +111,10 @@ public class ComponenteTablero extends JPanel {
             agregarFichasCentrales(ficha);
         } else {
             if (f.isDerecho())
-                if (offsetDerecha <= MAX_VERTICALES_DER)
+                if (offsetDerecha < MAX_VERTICALES_DER)
                     agregarFichasVertDerechas(ficha);
                 else
-                    agregarFichasHorizontalesAbajo(ficha, xOffset);
+                    agregarFichasHorizontalesAbajo(ficha);
             else {
                 if (offset < 2)
                     agregarFichasVerticalesIzquierdas(ficha);
@@ -137,11 +137,11 @@ public class ComponenteTablero extends JPanel {
     }
 
     // Agrega las fichas horizontales abajo.
-    private void agregarFichasHorizontalesAbajo(VistaFicha ficha, int xOffset) {
+    private void agregarFichasHorizontalesAbajo(VistaFicha ficha) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = xOffset;
         gbc.gridy = yPosicion;
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.WEST;
         PHorizontalAbajo.add(ficha, gbc);
         PHorizontalAbajo.revalidate();
         PHorizontalAbajo.repaint();
