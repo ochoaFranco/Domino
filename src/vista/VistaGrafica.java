@@ -35,7 +35,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setTitle("Domino");
         this.nombre = nombre;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 558);
+        setSize(1200, 650);
         setResizable(false);
 
         // creo un panel junto con su background
@@ -49,12 +49,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         // agrego boton
         robarBtn = new JButton("Robar");
-        robarBtn.setBounds(670, 350, 100, 20);
+        robarBtn.setBounds(1000, 350, 100, 20);
         panel.add(robarBtn);
 
         // agrego la seccion de las fichas del jugador.
         jugadorManoComponente = new ComponenteJugadorMano();
-        jugadorManoComponente.setBounds(0, 390, 800, 200); // Set position and size
+        jugadorManoComponente.setBounds(0, 450, 800, 200); // Set position and size
         panel.add(jugadorManoComponente);
 
         // tamanio pantalla

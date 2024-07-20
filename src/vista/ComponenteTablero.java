@@ -10,7 +10,8 @@ public class ComponenteTablero extends JPanel {
     private final int MAX_VERTICALES_DER = 3;
     private int offset = 0;
     private int offsetDerecha = 0;
-    private int xOffset = 1200;
+    private int xOffset = 1;
+    private int fichaAncho = 50;
     private int yPosicion = 250;
     private boolean agregado = false;
     private JPanel PCentral = new JPanel();
@@ -50,8 +51,9 @@ public class ComponenteTablero extends JPanel {
         PHorizontalAbajo.setSize(100, 300);
         PHorizontalAbajo.setBounds(300, 250, 300, 100);
         PHorizontalAbajo.setBackground(Color.yellow);
-        PHorizontalAbajo.setLayout(new GridBagLayout());
-        PHorizontalAbajo.setOpaque(true);
+        PHorizontalAbajo.setLayout(new BoxLayout(PHorizontalAbajo, BoxLayout.X_AXIS));
+        PHorizontalAbajo.add(Box.createHorizontalGlue()); // ubico los componentes hacia la derecha.
+        PHorizontalAbajo.setOpaque(false);
         add(PHorizontalAbajo);
     }
 
@@ -70,7 +72,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(true);
+        PVerticalDer.setOpaque(false);
         add(PVerticalDer);
     }
     // Se agrega el panel horizontal de arriba
@@ -138,14 +140,14 @@ public class ComponenteTablero extends JPanel {
 
     // Agrega las fichas horizontales abajo.
     private void agregarFichasHorizontalesAbajo(VistaFicha ficha) {
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = xOffset;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        PHorizontalAbajo.add(ficha, gbc);
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.gridx = xOffset;
+//        gbc.gridy = 0;
+//        gbc.anchor = GridBagConstraints.CENTER;
+//        PHorizontalAbajo.add(ficha, gbc);
+        PHorizontalAbajo.add(ficha, PHorizontalAbajo.getComponentCount() - 1);
         PHorizontalAbajo.revalidate();
         PHorizontalAbajo.repaint();
-        this.xOffset -= 1;
     }
 
     // agrega las fichas centrales.
