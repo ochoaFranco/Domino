@@ -7,7 +7,11 @@ import java.lang.foreign.AddressLayout;
 
 public class ComponenteTablero extends JPanel {
     private final int MAX_VERTICALES = 2;
+    private final int MAX_VERTICALES_DER = 3;
     private int offset = 0;
+    private int offsetDerecha = 0;
+    private int xOffset = 0;
+    private int yPosicion = 250;
     private boolean agregado = false;
     private JPanel PCentral = new JPanel();
     private JPanel PVerticalIzq = new JPanel();
@@ -44,7 +48,7 @@ public class ComponenteTablero extends JPanel {
 // TODO create a gridbag layout and start adding tiles and then decreasing the X coordinate for every tile added.
     private void panelHorizontalAbajo() {
         PHorizontalAbajo.setSize(100, 300);
-        PHorizontalAbajo.setBounds(100, 166, 600, 100);
+        PHorizontalAbajo.setBounds(100, 250, 500, 100);
         PHorizontalAbajo.setBackground(Color.yellow);
         PHorizontalAbajo.setLayout(new GridBagLayout());
         PHorizontalAbajo.setOpaque(true);
@@ -56,7 +60,7 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(true);
+        PCentral.setOpaque(false);
         PCentral.setBackground(Color.pink);
         add(PCentral);
     }
@@ -75,7 +79,7 @@ public class ComponenteTablero extends JPanel {
         PHorizontalArriba.setSize(100, 300);
         PHorizontalArriba.setBounds(147, 0, 600, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PHorizontalArriba.setOpaque(true);
+        PHorizontalArriba.setOpaque(false);
         PHorizontalArriba.setBackground(Color.BLUE);
         add(PHorizontalArriba);
     }
@@ -86,7 +90,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
         PVerticalIzq.setSize(50, 50);
         PVerticalIzq.setBounds(100, 65, 50, 50);
-        PVerticalIzq.setOpaque(true);
+        PVerticalIzq.setOpaque(false);
         PVerticalIzq.setBackground(Color.BLACK);
         add(PVerticalIzq);
     }
@@ -96,7 +100,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq2.setLayout(new BoxLayout(PVerticalIzq2, BoxLayout.Y_AXIS));
         PVerticalIzq2.setSize(50, 50);
         PVerticalIzq2.setBounds(100, 12, 50, 50);
-        PVerticalIzq2.setOpaque(true);
+        PVerticalIzq2.setOpaque(false);
         PVerticalIzq2.setBackground(Color.white);
         add(PVerticalIzq2);
     }
@@ -107,7 +111,10 @@ public class ComponenteTablero extends JPanel {
             agregarFichasCentrales(ficha);
         } else {
             if (f.isDerecho())
-                agregarFichasVertDerechas(ficha);
+                if (offsetDerecha <= MAX_VERTICALES_DER)
+                    agregarFichasVertDerechas(ficha);
+                else
+                    agregarFichasHorizontalesAbajo(ficha, xOffset);
             else {
                 if (offset < 2)
                     agregarFichasVerticalesIzquierdas(ficha);
@@ -129,6 +136,18 @@ public class ComponenteTablero extends JPanel {
         repaint();
     }
 
+    // Agrega las fichas horizontales abajo.
+    private void agregarFichasHorizontalesAbajo(VistaFicha ficha, int xOffset) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = xOffset;
+        gbc.gridy = yPosicion;
+        gbc.anchor = GridBagConstraints.EAST;
+        PHorizontalAbajo.add(ficha, gbc);
+        PHorizontalAbajo.revalidate();
+        PHorizontalAbajo.repaint();
+        this.xOffset -= 1;
+    }
+
     // agrega las fichas centrales.
     private void agregarFichasCentrales(VistaFicha ficha) {
         PCentral.add(ficha);
@@ -139,6 +158,7 @@ public class ComponenteTablero extends JPanel {
     // agrega las fichas verticales derechas.
     private void agregarFichasVertDerechas(VistaFicha ficha) {
         PVerticalDer.add(ficha);
+        offsetDerecha +=1;
         revalidate();
         repaint();
     }
@@ -157,10 +177,12 @@ public class ComponenteTablero extends JPanel {
     public void limpiarFicha() {
         offset = 0; // reseteo offset.
         agregado = false;
+        offsetDerecha = 0;
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
         PVerticalIzq.removeAll();
         PVerticalDer.removeAll();
+        PHorizontalAbajo.removeAll();
         revalidate();
         repaint();
     }
