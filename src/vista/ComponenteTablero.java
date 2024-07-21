@@ -11,8 +11,11 @@ public class ComponenteTablero extends JPanel {
     private int offset = 0;
     private int offsetDerecha = 0;
     private boolean agregado = false;
+    // flags para agregar fichas en los paneles de abajo.
     private boolean agregadoHorizontalAbajo = false;
     private boolean turnoFichaVerticalAbajo = false;
+    private boolean turnoFichaHorizontalAbajo = false;
+    // paneles del tablero.
     private final JPanel PCentral = new JPanel();
     private final JPanel PVerticalIzq = new JPanel();
     private final JPanel  PVerticalIzq2 = new JPanel();
@@ -189,8 +192,11 @@ public class ComponenteTablero extends JPanel {
         } else if (!turnoFichaVerticalAbajo) {
             PHorizontalAbajo2.add(ficha);
             turnoFichaVerticalAbajo = true;
-        } else {
+        } else if (!turnoFichaHorizontalAbajo){
             PVerticalAbajo.add(ficha);
+            turnoFichaHorizontalAbajo = true;
+        } else {
+            PHorizontalAbajoDerecho.add(ficha);
         }
         revalidate();
         repaint();
@@ -228,6 +234,7 @@ public class ComponenteTablero extends JPanel {
         agregado = false;
         agregadoHorizontalAbajo = false;
         turnoFichaVerticalAbajo = false;
+        turnoFichaHorizontalAbajo = false;
         offsetDerecha = 0;
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
