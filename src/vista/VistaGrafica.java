@@ -38,12 +38,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
-        componenteTablero.setBounds(0,0, 800, 382);
+        componenteTablero.setBounds(0,0, 1200, 650);
         panel.add(componenteTablero);
 
         // agrego boton
         robarBtn = new JButton("Robar");
-        robarBtn.setBounds(1000, 350, 100, 20);
+        robarBtn.setBounds(1000, 500, 100, 20);
         panel.add(robarBtn);
 
         // agrego la seccion de las fichas del jugador.

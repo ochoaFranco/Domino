@@ -21,12 +21,13 @@ public class ComponenteTablero extends JPanel {
     private final JPanel PVerticalDer = new JPanel();
     private final JPanel PHorizontalAbajo = new JPanel();
     private final JPanel PVerticalAbajo = new JPanel();
+    private final JPanel PHorizontalAbajoDerecho = new JPanel();
     private JPanel PHorizontalArriba;
 
     public ComponenteTablero() {
         // caracteristicas del contenedor.
         setLayout(null);
-        setSize(750,300);
+        setSize(1200,300);
         setOpaque(false);
 
         // Caracteristicas panel central.
@@ -50,6 +51,8 @@ public class ComponenteTablero extends JPanel {
 
         // Caracteristicas panel vertical abajo.
         panelVerticalAbajo();
+
+        panelHorizontalAbajoDerecho();
     }
 
     // // Se agrega el panel central.
@@ -74,7 +77,7 @@ public class ComponenteTablero extends JPanel {
     private void panelHorizontalArriba() {
         PHorizontalArriba = new JPanel();
         PHorizontalArriba.setSize(100, 300);
-        PHorizontalArriba.setBounds(147, 0, 600, 120);
+        PHorizontalArriba.setBounds(147, 0, 1200, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
         PHorizontalArriba.setOpaque(true);
         PHorizontalArriba.setBackground(Color.BLUE);
@@ -125,6 +128,15 @@ public class ComponenteTablero extends JPanel {
         PHorizontalAbajo2.setOpaque(true);
         PHorizontalAbajo2.setBackground(Color.yellow);
         add(PHorizontalAbajo2);
+    }
+
+    private void panelHorizontalAbajoDerecho() {
+        PHorizontalAbajoDerecho.setSize(100, 300);
+        PHorizontalAbajoDerecho.setBounds(560, 320, 1000, 120);
+        PHorizontalAbajoDerecho.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
+        PHorizontalAbajoDerecho.setOpaque(true);
+        PHorizontalAbajoDerecho.setBackground(Color.BLUE);
+        add(PHorizontalAbajoDerecho);
     }
 
     // Dada una ficha, la agrega a la posicion correspondiente del tablero.
@@ -223,6 +235,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.removeAll();
         PHorizontalAbajo.removeAll();
         PVerticalAbajo.removeAll();
+        PHorizontalAbajoDerecho.removeAll();
         revalidate();
         repaint();
     }
