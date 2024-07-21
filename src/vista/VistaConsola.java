@@ -129,7 +129,7 @@ public class VistaConsola implements IVista {
         consolaOutput.append("TABLERO\n");
         consolaOutput.append("-------------------------------------------------------------\n");
         StringBuilder ficha = new StringBuilder();
-        String espacios = generarEspacios(54);
+        String espacios = generarEspacios(115); // it was 54
         ArrayList<IFicha> FichasVerticalesIzquierdas = new ArrayList<>();
         ArrayList<IFicha> fichasVerticalesDerechas = new ArrayList<>();
 
