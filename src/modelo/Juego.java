@@ -78,6 +78,28 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
+    // Logica principal del juego.
+    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta {
+        assert colaTurnos.peek() != null;
+        IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
+        if (ficha == null) throw new FichaInexistente();
+        IJugador jugador = colaTurnos.peek();
+        jugador.colocarFicha(ficha, extremo);
+        jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
+        colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
+        ArrayList<IFicha> fichasTablero = Tablero.getFichas();
+        // dermino si el jugador jugo todas sus fichas.
+        if (jugadorJugoTodasSusFichas(turno)) {
+            contarPuntosJugadores();
+            determinarSiJugadorGano();
+        } else if (detectarCierre()) {
+            casoCierre();
+        } else {
+            determinarJugadorTurno(); // paso el turno al siguiente jugador.
+            notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+        }
+    }
+
     private void determinarJugadorMano()  {
         ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
@@ -216,28 +238,6 @@ public class Juego implements IJuego, ISubject {
                 pozo.agregarFicha(ficha);
             }
             j.getFichas().clear(); // vacio la mano del jugador.
-        }
-    }
-
-    // Logica principal del juego.
-    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta {
-        assert colaTurnos.peek() != null;
-        IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
-        if (ficha == null) throw new FichaInexistente();
-        IJugador jugador = colaTurnos.peek();
-        jugador.colocarFicha(ficha, extremo);
-        jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
-        colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
-        ArrayList<IFicha> fichasTablero = Tablero.getFichas();
-        // dermino si el jugador jugo todas sus fichas.
-        if (jugadorJugoTodasSusFichas(turno)) {
-            contarPuntosJugadores();
-            determinarSiJugadorGano();
-        } else if (detectarCierre()) {
-            casoCierre();
-        } else {
-            determinarJugadorTurno(); // paso el turno al siguiente jugador.
-            notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         }
     }
 

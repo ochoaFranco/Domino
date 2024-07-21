@@ -13,22 +13,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private String nombre;
     private static Controlador controlador;
-    private JPanel panel;
+    private final JPanel panel;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
-    private ComponenteJugadorMano jugadorManoComponente;
-    private ComponenteTablero componenteTablero;
-    private JButton robarBtn;
-    private static int offsetFicha = 1;
-    private static int posicionX = 350;
-    private static int posicionY = 150;
+    private final ComponenteJugadorMano jugadorManoComponente;
+    private final ComponenteTablero componenteTablero;
+    private final JButton robarBtn;
+//    private static int offsetFicha = 1;
+//    private static int posicionX = 350;
+//    private static int posicionY = 150;
     JLabel mensaje = new JLabel();
 
     public VistaGrafica(String nombre) {
@@ -62,12 +61,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         this.getContentPane().add(panel);
         this.addMouseListener(this);
 
-        robarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                actualizarManoJugador();
-            }
-        });
+        robarBtn.addActionListener(actionEvent -> actualizarManoJugador());
     }
 
     // se roba una ficha.
@@ -137,11 +131,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.limpiarFicha();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
-        rotarFicha(ficha, f, false, false);
+        rotarFicha(ficha, f, false, false, false);
         componenteTablero.agregarFicha(f);
         componenteTablero.revalidate();
         componenteTablero.repaint();
     }
+
     @Override
     public void mostrarTablero(Object o) {
         componenteTablero.limpiarFicha();
@@ -149,19 +144,31 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         List<IFicha> fichasVerticales = buscarFichasVerticales(fichas);
         Collections.reverse(fichasVerticales);
 
-        // itero sobre las fichas para agregarlas al tablero.
+        // itero sobre las fichas derechas para agregarlas al tablero.
         for (IFicha f : fichas) {
-            if (!(f.isVertical() && f.isIzquierdo())) {
-                VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-                boolean rotar = f.isVertical();
-                rotarFicha(f, vistaFicha, rotar, false);
-                componenteTablero.agregarFicha(vistaFicha);
+            VistaFicha vFicha;
+            boolean rotar;
+            // agrega fichas centrales.
+            boolean rotarHorizontAbaj = componenteTablero.rotarHorizontalesAbajo();
+            if (!(f.isVertical() && f.isIzquierdo()) && !rotarHorizontAbaj) {
+                vFicha = new VistaFicha(f, false, false, false);
+                rotar = f.isVertical();
+                rotarFicha(f, vFicha, rotar, false, false);
+                componenteTablero.agregarFicha(vFicha);
+
+                // agrega fichas derechas panel horizontal inferior.
+            } else if (f.isVertical() && f.isDerecho()) {
+                vFicha = new VistaFicha(f, false, false, false);
+                rotar = f.isVertical();
+                rotarFicha(f, vFicha, rotar, false, componenteTablero.rotarHorizontalesAbajo());
+                componenteTablero.agregarFicha(vFicha);
             }
         }
+
         // itero sobre las fichas verticales izquierdas para agregarlas al tablero.
         for (IFicha f : fichasVerticales) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            rotarFicha(f, vistaFicha, true, componenteTablero.rotarHorizontalesArriba());
+            rotarFicha(f, vistaFicha, true, componenteTablero.rotarHorizontalesArriba(), false);
             componenteTablero.agregarFicha(vistaFicha);
         }
         componenteTablero.revalidate();
@@ -170,7 +177,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     // Dado una listas de fichas retorna una nueva lista con fichas verticales.
     private List<IFicha> buscarFichasVerticales(List<IFicha> fichas) {
-        List<IFicha> fichasVerticales = new ArrayList<IFicha>();
+        List<IFicha> fichasVerticales = new ArrayList<>();
         for (IFicha f: fichas) {
             if (f.isVertical() && f.isIzquierdo())
                 fichasVerticales.add(f);
@@ -179,7 +186,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
-    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar, boolean rotarHorizontales) {
+    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar, boolean rotarHorizontales, boolean rotarHorizAbajo) {
         if (!f.esFichaDoble()) {
             if (!rotar) {
                 // roto la ficha dependiendo si esta dada vuelta o no.
@@ -187,13 +194,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             } else {
                 if (f.isDadaVuelta() && !rotarHorizontales) // si se debe rotar, se gira la ficha 180 grados.
                     vistaFicha.setAnguloRotacion(180);
-                else if (rotarHorizontales && !f.isDadaVuelta()) {
+                else if (rotarHorizontales && !f.isDadaVuelta())
                     vistaFicha.setAnguloRotacion(90);
-                    System.out.printf("FIcha:" + f.getIzquierdo() + "|" + f.getDerecho() + "\n");
-                }
-                else if (f.isDadaVuelta() && rotarHorizontales) {
+                else if (f.isDadaVuelta() && rotarHorizontales)
                     vistaFicha.setAnguloRotacion(-90);
-                    System.out.printf("FIcha:" + f.getIzquierdo() + "|" + f.getDerecho() + "\n");
+                // rota fichas del panel inferior horizontal
+                else if (rotarHorizAbajo) {
+                    System.out.println("no esta dada vuelta y es rotar abajo\n");
+                    vistaFicha.setAnguloRotacion(90);
                 }
             }
         } else if (rotar) {
@@ -202,9 +210,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             else
                 vistaFicha.setAnguloRotacion(360);
         }
-
-
-
     }
 
     public void jugar() {

@@ -12,14 +12,14 @@ public class ComponenteTablero extends JPanel {
     private int offsetDerecha = 0;
     private boolean agregado = false;
     private boolean agregadoHorizontalAbajo = false;
-    private JPanel PCentral = new JPanel();
-    private JPanel PVerticalIzq = new JPanel();
-    private JPanel  PVerticalIzq2 = new JPanel();
-    private JPanel PHorizontalAbajo1 = new JPanel();
-    private JPanel PHorizontalAbajo2 = new JPanel();
-    private JPanel PVerticalDer = new JPanel();
+    private final JPanel PCentral = new JPanel();
+    private final JPanel PVerticalIzq = new JPanel();
+    private final JPanel  PVerticalIzq2 = new JPanel();
+    private final JPanel PHorizontalAbajo1 = new JPanel();
+    private final JPanel PHorizontalAbajo2 = new JPanel();
+    private final JPanel PVerticalDer = new JPanel();
     private JPanel PHorizontalArriba;
-    private JPanel PHorizontalAbajo = new JPanel();
+    private final JPanel PHorizontalAbajo = new JPanel();
 
     public ComponenteTablero() {
         // caracteristicas del contenedor.
@@ -78,7 +78,6 @@ public class ComponenteTablero extends JPanel {
 
     // Se agregan los paneles verticales de la izquierda.
     private void panelVerticalIzq() {
-        PVerticalIzq = new JPanel();
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
         PVerticalIzq.setSize(50, 50);
         PVerticalIzq.setBounds(100, 65, 50, 50);
@@ -88,7 +87,6 @@ public class ComponenteTablero extends JPanel {
     }
 
     private void panelVerticalIzq2() {
-        PVerticalIzq2 = new JPanel();
         PVerticalIzq2.setLayout(new BoxLayout(PVerticalIzq2, BoxLayout.Y_AXIS));
         PVerticalIzq2.setSize(50, 50);
         PVerticalIzq2.setBounds(100, 12, 50, 50);
@@ -109,7 +107,7 @@ public class ComponenteTablero extends JPanel {
     private void panelHorizontalAbajo2() {
         PHorizontalAbajo2.setLayout(new BoxLayout(PHorizontalAbajo2, BoxLayout.X_AXIS));
         PHorizontalAbajo2.setSize(50, 50);
-        PHorizontalAbajo2.setBounds(510, 270, 50, 50);
+        PHorizontalAbajo2.setBounds(500, 270, 50, 50);
         PHorizontalAbajo2.setOpaque(false);
         PHorizontalAbajo2.setBackground(Color.yellow);
         add(PHorizontalAbajo2);
@@ -127,7 +125,7 @@ public class ComponenteTablero extends JPanel {
                 else
                     agregarFichasHorizontalesAbajo(ficha);
             } else {
-                if (offset < 2)
+                if (offset < MAX_VERTICALES)
                     agregarFichasVerticalesIzquierdas(ficha);
                 else
                     agregarFichasHorizontalesArriba(ficha);
@@ -138,6 +136,11 @@ public class ComponenteTablero extends JPanel {
     // Permite rotar correctamente las fichas del panel superior horizontal.
     public boolean rotarHorizontalesArriba() {
         return PVerticalIzq2.getComponentCount() > 0 && offset >=2;
+    }
+
+   // Permite rotar correctamente las fichas del panel inferior horizontal.
+    public boolean rotarHorizontalesAbajo() {
+        return offsetDerecha >= MAX_VERTICALES_DER;
     }
 
     // agrega las fichas horizontales arriba.
