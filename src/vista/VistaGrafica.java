@@ -192,20 +192,23 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                 // roto la ficha dependiendo si esta dada vuelta o no.
                 vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
             } else {
-                if (f.isDadaVuelta() && !rotarHorizontales) // si se debe rotar, se gira la ficha 180 grados.
-                    vistaFicha.setAnguloRotacion(180);
-                else if (rotarHorizontales && !f.isDadaVuelta())
-                    vistaFicha.setAnguloRotacion(90);
-                else if (f.isDadaVuelta() && rotarHorizontales)
-                    vistaFicha.setAnguloRotacion(-90);
-                // rota fichas del panel inferior horizontal
-                else if (rotarHorizAbajo) {
-                    System.out.println("no esta dada vuelta y es rotar abajo\n");
-                    vistaFicha.setAnguloRotacion(90);
+                if (!rotarHorizAbajo) {
+                    if (f.isDadaVuelta() && !rotarHorizontales) {// si se debe rotar, se jira la ficha 180 grados.
+                        vistaFicha.setAnguloRotacion(180);
+                    } else if (rotarHorizontales && !f.isDadaVuelta()) {
+                        vistaFicha.setAnguloRotacion(90);
+                    } else if (f.isDadaVuelta() && rotarHorizontales) {
+                        vistaFicha.setAnguloRotacion(-90);
+                    }
+                } else { // rota fichas del panel inferior horizontal
+                    if (f.isDadaVuelta())
+                        vistaFicha.setAnguloRotacion(-90);
+                    else
+                        vistaFicha.setAnguloRotacion(90);
                 }
             }
         } else if (rotar) {
-            if (!rotarHorizontales)
+            if (!rotarHorizontales && !rotarHorizAbajo)
                 vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
             else
                 vistaFicha.setAnguloRotacion(360);

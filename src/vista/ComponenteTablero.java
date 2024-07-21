@@ -140,7 +140,7 @@ public class ComponenteTablero extends JPanel {
 
    // Permite rotar correctamente las fichas del panel inferior horizontal.
     public boolean rotarHorizontalesAbajo() {
-        return offsetDerecha >= MAX_VERTICALES_DER;
+        return offsetDerecha >= MAX_VERTICALES_DER && PVerticalDer.getComponentCount() == MAX_VERTICALES_DER;
     }
 
     // agrega las fichas horizontales arriba.
