@@ -8,8 +8,6 @@ import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -17,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
-    private String nombre;
+    private final String nombre;
     private static Controlador controlador;
     private final JPanel panel;
     private static IFicha primeraFicha;
@@ -25,9 +23,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteJugadorMano jugadorManoComponente;
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
-//    private static int offsetFicha = 1;
-//    private static int posicionX = 350;
-//    private static int posicionY = 150;
     JLabel mensaje = new JLabel();
 
     public VistaGrafica(String nombre) {
@@ -131,7 +126,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.limpiarFicha();
         VistaGrafica.primeraFicha = ficha;
         VistaFicha f = new VistaFicha(ficha, false, false, true);
-        rotarFicha(ficha, f, false, false, false);
+        rotarFicha(ficha, f, false, false, false, false);
         componenteTablero.agregarFicha(f);
         componenteTablero.revalidate();
         componenteTablero.repaint();
@@ -153,14 +148,16 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             if (!(f.isVertical() && f.isIzquierdo()) && !rotarHorizontAbaj) {
                 vFicha = new VistaFicha(f, false, false, false);
                 rotar = f.isVertical();
-                rotarFicha(f, vFicha, rotar, false, false);
+                rotarFicha(f, vFicha, rotar, false, false, false);
                 componenteTablero.agregarFicha(vFicha);
 
                 // agrega fichas derechas panel horizontal inferior.
             } else if (f.isVertical() && f.isDerecho()) {
                 vFicha = new VistaFicha(f, false, false, false);
                 rotar = f.isVertical();
-                rotarFicha(f, vFicha, rotar, false, componenteTablero.rotarHorizontalesAbajo());
+                boolean rotarVerticalAbajo = componenteTablero.rotarVerticalesAbajo();
+                boolean rotarHorizontalAbajo = componenteTablero.rotarHorizontalesAbajo();
+                rotarFicha(f, vFicha, rotar, false, rotarHorizontalAbajo,  rotarVerticalAbajo);
                 componenteTablero.agregarFicha(vFicha);
             }
         }
@@ -168,7 +165,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // itero sobre las fichas verticales izquierdas para agregarlas al tablero.
         for (IFicha f : fichasVerticales) {
             VistaFicha vistaFicha = new VistaFicha(f, false, false, false);
-            rotarFicha(f, vistaFicha, true, componenteTablero.rotarHorizontalesArriba(), false);
+            rotarFicha(f, vistaFicha, true, componenteTablero.rotarHorizontalesArriba(), false, false);
             componenteTablero.agregarFicha(vistaFicha);
         }
         componenteTablero.revalidate();
@@ -186,25 +183,36 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     // dado una ficha, la rota y la muestra en las coordenadas indicadas.
-    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar, boolean rotarHorizontales, boolean rotarHorizAbajo) {
+    private static void rotarFicha(IFicha f, VistaFicha vistaFicha, boolean rotar,
+                                   boolean rotarHorizontales,
+                                   boolean rotarHorizAbajo,
+                                   boolean rotarVerticalAbajo) {
         if (!f.esFichaDoble()) {
             if (!rotar) {
                 // roto la ficha dependiendo si esta dada vuelta o no.
                 vistaFicha.setAnguloRotacion(f.isDadaVuelta() ? 90 : -90);
             } else {
                 if (!rotarHorizAbajo) {
-                    if (f.isDadaVuelta() && !rotarHorizontales) {// si se debe rotar, se jira la ficha 180 grados.
+                    if (f.isDadaVuelta() && !rotarHorizontales)// si se debe rotar, se jira la ficha 180 grados.
                         vistaFicha.setAnguloRotacion(180);
-                    } else if (rotarHorizontales && !f.isDadaVuelta()) {
+                     else if (rotarHorizontales && !f.isDadaVuelta())
                         vistaFicha.setAnguloRotacion(90);
-                    } else if (f.isDadaVuelta() && rotarHorizontales) {
+                    else if (f.isDadaVuelta() && rotarHorizontales)
                         vistaFicha.setAnguloRotacion(-90);
-                    }
-                } else { // rota fichas del panel inferior horizontal
+                } else if (!rotarVerticalAbajo) { // rota fichas del panel inferior horizontal
                     if (f.isDadaVuelta())
                         vistaFicha.setAnguloRotacion(-90);
                     else
                         vistaFicha.setAnguloRotacion(90);
+                } else {
+                    if (f.isDadaVuelta()) {
+                        vistaFicha.setAnguloRotacion(-180);
+                        System.out.printf("SARACATUNGA IN");
+                    }
+                    else {
+                        vistaFicha.setAnguloRotacion(360);
+                        System.out.printf("SARACATUNGA OUT");
+                    }
                 }
             }
         } else if (rotar) {

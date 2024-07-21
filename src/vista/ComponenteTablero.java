@@ -157,6 +157,11 @@ public class ComponenteTablero extends JPanel {
         return offsetDerecha >= MAX_VERTICALES_DER && PVerticalDer.getComponentCount() == MAX_VERTICALES_DER;
     }
 
+    // Permite rotar correctamente la ficha vertical inferior.
+    public boolean rotarVerticalesAbajo() {
+        return turnoFichaVerticalAbajo;
+    }
+
     // agrega las fichas horizontales arriba.
     private void agregarFichasHorizontalesArriba(VistaFicha ficha) {
         PHorizontalArriba.add(ficha);
