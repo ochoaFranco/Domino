@@ -12,14 +12,16 @@ public class ComponenteTablero extends JPanel {
     private int offsetDerecha = 0;
     private boolean agregado = false;
     private boolean agregadoHorizontalAbajo = false;
+    private boolean turnoFichaVerticalAbajo = false;
     private final JPanel PCentral = new JPanel();
     private final JPanel PVerticalIzq = new JPanel();
     private final JPanel  PVerticalIzq2 = new JPanel();
     private final JPanel PHorizontalAbajo1 = new JPanel();
     private final JPanel PHorizontalAbajo2 = new JPanel();
     private final JPanel PVerticalDer = new JPanel();
-    private JPanel PHorizontalArriba;
     private final JPanel PHorizontalAbajo = new JPanel();
+    private final JPanel PVerticalAbajo = new JPanel();
+    private JPanel PHorizontalArriba;
 
     public ComponenteTablero() {
         // caracteristicas del contenedor.
@@ -45,6 +47,9 @@ public class ComponenteTablero extends JPanel {
         // Caracteristicas panel horizontal abajo.
         panelHorizontalAbajo1();
         panelHorizontalAbajo2();
+
+        // Caracteristicas panel vertical abajo.
+        panelVerticalAbajo();
     }
 
     // // Se agrega el panel central.
@@ -52,7 +57,7 @@ public class ComponenteTablero extends JPanel {
         PCentral.setSize(650, 100);
         PCentral.setBounds(100, 100, 650, 100);
         PCentral.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PCentral.setOpaque(false);
+        PCentral.setOpaque(true);
         PCentral.setBackground(Color.pink);
         add(PCentral);
     }
@@ -62,7 +67,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalDer.setBounds(600, 166, 100, 150);
         PVerticalDer.setBackground(Color.BLACK);
         PVerticalDer.setLayout(new BoxLayout(PVerticalDer, BoxLayout.Y_AXIS));
-        PVerticalDer.setOpaque(false);
+        PVerticalDer.setOpaque(true);
         add(PVerticalDer);
     }
     // Se agrega el panel horizontal de arriba
@@ -71,7 +76,7 @@ public class ComponenteTablero extends JPanel {
         PHorizontalArriba.setSize(100, 300);
         PHorizontalArriba.setBounds(147, 0, 600, 120);
         PHorizontalArriba.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 15));
-        PHorizontalArriba.setOpaque(false);
+        PHorizontalArriba.setOpaque(true);
         PHorizontalArriba.setBackground(Color.BLUE);
         add(PHorizontalArriba);
     }
@@ -81,7 +86,7 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq.setLayout(new BoxLayout(PVerticalIzq, BoxLayout.Y_AXIS));
         PVerticalIzq.setSize(50, 50);
         PVerticalIzq.setBounds(100, 65, 50, 50);
-        PVerticalIzq.setOpaque(false);
+        PVerticalIzq.setOpaque(true);
         PVerticalIzq.setBackground(Color.BLACK);
         add(PVerticalIzq);
     }
@@ -90,16 +95,25 @@ public class ComponenteTablero extends JPanel {
         PVerticalIzq2.setLayout(new BoxLayout(PVerticalIzq2, BoxLayout.Y_AXIS));
         PVerticalIzq2.setSize(50, 50);
         PVerticalIzq2.setBounds(100, 12, 50, 50);
-        PVerticalIzq2.setOpaque(false);
+        PVerticalIzq2.setOpaque(true);
         PVerticalIzq2.setBackground(Color.white);
         add(PVerticalIzq2);
+    }
+
+    private void panelVerticalAbajo() {
+        PVerticalAbajo.setLayout(new BoxLayout(PVerticalAbajo, BoxLayout.Y_AXIS));
+        PVerticalAbajo.setSize(50, 50);
+        PVerticalAbajo.setBounds(500, 320, 50, 50);
+        PVerticalAbajo.setOpaque(true);
+        PVerticalAbajo.setBackground(Color.PINK);
+        add(PVerticalAbajo);
     }
 
     private void panelHorizontalAbajo1() {
         PHorizontalAbajo1.setLayout(new BoxLayout(PHorizontalAbajo1, BoxLayout.X_AXIS));
         PHorizontalAbajo1.setSize(50, 50);
         PHorizontalAbajo1.setBounds(550, 270, 50, 50);
-        PHorizontalAbajo1.setOpaque(false);
+        PHorizontalAbajo1.setOpaque(true);
         PHorizontalAbajo1.setBackground(Color.MAGENTA);
         add(PHorizontalAbajo1);
     }
@@ -108,7 +122,7 @@ public class ComponenteTablero extends JPanel {
         PHorizontalAbajo2.setLayout(new BoxLayout(PHorizontalAbajo2, BoxLayout.X_AXIS));
         PHorizontalAbajo2.setSize(50, 50);
         PHorizontalAbajo2.setBounds(500, 270, 50, 50);
-        PHorizontalAbajo2.setOpaque(false);
+        PHorizontalAbajo2.setOpaque(true);
         PHorizontalAbajo2.setBackground(Color.yellow);
         add(PHorizontalAbajo2);
     }
@@ -155,8 +169,11 @@ public class ComponenteTablero extends JPanel {
         if (!agregadoHorizontalAbajo) {
             PHorizontalAbajo1.add(ficha);
             agregadoHorizontalAbajo = true;
-        } else {
+        } else if (!turnoFichaVerticalAbajo) {
             PHorizontalAbajo2.add(ficha);
+            turnoFichaVerticalAbajo = true;
+        } else {
+            PVerticalAbajo.add(ficha);
         }
         revalidate();
         repaint();
@@ -188,21 +205,21 @@ public class ComponenteTablero extends JPanel {
         offset += 1;
     }
 
+    // Resetea todos los flags y limpia los jpanels para evitar fichas duplicadas.
     public void limpiarFicha() {
         offset = 0; // reseteo offset.
         agregado = false;
         agregadoHorizontalAbajo = false;
+        turnoFichaVerticalAbajo = false;
         offsetDerecha = 0;
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
         PVerticalIzq.removeAll();
         PVerticalDer.removeAll();
         PHorizontalAbajo.removeAll();
+        PVerticalAbajo.removeAll();
         revalidate();
         repaint();
     }
 }
-
-
-
 

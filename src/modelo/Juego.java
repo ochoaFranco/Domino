@@ -93,6 +93,7 @@ public class Juego implements IJuego, ISubject {
             contarPuntosJugadores();
             determinarSiJugadorGano();
         } else if (detectarCierre()) {
+            System.out.println("SARACATUNGA BUG");
             casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
