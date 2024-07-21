@@ -189,4 +189,9 @@ public class Login  extends JDialog implements IVista {
     public void mostrarBoton() {
 
     }
+
+    @Override
+    public void limpiarTablero() {
+
+    }
 }

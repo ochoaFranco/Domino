@@ -14,4 +14,5 @@ public interface IVista {
     void setControlador(Controlador controlador);
     void ocultarBoton();
     void mostrarBoton();
+    void limpiarTablero();
 }

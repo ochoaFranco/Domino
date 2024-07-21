@@ -151,4 +151,9 @@ public class MenuFicha extends JDialog implements IVista {
     @Override
     public void mostrarBoton() {
     }
+
+    @Override
+    public void limpiarTablero() {
+
+    }
 }

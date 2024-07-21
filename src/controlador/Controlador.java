@@ -62,6 +62,7 @@ public class Controlador implements IObserver {
             case CAMBIO_RONDA:
                 vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
                 vista.mostrarTablaPuntos(o2);
+                vista.limpiarTablero();
                 vista.mostrarMensaje("Comenzara una nueva ronda..\n");
                 break;
         }

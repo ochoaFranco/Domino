@@ -134,7 +134,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarTablero(Object o) {
-        componenteTablero.limpiarFicha();
+        limpiarTablero();
         List<IFicha> fichas = (ArrayList<IFicha>) o;
         List<IFicha> fichasVerticales = buscarFichasVerticales(fichas);
         Collections.reverse(fichasVerticales);
@@ -262,6 +262,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void mostrarBoton() {
         robarBtn.setVisible(true);
+    }
+
+    @Override
+    public void limpiarTablero() {
+        componenteTablero.limpiarFicha();
     }
 
     @Override

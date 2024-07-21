@@ -213,6 +213,11 @@ public class VistaConsola implements IVista {
         inputCMD.setEditable(true);
     }
 
+    @Override
+    public void limpiarTablero() {
+
+    }
+
     private void altaJugador(String nombre) {
         consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }

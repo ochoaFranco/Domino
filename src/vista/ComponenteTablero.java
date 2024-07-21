@@ -22,7 +22,6 @@ public class ComponenteTablero extends JPanel {
     private final JPanel PHorizontalAbajo1 = new JPanel();
     private final JPanel PHorizontalAbajo2 = new JPanel();
     private final JPanel PVerticalDer = new JPanel();
-    private final JPanel PHorizontalAbajo = new JPanel();
     private final JPanel PVerticalAbajo = new JPanel();
     private final JPanel PHorizontalAbajoDerecho = new JPanel();
     private JPanel PHorizontalArriba;
@@ -244,12 +243,13 @@ public class ComponenteTablero extends JPanel {
         PCentral.removeAll();
         PHorizontalArriba.removeAll();
         PVerticalIzq.removeAll();
+        PVerticalIzq2.removeAll();
         PVerticalDer.removeAll();
-        PHorizontalAbajo.removeAll();
+        PHorizontalAbajo1.removeAll();
+        PHorizontalAbajo2.removeAll();
         PVerticalAbajo.removeAll();
         PHorizontalAbajoDerecho.removeAll();
         revalidate();
         repaint();
     }
 }
-

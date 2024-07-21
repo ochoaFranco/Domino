@@ -138,4 +138,9 @@ public class Lobby implements IVista {
     public void mostrarBoton() {
     }
 
+    @Override
+    public void limpiarTablero() {
+
+    }
+
 }
