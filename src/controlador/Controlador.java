@@ -67,6 +67,7 @@ public class Controlador implements IObserver {
                 break;
         }
     }
+
     @Override
     public void update(Evento e, Object o) {
         switch (e) {

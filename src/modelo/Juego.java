@@ -12,7 +12,7 @@ import java.util.Queue;
 public class Juego implements IJuego, ISubject {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 40;
+    private final int LIMITEPUNTOS = 100;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -92,9 +92,9 @@ public class Juego implements IJuego, ISubject {
         if (jugadorJugoTodasSusFichas(turno)) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
-//        } else if (detectarCierre()) {
-//            System.out.println("SARACATUNGA BUG");
-//            casoCierre(); // to be implemented later
+        } else if (detectarCierre()) {
+            System.out.println("SARACATUNGA BUG");
+            casoCierre(); // to be implemented later
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
             notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);

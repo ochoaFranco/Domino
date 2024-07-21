@@ -78,7 +78,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarMensaje(String mensaje) {
         // calculo la posicion del mensaj en la pantalla.
         int x = 30;
-        int y = 350;
+        int y = 400;
         mostrarMensaje(mensaje, x, y);
     }
 
@@ -244,7 +244,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
-
+        
     }
 
     @Override
