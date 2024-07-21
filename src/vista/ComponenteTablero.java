@@ -177,6 +177,11 @@ public class ComponenteTablero extends JPanel {
         return turnoFichaVerticalAbajo;
     }
 
+    // Permite rotar correctamente la ficha horizontal inferior derecha.
+    public boolean rotarHorizontalAbajoDerecha() {
+        return turnoFichaHorizontalAbajo;
+    }
+
     // agrega las fichas horizontales arriba.
     private void agregarFichasHorizontalesArriba(VistaFicha ficha) {
         PHorizontalArriba.add(ficha);
