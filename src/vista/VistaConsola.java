@@ -222,7 +222,6 @@ public class VistaConsola implements IVista {
             controlador.iniciarJuego();
             VistaConsola.jugando = true;
         }
-
     }
 
     // metodo que permite generar espacios.
