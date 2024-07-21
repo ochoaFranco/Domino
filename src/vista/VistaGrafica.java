@@ -219,14 +219,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                         vistaFicha.setAnguloRotacion(360);
                     // rota fichas del panel inferior horizontal derecho
                 } else {
-                    if (f.isDadaVuelta()) {
+                    if (f.isDadaVuelta())
                         vistaFicha.setAnguloRotacion(90);
-                        System.out.printf("SARACATUNGA IN");
-                    }
-                    else {
+                    else
                         vistaFicha.setAnguloRotacion(-90);
-                        System.out.printf("SARACATUNGA OUT");
-                    }
                 }
             }
         } else if (rotar) {
