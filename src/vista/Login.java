@@ -2,6 +2,7 @@ package vista;
 
 import controlador.Controlador;
 import modelo.IFicha;
+import modelo.IJuego;
 import modelo.IJugador;
 import modelo.Juego;
 
@@ -17,12 +18,12 @@ public class Login  extends JDialog implements IVista {
     private JComboBox<String> interfazComboBox;
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
-    private Juego juego;
+    private IJuego juego;
     private static boolean isJuegoIniciado = false;
     private static int cantVentanasAbiertas = 0;
     private final static int cantMaxVentanasAbiertas = 2;
 
-    public Login(JFrame parent, Juego juego) {
+    public Login(JFrame parent, IJuego juego) {
         super(parent, "Login", false);
         this.juego = juego;
         // seteo la ventana anterior para poder cerrarla.
@@ -123,9 +124,9 @@ public class Login  extends JDialog implements IVista {
         }
         // seteamos el oontrolador e iniciamos el juego.
         controlador = new Controlador(vista);
-        controlador.setModelo(juego);
+//        controlador.setModeloRemoto((IJuego)juego); // to be fixed later.
         vista.setControlador(controlador);
-        vista.mostrar();
+        vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
@@ -161,7 +162,7 @@ public class Login  extends JDialog implements IVista {
     }
 
     @Override
-    public void mostrar() {
+    public void iniciar() {
         setVisible(true);
     }
 

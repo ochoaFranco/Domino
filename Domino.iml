@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/LibreriaRMIMVC.jar!/" />
@@ -15,7 +15,10 @@
         <JAVADOC>
           <root url="jar://$MODULE_DIR$/LibreriaRMIMVC.jar!/doc" />
         </JAVADOC>
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/LibreriaRMIMVC.jar!/" />
+          <root url="jar://$MODULE_DIR$/LibreriaRMIMVC.jar!/ar/edu/unlu/rmimvc" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>

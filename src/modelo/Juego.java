@@ -1,48 +1,50 @@
 package modelo;
 
+import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Juego implements IJuego, ISubject {
+public class Juego extends ObservableRemoto implements IJuego {
     private static List<Jugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 15;
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
-    private ArrayList<IObserver> observers;
+//    private ArrayList<IObserver> observers;
     private Jugador jugadorMano = null;
     private Queue<IJugador> colaTurnos = new LinkedList<>();
+    private static IJuego instancia;
 
-    public Juego() {
+    public static IJuego getInstancia() throws RemoteException {
+        if (instancia == null) {
+            instancia = new Juego();
+        }
+        return instancia;
+    }
+
+    public Juego() throws RemoteException {
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
         pozo = new Pozo(fichas);
-        observers = new ArrayList<>();
     }
 
-    public static List<Jugador> getJugadores() {
-        return jugadores;
-    }
-
-    public static Pozo getPozo() {
-        return pozo;
-    }
-
-    public IJugador getTurno() {
+    @Override
+    public IJugador getTurno() throws RemoteException {
         return turno;
     }
 
     @Override
-    public Jugador conectarJugador(String nombre) {
+    public Jugador conectarJugador(String nombre) throws RemoteException{
         Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
@@ -51,7 +53,8 @@ public class Juego implements IJuego, ISubject {
 
     /** Inicializa un conjunto de fichas para el juego
      * desde (0, 0) hasta (6, 6)*/
-    public void inicializarFichas() {
+    @Override
+    public void inicializarFichas() throws RemoteException {
         for (int i = 0; i <= 6; i++) {
             for (int j = i; j <= 6; j++) {
                 Ficha ficha = new Ficha(i, j);
@@ -60,26 +63,17 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
-    public void iniciarJuego() {
+    @Override
+    public void iniciarJuego() throws RemoteException {
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
-        notifyObserver(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
-    }
-
-    private void repartir() {
-        for (Jugador j : jugadores) {
-            for (int i = 0; i < 7; i++) {
-                IFicha ficha = pozo.sacarFicha();
-                if (ficha != null) {
-                    j.recibirFicha(ficha);
-                }
-            }
-        }
+//        notificarObservadores(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
     }
 
     // Logica principal del juego.
-    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta {
+    @Override
+    public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException {
         assert colaTurnos.peek() != null;
         IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
         if (ficha == null) throw new FichaInexistente();
@@ -96,7 +90,36 @@ public class Juego implements IJuego, ISubject {
             casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
-            notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+//            notificarObservadores(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+        }
+    }
+
+    @Override
+    public void determinarJugadorTurno() throws RemoteException {
+        turno = colaTurnos.peek();
+    }
+
+    // robo fichas del pozo y actualizo la mano.
+    @Override
+    public void robarFichaPozo() throws RemoteException {
+        IJugador jugador = turno;
+        IFicha ficha = pozo.sacarFicha();
+        if (ficha == null) {
+            pasarTurno();
+        } else {
+            jugador.recibirFicha(ficha);
+//            notificarObservadores(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
+        }
+    }
+
+    private void repartir() {
+        for (Jugador j : jugadores) {
+            for (int i = 0; i < 7; i++) {
+                IFicha ficha = pozo.sacarFicha();
+                if (ficha != null) {
+                    j.recibirFicha(ficha);
+                }
+            }
         }
     }
 
@@ -164,11 +187,6 @@ public class Juego implements IJuego, ISubject {
         }
         return jFichaDobleMasAlta;
     }
-
-    public void determinarJugadorTurno() {
-        turno = colaTurnos.peek();
-    }
-
     // cuento los puntos de las fichas de todos lo jugadores.
     private void contarPuntosJugadores() {
         int puntosTotal = 0;
@@ -194,16 +212,16 @@ public class Juego implements IJuego, ISubject {
         turno = ganador; // marcamos al ganador como el jugador del turno para dsp contar los puntos.
     }
 
-    private void determinarSiJugadorGano() {
+    private void determinarSiJugadorGano() throws RemoteException {
         if (turno.getPuntos() >= LIMITEPUNTOS) {
-            notifyObserver(Evento.FIN_DEL_JUEGO, turno);
+//            notificarObservadores(Evento.FIN_DEL_JUEGO, turno);
         } else {
-            notifyObserver(Evento.CAMBIO_RONDA, turno, jugadores); // jugador que domino la ronda mas todos los jugadores.
+//            notificarObservadores(Evento.CAMBIO_RONDA, turno, jugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
         }
     }
 
-    private void reiniciarRonda()  {
+    private void reiniciarRonda() throws RemoteException {
         juntarFichasTablero();
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
@@ -241,7 +259,7 @@ public class Juego implements IJuego, ISubject {
         }
     }
 
-    private void casoCierre() {
+    private void casoCierre() throws RemoteException {
         detectarJugadorGanadorCierre();
         turno.getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
         contarPuntosJugadores();
@@ -266,18 +284,6 @@ public class Juego implements IJuego, ISubject {
         return ficha;
     }
 
-    // robo fichas del pozo y actualizo la mano.
-    public void robarFichaPozo() {
-        IJugador jugador = turno;
-        IFicha ficha = pozo.sacarFicha();
-        if (ficha == null) {
-            pasarTurno();
-        } else {
-            jugador.recibirFicha(ficha);
-            notifyObserver(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
-        }
-    }
-
     // detecta si ningun jugador puede jugar una ficha y no hay mas en el pozo.
     private boolean detectarCierre() {
         boolean cierre = false;
@@ -293,34 +299,34 @@ public class Juego implements IJuego, ISubject {
     }
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.
-    private void pasarTurno() {
+    private void pasarTurno() throws RemoteException {
         IJugador jugador = colaTurnos.poll();
         colaTurnos.offer(jugador);
         determinarJugadorTurno(); // actualizo el turno
-        notifyObserver(Evento.PASAR_TURNO, turno);
+//        notificarObservadores(Evento.PASAR_TURNO, turno);
     }
 
-    @Override
-    public void attach(IObserver observer) {
-        observers.add(observer);
-    }
-
-    @Override
-    public void detach(IObserver observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObserver(Evento e, Object o1) {
-        for (IObserver ob: observers) {
-            ob.update(e, o1);
-        }
-    }
-
-    @Override
-    public void notifyObserver(Evento e, Object o1, Object o2) {
-        for (IObserver ob: observers) {
-            ob.update(e, o1, o2);
-        }
-    }
+//    @Override
+//    public void attach(IObserver observer) {
+//        observers.add(observer);
+//    }
+//
+//    @Override
+//    public void detach(IObserver observer) {
+//        observers.remove(observer);
+//    }
+//
+//    @Override
+//    public void notifyObserver(Evento e, Object o1) {
+//        for (IObserver ob: observers) {
+//            ob.update(e, o1);
+//        }
+//    }
+//
+//    @Override
+//    public void notifyObserver(Evento e, Object o1, Object o2) {
+//        for (IObserver ob: observers) {
+//            ob.update(e, o1, o2);
+//        }
+//    }
 }

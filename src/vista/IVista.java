@@ -8,7 +8,7 @@ public interface IVista {
     void mostrarMensaje(String mensaje);
     void mostrarFichasJugador(IJugador jugador);
     void mostrarFicha(IFicha ficha);
-    void mostrar();
+    void iniciar();
     void mostrarTablero(Object o);
     void mostrarTablaPuntos(Object o);
     void setControlador(Controlador controlador);

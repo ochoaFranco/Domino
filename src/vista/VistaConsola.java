@@ -72,7 +72,7 @@ public class VistaConsola implements IVista {
         determinarComando(comando);
     }
 
-    public void mostrar() {
+    public void iniciar() {
         frame.setVisible(true);
     }
 

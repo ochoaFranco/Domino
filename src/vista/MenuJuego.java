@@ -2,6 +2,7 @@ package vista;
 
 import controlador.Controlador;
 import modelo.IFicha;
+import modelo.IJuego;
 import modelo.IJugador;
 import modelo.Juego;
 
@@ -18,7 +19,7 @@ public class MenuJuego extends JDialog implements IVista {
     private static final int totalDeVentanasCerradasEsperadas = 2;
     private static JFrame parent;
 
-    public MenuJuego(JFrame parent, Juego juego) {
+    public MenuJuego(JFrame parent, IJuego juego) {
         super(parent, "Domino", true);
         MenuJuego.parent = parent; // Ventana anterior.
         setTitle("Domino");
@@ -59,12 +60,12 @@ public class MenuJuego extends JDialog implements IVista {
         });
     }
 
-    private void loginUsuario(Juego juego) {
+    private void loginUsuario(IJuego juego) {
         Login usuario1 = new Login((JFrame) this.getParent(), juego);
         Login usuario2 = new Login((JFrame) this.getParent(), juego);
 
-        usuario1.mostrar();
-        usuario2.mostrar();
+        usuario1.iniciar();
+        usuario2.iniciar();
         dispose();
     }
 
@@ -123,7 +124,7 @@ public class MenuJuego extends JDialog implements IVista {
     }
 
     @Override
-    public void mostrar() {
+    public void iniciar() {
         setVisible(true);
     }
 

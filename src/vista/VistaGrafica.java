@@ -242,7 +242,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     @Override
-    public void mostrar() {
+    public void iniciar() {
         setVisible(true);
     }
 

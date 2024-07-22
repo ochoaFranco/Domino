@@ -124,7 +124,7 @@ public class MenuFicha extends JDialog implements IVista {
     }
 
     @Override
-    public void mostrar() {
+    public void iniciar() {
         setVisible(true);
     }
 

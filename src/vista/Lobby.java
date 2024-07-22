@@ -2,23 +2,21 @@ package vista;
 
 import controlador.Controlador;
 import modelo.IFicha;
+import modelo.IJuego;
 import modelo.IJugador;
 import modelo.Juego;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class Lobby implements IVista {
-    private Controlador controlador;
     private final JFrame frame;
-    private Juego juego = new Juego();
+    private IJuego juego = Juego.getInstancia();
 
-    public Lobby()  {
+    public Lobby() throws RemoteException {
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 768);
@@ -69,7 +67,7 @@ public class Lobby implements IVista {
 
     private void ejecutarMenu() {
         MenuJuego menu = new MenuJuego(frame, juego);
-        menu.mostrar();
+        menu.iniciar();
     }
 
     // configuro el BG para el panel.
@@ -109,7 +107,7 @@ public class Lobby implements IVista {
     }
 
     @Override
-    public void mostrar() {
+    public void iniciar() {
         frame.setVisible(true);
     }
 

@@ -1,5 +1,7 @@
 package controlador;
 
+import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
+import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 import modelo.*;
 import modelo.IJugador;
 import modelo.IObserver;
@@ -7,109 +9,131 @@ import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import vista.IVista;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public class Controlador implements IObserver {
+public class Controlador implements IControladorRemoto {
     private final IVista vista;
-    private Juego modelo;
+    private IJuego modelo;
     private IJugador jugador;
 
     public Controlador(IVista vista) {
         this.vista = vista;
     }
 
-    public void setModelo(Juego modelo) {
-        this.modelo = modelo;
-        modelo.attach(this);
-    }
-
     public void conectarJugador(String nombre) {
-        jugador = modelo.conectarJugador(nombre);
+        try {
+            jugador = modelo.conectarJugador(nombre);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
-
 
     public void iniciarJuego() {
-        modelo.iniciarJuego();
+        try {
+            modelo.iniciarJuego();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void gestionarTurnos(int extremIzq, int extremDer, String extremo) throws FichaInexistente, FichaIncorrecta {
-        modelo.realizarJugada(extremIzq, extremDer, extremo);
+        try {
+            modelo.realizarJugada(extremIzq, extremDer, extremo);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void robarFicha() {
-        modelo.robarFichaPozo();
+        try {
+            modelo.robarFichaPozo();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public ArrayList<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }
 
-    @Override
-    public void update(Evento e, Object o1, Object o2) {
-        switch (e) {
-            case INICIAR_JUEGO:
-                vista.mostrarFicha((IFicha) o1);
-                if (modelo.getTurno() == jugador) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                } else {
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
-                    vista.ocultarBoton();
-                }
-                vista.mostrarFichasJugador(jugador);
-                break;
+//    @Override
+//    public void update(Evento e, Object o1, Object o2) {
+//        switch (e) {
+//            case INICIAR_JUEGO:
+//                vista.mostrarFicha((IFicha) o1);
+//                if (modelo.getTurno() == jugador) {
+//                    vista.mostrarBoton();
+//                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+//                } else {
+//                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+//                    vista.ocultarBoton();
+//                }
+//                vista.mostrarFichasJugador(jugador);
+//                break;
+//
+//            case CAMBIO_RONDA:
+//                vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
+//                vista.mostrarTablaPuntos(o2);
+//                vista.limpiarTablero();
+//                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+//                break;
+//        }
+//    }
 
-            case CAMBIO_RONDA:
-                vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
-                vista.mostrarTablaPuntos(o2);
-                vista.limpiarTablero();
-                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
-                break;
-        }
+//    @Override
+//    public void update(Evento e, Object o) {
+//        switch (e) {
+//            case CAMBIO_FICHAS_JUGADOR :
+//                if (o == jugador) {
+//                    vista.mostrarMensaje("Fichas jugador: " + ((IJugador)o).getNombre());
+//                    vista.mostrarFichasJugador((IJugador) o);
+//                }
+//                break;
+//            case JUGADOR_JUGO_FICHA:
+//                vista.mostrarFicha((IFicha) o);
+//                break;
+//            case ACTUALIZAR_TABLERO:
+//                vista.mostrarTablero(o);
+//                if (modelo.getTurno() == jugador) {
+//                    vista.mostrarBoton();
+//                    vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
+//                    vista.mostrarFichasJugador(jugador);
+//                } else {
+//                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
+//                    vista.ocultarBoton();
+//                }
+//                break;
+//            case PASAR_TURNO:
+//                vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
+//                if (jugador == o) {
+//                    vista.mostrarBoton();
+//                    vista.mostrarMensaje("Es tu turno, elige una ficha: \n");
+//                    vista.mostrarFichasJugador(jugador);
+//                } else {
+//                    vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
+//                    vista.ocultarBoton();
+//                }
+//                break;
+//            case FIN_DEL_JUEGO:
+//                vista.limpiarTablero();
+//                if (o == jugador) {
+//                    vista.finalizarJuego("Has ganado el juego con " + jugador.getPuntos() + " puntos gracias por jugar al domino!");
+//                } else {
+//                    vista.finalizarJuego("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
+//                }
+//                break;
+//        }
+//    }
+//
+
+    @Override
+    public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
+        this.modelo = (IJuego) t;
     }
 
     @Override
-    public void update(Evento e, Object o) {
-        switch (e) {
-            case CAMBIO_FICHAS_JUGADOR :
-                if (o == jugador) {
-                    vista.mostrarMensaje("Fichas jugador: " + ((IJugador)o).getNombre());
-                    vista.mostrarFichasJugador((IJugador) o);
-                }
-                break;
-            case JUGADOR_JUGO_FICHA:
-                vista.mostrarFicha((IFicha) o);
-                break;
-            case ACTUALIZAR_TABLERO:
-                vista.mostrarTablero(o);
-                if (modelo.getTurno() == jugador) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
-                    vista.mostrarFichasJugador(jugador);
-                } else {
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getTurno().getNombre() + "\n");
-                    vista.ocultarBoton();
-                }
-                break;
-            case PASAR_TURNO:
-                vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
-                if (jugador == o) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige una ficha: \n");
-                    vista.mostrarFichasJugador(jugador);
-                } else {
-                    vista.mostrarMensaje("Turno del jugador: " + ((IJugador)o).getNombre());
-                    vista.ocultarBoton();
-                }
-                break;
-            case FIN_DEL_JUEGO:
-                vista.limpiarTablero();
-                if (o == jugador) {
-                    vista.finalizarJuego("Has ganado el juego con " + jugador.getPuntos() + " puntos gracias por jugar al domino!");
-                } else {
-                    vista.finalizarJuego("El jugador: " + ((IJugador)o).getNombre() + " ha ganado el juego con " + ((IJugador)o).getPuntos() + " puntos gracias por jugar al domino!");
-                }
-                break;
-        }
+    public void actualizar(IObservableRemoto iObservableRemoto, Object cambio) throws RemoteException {
+
     }
 }
