@@ -194,4 +194,9 @@ public class Login  extends JDialog implements IVista {
     public void limpiarTablero() {
 
     }
+
+    @Override
+    public void finalizarJuego(String mensaje) {
+
+    }
 }

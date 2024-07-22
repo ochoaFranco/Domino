@@ -15,4 +15,5 @@ public interface IVista {
     void ocultarBoton();
     void mostrarBoton();
     void limpiarTablero();
+    void finalizarJuego(String mensaje);
 }

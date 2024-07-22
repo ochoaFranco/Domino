@@ -80,7 +80,12 @@ public class VistaConsola implements IVista {
     public void mostrarMensaje(String mensaje) {
         consolaOutput.append(mensaje);
     }
+    @Override
 
+    // muestra un mensaje cuando finaliza el juego.
+    public void finalizarJuego(String mensaje) {
+        mostrarMensaje(mensaje);
+    }
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {

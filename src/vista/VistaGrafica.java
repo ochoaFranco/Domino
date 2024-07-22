@@ -327,6 +327,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     @Override
+    public void finalizarJuego(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "Domino", JOptionPane.INFORMATION_MESSAGE);
+        dispose();
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
 
     }

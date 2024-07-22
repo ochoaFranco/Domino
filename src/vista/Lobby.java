@@ -56,7 +56,6 @@ public class Lobby implements IVista {
                 ejecutarMenu();
             }
         });
-
     }
 
     // agrega componenetes al panel.
@@ -140,6 +139,11 @@ public class Lobby implements IVista {
 
     @Override
     public void limpiarTablero() {
+
+    }
+
+    @Override
+    public void finalizarJuego(String mensaje) {
 
     }
 
