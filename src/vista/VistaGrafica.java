@@ -23,7 +23,9 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteJugadorMano jugadorManoComponente;
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
-    JLabel mensaje = new JLabel();
+    private JLabel mensaje = new JLabel();
+    JLabel lblJ1Nombre = new JLabel();
+    JLabel lblJ2Nombre = new JLabel();
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -244,7 +246,24 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
-        
+        List<IJugador> jugadores = (ArrayList<IJugador>) o;
+        IJugador j1 = jugadores.getFirst();
+        IJugador j2 = jugadores.getLast();
+
+        // atributos del j1
+        lblJ1Nombre.setForeground(Color.black);
+        lblJ1Nombre.setText(j1.getNombre());
+        lblJ1Nombre.setFont(new Font("Arial", Font.BOLD, 24));
+        lblJ1Nombre.setBounds(10, 250, 200, 200);
+        // atributos del j2.
+        lblJ2Nombre.setText(j2.getNombre());
+        lblJ2Nombre.setBounds(200, 250, 200, 200);
+        lblJ2Nombre.setForeground(Color.black);
+        lblJ2Nombre.setFont(new Font("Arial", Font.BOLD, 24));
+        panel.add(lblJ1Nombre);
+        panel.add(lblJ2Nombre);
+        panel.revalidate();
+        panel.repaint();
     }
 
     @Override
@@ -286,7 +305,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent mouseEvent) {
-
     }
 
     @Override
