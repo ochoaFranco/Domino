@@ -28,6 +28,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private JLabel lblJ2Nombre = new JLabel();
     private JLabel lblJ1Pts = new JLabel();
     private JLabel lblJ2Pts = new JLabel();
+    private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
+
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -291,12 +293,38 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void ocultarBoton() {
         robarBtn.setVisible(false);
+        habilitarComponentes(jugadorManoComponente, false);
     }
-
     @Override
     public void mostrarBoton() {
         robarBtn.setVisible(true);
+        habilitarComponentes(jugadorManoComponente, true);
     }
+
+    private void habilitarComponentes(Container container, boolean habilitar) {
+        System.out.printf("SARACATUNGA COMPONENTS IN");
+        Component[] componentes = container.getComponents();
+        for (Component c: componentes) {
+            if (c instanceof VistaFicha){
+                if (habilitar) {
+                    // habilito nuevamente los listeners
+                    for (MouseListener listener: mouseListenersGuardados) {
+                        c.addMouseListener(listener);
+                    }
+                    mouseListenersGuardados.clear();
+                } else {
+                    // deshabilito los listeners
+                    MouseListener[] listeners = c.getMouseListeners();
+                    for (MouseListener listener : listeners) {
+                        c.removeMouseListener(listener);
+                        mouseListenersGuardados.add(listener);
+                    }
+                }
+            }
+        }
+    }
+
+
 
     @Override
     public void limpiarTablero() {
