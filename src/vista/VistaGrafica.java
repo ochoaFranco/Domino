@@ -30,7 +30,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private JLabel lblJ2Pts = new JLabel();
     private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
 
-
     public VistaGrafica(String nombre) {
         setTitle("Domino");
         this.nombre = nombre;
@@ -61,7 +60,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setLocationRelativeTo(null);
         this.getContentPane().add(panel);
         this.addMouseListener(this);
-
         robarBtn.addActionListener(actionEvent -> actualizarManoJugador());
     }
 
@@ -116,11 +114,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         try {
             VistaGrafica.controlador.gestionarTurnos(ficha.getIzquierdo(), ficha.getDerecho(), extremo);
         } catch (FichaIncorrecta f) {
-            System.out.printf("WRONG TILE!!!!\n");
+            JOptionPane.showMessageDialog(null, "Ficha Incorrecta!!!", "Error", JOptionPane.ERROR_MESSAGE);
             vFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
         } catch (FichaInexistente i) {
-            System.out.printf("The tile does not exist!!!\n");
+            JOptionPane.showMessageDialog(null, "Espera tu turno!!!", "Error", JOptionPane.ERROR_MESSAGE);
             vFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
         }
@@ -302,7 +300,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     private void habilitarComponentes(Container container, boolean habilitar) {
-        System.out.printf("SARACATUNGA COMPONENTS IN");
         Component[] componentes = container.getComponents();
         for (Component c: componentes) {
             if (c instanceof VistaFicha){
@@ -323,8 +320,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             }
         }
     }
-
-
 
     @Override
     public void limpiarTablero() {

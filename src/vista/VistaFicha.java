@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 
 public class VistaFicha extends JLabel {
     private IFicha ficha;
-    private boolean elegida = false;
     private boolean isDoble;
     private boolean eventosMouseHabilitados;
     private static IFicha fichaEnMano = null;
@@ -28,6 +27,10 @@ public class VistaFicha extends JLabel {
         cargarImagen();
         setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
         setPreferredSize(new Dimension(50,50));
+    }
+
+    public void setEventosMouseHabilitados(boolean eventosMouseHabilitados) {
+        this.eventosMouseHabilitados = eventosMouseHabilitados;
     }
 
     public IFicha getFicha() {
