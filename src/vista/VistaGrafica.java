@@ -24,8 +24,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
     private JLabel mensaje = new JLabel();
-    JLabel lblJ1Nombre = new JLabel();
-    JLabel lblJ2Nombre = new JLabel();
+    private JLabel lblJ1Nombre = new JLabel();
+    private JLabel lblJ2Nombre = new JLabel();
+    private JLabel lblJ1Pts = new JLabel();
+    private JLabel lblJ2Pts = new JLabel();
 
     public VistaGrafica(String nombre) {
         setTitle("Domino");
@@ -255,6 +257,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         lblJ1Nombre.setText(j1.getNombre());
         lblJ1Nombre.setFont(new Font("Arial", Font.BOLD, 24));
         lblJ1Nombre.setBounds(10, 250, 200, 200);
+        // puntos j1 label
+        lblJ1Pts.setForeground(Color.black);
+        lblJ1Pts.setText(Integer.toString(j1.getPuntos()));
+        lblJ1Pts.setFont(new Font("Arial", Font.BOLD, 24));
+        lblJ1Pts.setBounds(10, 270, 200, 200);
+
         // atributos del j2.
         lblJ2Nombre.setText(j2.getNombre());
         lblJ2Nombre.setBounds(200, 250, 200, 200);
@@ -262,6 +270,13 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         lblJ2Nombre.setFont(new Font("Arial", Font.BOLD, 24));
         panel.add(lblJ1Nombre);
         panel.add(lblJ2Nombre);
+        // puntos j2 label
+        lblJ2Pts.setForeground(Color.black);
+        lblJ2Pts.setText(Integer.toString(j2.getPuntos()));
+        lblJ2Pts.setFont(new Font("Arial", Font.BOLD, 24));
+        lblJ2Pts.setBounds(200, 270, 200, 200);
+        panel.add(lblJ1Pts);
+        panel.add(lblJ2Pts);
         panel.revalidate();
         panel.repaint();
     }
