@@ -92,9 +92,9 @@ public class Juego implements IJuego, ISubject {
         if (jugadorJugoTodasSusFichas(turno)) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
-//        } else if (detectarCierre()) {
-//            System.out.println("SARACATUNGA BUG");
-//            casoCierre(); // to be implemented later
+        } else if (detectarCierre()) {
+            System.out.println("SARACATUNGA BUG");
+            casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
             notifyObserver(Evento.ACTUALIZAR_TABLERO, fichasTablero);
@@ -247,7 +247,6 @@ public class Juego implements IJuego, ISubject {
         turno.getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
         contarPuntosJugadores();
         determinarSiJugadorGano();
-        notifyObserver(Evento.CAMBIO_RONDA, turno, jugadores);
     }
 
     // determina si el jugador no tiene mas fichas.
@@ -283,14 +282,15 @@ public class Juego implements IJuego, ISubject {
     // detecta si ningun jugador puede jugar una ficha y no hay mas en el pozo.
     private boolean detectarCierre() {
         boolean cierre = false;
+        int contador = 0;
         if (pozo.getFichas().isEmpty()) {
             for (IJugador j : jugadores) {
                 if (!j.puedoJugar()) {
-                    cierre = true;
+                    contador += 1;
                 }
             }
         }
-        return cierre;
+        return contador == jugadores.size();
     }
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.
