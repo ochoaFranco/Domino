@@ -13,11 +13,19 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 public class Controlador implements IControladorRemoto {
-    private final IVista vista;
+    private IVista vista;
     private IJuego modelo;
     private IJugador jugador;
 
-    public Controlador(IVista vista) {
+    public Controlador() {
+    }
+
+    @Override
+    public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
+        this.modelo = (IJuego) t;
+    }
+
+    public void setVista(IVista vista) {
         this.vista = vista;
     }
 
@@ -57,11 +65,12 @@ public class Controlador implements IControladorRemoto {
         return jugador.getFichas();
     }
 
-//    @Override
-//    public void update(Evento e, Object o1, Object o2) {
-//        switch (e) {
-//            case INICIAR_JUEGO:
-//                vista.mostrarFicha((IFicha) o1);
+    @Override
+    public void actualizar(IObservableRemoto iObservableRemoto, Object cambios) throws RemoteException {
+        if (cambios instanceof EventoFichaJugador) {
+            switch (((EventoFichaJugador) cambios).getEvento()) {
+                case INICIAR_JUEGO:
+//                    vista.mostrarFicha(((EventoFichaJugador) cambios).getFicha());
 //                if (modelo.getTurno() == jugador) {
 //                    vista.mostrarBoton();
 //                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
@@ -70,16 +79,20 @@ public class Controlador implements IControladorRemoto {
 //                    vista.ocultarBoton();
 //                }
 //                vista.mostrarFichasJugador(jugador);
-//                break;
+                    break;
+                case CAMBIO_RONDA:
+                    vista.mostrarMensaje("Jugador que domino la ronda: " + ((EventoFichaJugador) cambios).getJugador().getNombre() + "\n");
+                    vista.mostrarTablaPuntos(((EventoFichaJugador) cambios).getJugador());
+                    vista.limpiarTablero();
+                    vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+                    break;
+            }
+        }
+    }
+
+//    public void actualizar(IObservableRemoto iObservableRemoto, Object cambio) throws RemoteException {
 //
-//            case CAMBIO_RONDA:
-//                vista.mostrarMensaje("Jugador que domino la ronda: " + ((IJugador)o1).getNombre() + "\n");
-//                vista.mostrarTablaPuntos(o2);
-//                vista.limpiarTablero();
-//                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
-//                break;
-//        }
-////    }
+//    }
 //
 //    @Override
 //    public void update(Evento e, Object o) {
@@ -125,15 +138,4 @@ public class Controlador implements IControladorRemoto {
 //                break;
 //        }
 //    }
-
-
-    @Override
-    public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
-        this.modelo = (IJuego) t;
-    }
-
-    @Override
-    public void actualizar(IObservableRemoto iObservableRemoto, Object cambio) throws RemoteException {
-
-    }
 }

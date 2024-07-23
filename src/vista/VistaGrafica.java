@@ -30,7 +30,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private JLabel lblJ2Pts = new JLabel();
     private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
 
-    public VistaGrafica(String nombre) {
+    public VistaGrafica(String nombre, Controlador controlador) {
+        VistaGrafica.controlador = controlador;
         setTitle("Domino");
         this.nombre = nombre;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -281,12 +282,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.repaint();
     }
 
-    @Override
-    public void setControlador(Controlador controlador) {
-        VistaGrafica.controlador = controlador;
-        if (nombre != null)
-            controlador.conectarJugador(nombre);
-    }
 
     @Override
     public void ocultarBoton() {

@@ -1,13 +1,14 @@
 package modelo;
 
-public class Ficha implements IFicha {
+import java.io.Serializable;
+
+public class Ficha implements IFicha, Serializable {
     private  int izquierdo;
     private  int derecho;
     private boolean dadaVuelta = false;
     private boolean vertical = false;
     private boolean derechoFlag = false;
     private boolean izquierdoFlag = false;
-
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;

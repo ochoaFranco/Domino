@@ -18,8 +18,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     private IJugador turno = null;
     private static Pozo pozo;
     private IFicha primeraFicha;
-//    private ArrayList<IObserver> observers;
-    private Jugador jugadorMano = null;
+    private IJugador jugadorMano = null;
     private Queue<IJugador> colaTurnos = new LinkedList<>();
     private static IJuego instancia;
 
@@ -44,7 +43,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public Jugador conectarJugador(String nombre) throws RemoteException{
+    public Jugador conectarJugador(String nombre) throws RemoteException {
         Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
@@ -68,7 +67,8 @@ public class Juego extends ObservableRemoto implements IJuego {
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
-//        notificarObservadores(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
+        EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
+        notificarObservadores(eventoFichaJugador);
     }
 
     // Logica principal del juego.
@@ -82,6 +82,8 @@ public class Juego extends ObservableRemoto implements IJuego {
         jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
         colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
+        // clase compuesta.
+        EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         // dermino si el jugador jugo todas sus fichas.
         if (jugadorJugoTodasSusFichas(turno)) {
             contarPuntosJugadores();
@@ -90,7 +92,7 @@ public class Juego extends ObservableRemoto implements IJuego {
             casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
-//            notificarObservadores(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+            notificarObservadores(evFichasTablero);
         }
     }
 
@@ -305,28 +307,4 @@ public class Juego extends ObservableRemoto implements IJuego {
         determinarJugadorTurno(); // actualizo el turno
 //        notificarObservadores(Evento.PASAR_TURNO, turno);
     }
-
-//    @Override
-//    public void attach(IObserver observer) {
-//        observers.add(observer);
-//    }
-//
-//    @Override
-//    public void detach(IObserver observer) {
-//        observers.remove(observer);
-//    }
-//
-//    @Override
-//    public void notifyObserver(Evento e, Object o1) {
-//        for (IObserver ob: observers) {
-//            ob.update(e, o1);
-//        }
-//    }
-//
-//    @Override
-//    public void notifyObserver(Evento e, Object o1, Object o2) {
-//        for (IObserver ob: observers) {
-//            ob.update(e, o1, o2);
-//        }
-//    }
 }

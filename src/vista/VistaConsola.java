@@ -24,8 +24,10 @@ public class VistaConsola implements IVista {
     private String nombre;
     private static boolean jugando = false;
 
-    public VistaConsola(String nombre) {
+    public VistaConsola(String nombre, Controlador controlador) {
         this.nombre = nombre;
+        this.controlador = controlador;
+        controlador.conectarJugador(nombre);
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -102,13 +104,6 @@ public class VistaConsola implements IVista {
     public void mostrarFicha(IFicha f) {
         String ficha = "|" + f.getIzquierdo() + "|" + f.getDerecho() + "|  \n";
         consolaOutput.append(ficha);
-    }
-
-    public void setControlador(Controlador controlador) {
-        this.controlador = controlador;
-        if (nombre != null) {
-            controlador.conectarJugador(nombre);
-        }
     }
 
     private void determinarComando(String comando) {

@@ -18,9 +18,11 @@ public class MenuJuego extends JDialog implements IVista {
 
     private static final int totalDeVentanasCerradasEsperadas = 2;
     private static JFrame parent;
+    private Controlador controlador;
 
-    public MenuJuego(JFrame parent, IJuego juego) {
+    public MenuJuego(JFrame parent, Controlador controlador) {
         super(parent, "Domino", true);
+        this.controlador = controlador;
         MenuJuego.parent = parent; // Ventana anterior.
         setTitle("Domino");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -38,14 +40,8 @@ public class MenuJuego extends JDialog implements IVista {
 
         // creo los botones
         JButton soloBtn = new JButton("Solo");
-        soloBtn.setBounds(120, 60, 80, 20);
-
+        soloBtn.setBounds(180, 60, 80, 20);
         panel.add(soloBtn);
-
-        JButton grupoBtn = new JButton("Grupo");
-        grupoBtn.setBounds(250, 60, 80, 20);
-        panel.add(grupoBtn);
-
         // calculo la posicion de la pantalla.
         this.setLocationRelativeTo(null);
 
@@ -55,17 +51,14 @@ public class MenuJuego extends JDialog implements IVista {
         soloBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginUsuario(juego);
+                loginUsuario(controlador);
             }
         });
     }
 
-    private void loginUsuario(IJuego juego) {
-        Login usuario1 = new Login((JFrame) this.getParent(), juego);
-        Login usuario2 = new Login((JFrame) this.getParent(), juego);
-
+    private void loginUsuario(Controlador controlador) {
+        Login usuario1 = new Login((JFrame) this.getParent(), controlador);
         usuario1.iniciar();
-        usuario2.iniciar();
         dispose();
     }
 
@@ -74,7 +67,6 @@ public class MenuJuego extends JDialog implements IVista {
         MenuJuego.ventanasCerradas += 1;
         if (MenuJuego.ventanasCerradas == MenuJuego.totalDeVentanasCerradasEsperadas)
             MenuJuego.parent.dispose();
-
     }
 
     // comprueba si todos los jugadores estan listos.
@@ -85,11 +77,6 @@ public class MenuJuego extends JDialog implements IVista {
 
     @Override
     public void mostrarMensaje(String mensaje) {
-
-    }
-
-    @Override
-    public void setControlador(Controlador controlador) {
 
     }
 

@@ -2,9 +2,10 @@ package modelo;
 
 import modelo.exceptions.FichaIncorrecta;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Jugador implements IJugador {
+public class Jugador implements IJugador, Serializable {
     private String nombre;
     private ArrayList<IFicha> fichas;
     private boolean mano = false;

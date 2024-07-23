@@ -139,11 +139,6 @@ public class MenuFicha extends JDialog implements IVista {
     }
 
     @Override
-    public void setControlador(Controlador controlador) {
-
-    }
-
-    @Override
     public void ocultarBoton() {
 
     }

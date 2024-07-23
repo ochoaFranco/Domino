@@ -4,7 +4,6 @@ import controlador.Controlador;
 import modelo.IFicha;
 import modelo.IJuego;
 import modelo.IJugador;
-import modelo.Juego;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 public class Login  extends JDialog implements IVista {
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
@@ -21,11 +19,11 @@ public class Login  extends JDialog implements IVista {
     private IJuego juego;
     private static boolean isJuegoIniciado = false;
     private static int cantVentanasAbiertas = 0;
-    private final static int cantMaxVentanasAbiertas = 2;
+    private final static int cantMaxVentanasAbiertas = 1;
 
-    public Login(JFrame parent, IJuego juego) {
+    public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
-        this.juego = juego;
+        this.controlador = controlador;
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos
@@ -117,15 +115,12 @@ public class Login  extends JDialog implements IVista {
         String opSeleccionada = (String) interfazComboBox.getSelectedItem();
         // comprobamos la seleccion
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
-            vista = new VistaConsola(usuario);
+            vista = new VistaConsola(usuario, controlador);
         } else {
-            vista = new VistaGrafica(usuario);
+            vista = new VistaGrafica(usuario, controlador);
             vista.ocultarBoton(); // ocultamos el boton 'Robar'
         }
-        // seteamos el oontrolador e iniciamos el juego.
-        controlador = new Controlador(vista);
-//        controlador.setModeloRemoto((IJuego)juego); // to be fixed later.
-        vista.setControlador(controlador);
+
         vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
@@ -173,11 +168,6 @@ public class Login  extends JDialog implements IVista {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
-
-    }
-
-    @Override
-    public void setControlador(Controlador controlador) {
 
     }
 

@@ -12,6 +12,7 @@ import vista.Lobby;
 public class AppCliente {
     private static final String IP = "127.0.0.1";
     private static final int PORT = 8888;
+    private static Controlador controlador;
 
     public static void main(String[] args) throws RemoteException {
         ArrayList<String> ips = Util.getIpDisponibles();
@@ -23,8 +24,8 @@ public class AppCliente {
                 null,
                 9999
         );
-        IVista vista = new Lobby();
-        Controlador controlador = new Controlador(vista);
+        controlador = new Controlador();
+        IVista vista = new Lobby(controlador);
         Cliente c = new Cliente(AppCliente.IP, Integer.parseInt(port), AppCliente.IP, AppCliente.PORT);
         vista.iniciar();
         try {

@@ -14,9 +14,10 @@ import java.rmi.RemoteException;
 
 public class Lobby implements IVista {
     private final JFrame frame;
-    private IJuego juego = Juego.getInstancia();
+    private Controlador controlador;
 
-    public Lobby() throws RemoteException {
+    public Lobby(Controlador controlador) throws RemoteException {
+        this.controlador = controlador;
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1024, 768);
@@ -47,7 +48,6 @@ public class Lobby implements IVista {
         frame.setLocationRelativeTo(null);
 
         // Funcionalidad del boton.
-
         jugarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,6 +55,8 @@ public class Lobby implements IVista {
             }
         });
     }
+
+
 
     // agrega componenetes al panel.
     private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn) {
@@ -66,7 +68,7 @@ public class Lobby implements IVista {
     }
 
     private void ejecutarMenu() {
-        MenuJuego menu = new MenuJuego(frame, juego);
+        MenuJuego menu = new MenuJuego(frame, controlador);
         menu.iniciar();
     }
 
@@ -118,11 +120,6 @@ public class Lobby implements IVista {
 
     @Override
     public void mostrarTablaPuntos(Object o) {
-
-    }
-
-    @Override
-    public void setControlador(Controlador controlador) {
 
     }
 

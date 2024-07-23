@@ -11,7 +11,6 @@ public interface IVista {
     void iniciar();
     void mostrarTablero(Object o);
     void mostrarTablaPuntos(Object o);
-    void setControlador(Controlador controlador);
     void ocultarBoton();
     void mostrarBoton();
     void limpiarTablero();
