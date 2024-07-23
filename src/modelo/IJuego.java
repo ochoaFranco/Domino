@@ -4,9 +4,9 @@ import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
 import java.rmi.RemoteException;
-import java.util.List;
+import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
-public interface IJuego {
+public interface IJuego extends  IObservableRemoto{
     IJugador getTurno() throws RemoteException;
 
     Jugador conectarJugador(String nombre) throws RemoteException;

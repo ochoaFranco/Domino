@@ -79,8 +79,8 @@ public class Controlador implements IControladorRemoto {
 //                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
 //                break;
 //        }
-//    }
-
+////    }
+//
 //    @Override
 //    public void update(Evento e, Object o) {
 //        switch (e) {
@@ -125,7 +125,7 @@ public class Controlador implements IControladorRemoto {
 //                break;
 //        }
 //    }
-//
+
 
     @Override
     public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
