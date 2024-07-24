@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
 public interface IJuego extends  IObservableRemoto{
-    IJugador getTurno() throws RemoteException;
+    int getTurno() throws RemoteException;
 
     IJugador conectarJugador(String nombre) throws RemoteException;
 
@@ -22,4 +22,6 @@ public interface IJuego extends  IObservableRemoto{
 
     // robo fichas del pozo y actualizo la mano.
     void robarFichaPozo() throws RemoteException;
+
+    IJugador getJugadorTurnoID(int id) throws RemoteException;
 }

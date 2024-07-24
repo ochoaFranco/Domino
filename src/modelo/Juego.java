@@ -15,7 +15,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     private static List<IJugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 15;
-    private IJugador turno = null;
+    private int turno = -1;
     private static Pozo pozo;
     private IFicha primeraFicha;
     private IJugador jugadorMano = null;
@@ -38,7 +38,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public IJugador getTurno() throws RemoteException {
+    public int getTurno() throws RemoteException {
         return turno;
     }
 
@@ -74,6 +74,10 @@ public class Juego extends ObservableRemoto implements IJuego {
         notificarObservadores(eventoFichaJugador);
     }
 
+    @Override
+    public IJugador getJugadorTurnoID(int id) throws RemoteException {
+        return buscarJugadorPorID(turno);
+    }
     // Logica principal del juego.
     @Override
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException {
@@ -88,7 +92,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         // clase compuesta.
         EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         // dermino si el jugador jugo todas sus fichas.
-        if (jugadorJugoTodasSusFichas(turno)) {
+        if (jugadorJugoTodasSusFichas(buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
         } else if (detectarCierre()) {
@@ -101,13 +105,23 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public void determinarJugadorTurno() throws RemoteException {
-        turno = colaTurnos.peek();
+        turno = colaTurnos.peek().getId();
+    }
+
+    // dada una ID busca el jugador y lo retorna.
+    private IJugador buscarJugadorPorID(int id) {
+        IJugador jugador;
+        for (IJugador j : jugadores) {
+            if (j.getId() == id)
+                return j;
+        }
+        return null;
     }
 
     // robo fichas del pozo y actualizo la mano.
     @Override
     public void robarFichaPozo() throws RemoteException {
-        IJugador jugador = turno;
+        IJugador jugador = buscarJugadorPorID(turno);
         IFicha ficha = pozo.sacarFicha();
         if (ficha == null) {
             pasarTurno();
@@ -135,7 +149,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
 
     }
-
+    // it needs to be refactored.
     private void determinarJugadorMano()  {
         List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
@@ -144,7 +158,6 @@ public class Juego extends ObservableRemoto implements IJuego {
         for (IJugador j: jugadores) {
             if (j.tengoDobles()) {
                 jugadoresConFichasDobles.add(j);
-                System.out.println("\njugadores: " + jugadores);
             }
             // determino ficha simple más alta.
             if (j.fichaSimpleMasAlta().getIzquierdo() > fichaSimpleAlta ) {
@@ -157,9 +170,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
-            jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
-            jugMano.setMano(true);
-            jugadorMano = jugMano;
+            jugMano = setJugadorMano(jugadoresConFichasDobles);
             primeraFicha = jugMano.fichaDobleMayor();
         } else {
             try {
@@ -169,7 +180,6 @@ public class Juego extends ObservableRemoto implements IJuego {
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-
         }
         List<IFicha> fichasJugador = jugadorMano.getFichas();
         fichasJugador.remove(primeraFicha);
@@ -181,6 +191,14 @@ public class Juego extends ObservableRemoto implements IJuego {
             throw new RuntimeException("ficha incorrecta!!!");
         }
         moverJugFinalTurno();
+    }
+
+    private IJugador setJugadorMano(List<IJugador> jugadoresConFichasDobles) {
+        IJugador jugMano;
+        jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
+        jugMano.setMano(true);
+        jugadorMano = jugMano;
+        return jugMano;
     }
 
     private void setearTablero(IFicha ficha) throws FichaIncorrecta {
@@ -213,7 +231,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         for (IJugador j : colaTurnos) {
             puntosTotal += j.contarPuntosFicha();
         }
-        turno.sumarPuntos(puntosTotal);
+        buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
     }
 
     private void detectarJugadorGanadorCierre() {
@@ -229,11 +247,11 @@ public class Juego extends ObservableRemoto implements IJuego {
                 ganador = j;
             }
         }
-        turno = ganador; // marcamos al ganador como el jugador del turno para dsp contar los puntos.
+        turno = ganador.getId(); // marcamos al ganador como el jugador del turno para dsp contar los puntos.
     }
 
     private void determinarSiJugadorGano() throws RemoteException {
-        if (turno.getPuntos() >= LIMITEPUNTOS) {
+        if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
 //            notificarObservadores(Evento.FIN_DEL_JUEGO, turno);
         } else {
 //            notificarObservadores(Evento.CAMBIO_RONDA, turno, jugadores); // jugador que domino la ronda mas todos los jugadores.
@@ -281,7 +299,7 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     private void casoCierre() throws RemoteException {
         detectarJugadorGanadorCierre();
-        turno.getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
+        buscarJugadorPorID(turno).getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
         contarPuntosJugadores();
         determinarSiJugadorGano();
     }
