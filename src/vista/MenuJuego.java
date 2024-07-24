@@ -16,7 +16,7 @@ public class MenuJuego extends JDialog implements IVista {
     private static int ventanasCerradas = 0;
     private static int jugadoresListos = 0;
 
-    private static final int totalDeVentanasCerradasEsperadas = 2;
+    private static final int totalDeVentanasCerradasEsperadas = 1;
     private static JFrame parent;
     private Controlador controlador;
 

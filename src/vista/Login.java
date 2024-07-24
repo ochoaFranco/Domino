@@ -126,12 +126,9 @@ public class Login  extends JDialog implements IVista {
             vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
 
-        System.out.println("windows opened: " + Login.cantVentanasAbiertas + "\n");
-
         // si es gui ejecuto el juego.
         if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
             if (vista instanceof VistaGrafica) {
-                vista.mostrarBoton();
                 ((VistaGrafica) vista).jugar();
             }
             else

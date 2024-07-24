@@ -64,7 +64,6 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public void iniciarJuego() throws RemoteException {
-        System.out.println("starting game\n");
         // el juego arranca con 2 jugadores
         if (jugadores.size() != 2) return;
         repartir();
@@ -135,9 +134,6 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     // reparte las fichas a todos los jugadores.
     private void repartir() {
-        for (IJugador j: jugadores) {
-            System.out.println("Name: " + j.getNombre() + " ID: " + j.getId());
-        }
         for (IJugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
                 IFicha ficha = pozo.sacarFicha();
@@ -146,10 +142,6 @@ public class Juego extends ObservableRemoto implements IJuego {
                 }
             }
         }
-        for (IJugador j: jugadores) {
-            System.out.println("Name: " + j.getNombre() + " tiles: " + j.getFichas() + "\n");
-        }
-
     }
     // it needs to be refactored.
     private void determinarJugadorMano()  {
