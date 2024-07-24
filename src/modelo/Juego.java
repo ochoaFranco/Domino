@@ -44,7 +44,6 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public IJugador conectarJugador(String nombre) throws RemoteException {
-        System.out.println("Saracatunga conectado");
         IJugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
@@ -55,7 +54,6 @@ public class Juego extends ObservableRemoto implements IJuego {
      * desde (0, 0) hasta (6, 6)*/
     @Override
     public void inicializarFichas() throws RemoteException {
-        System.out.println("Dealing tiles to players: " + jugadores);
         for (int i = 0; i <= 6; i++) {
             for (int j = i; j <= 6; j++) {
                 Ficha ficha = new Ficha(i, j);
@@ -66,6 +64,7 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public void iniciarJuego() throws RemoteException {
+        System.out.println("starting game\n");
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
@@ -118,6 +117,9 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     // reparte las fichas a todos los jugadores.
     private void repartir() {
+        for (IJugador j: jugadores) {
+            System.out.println("Name: " + j.getNombre() + " ID: " + j.getId());
+        }
         for (IJugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
                 IFicha ficha = pozo.sacarFicha();
@@ -126,6 +128,10 @@ public class Juego extends ObservableRemoto implements IJuego {
                 }
             }
         }
+        for (IJugador j: jugadores) {
+            System.out.println("Name: " + j.getNombre() + " tiles: " + j.getFichas() + "\n");
+        }
+
     }
 
     private void determinarJugadorMano()  {

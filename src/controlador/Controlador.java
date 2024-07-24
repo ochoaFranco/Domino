@@ -31,7 +31,6 @@ public class Controlador implements IControladorRemoto {
     }
 
     public void conectarJugador(String nombre) {
-        System.out.println("saracatunga conectado jugadorcito : " + nombre + "\n");
         try {
             jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {
@@ -72,7 +71,7 @@ public class Controlador implements IControladorRemoto {
         if (cambios instanceof EventoFichaJugador) {
             switch (((EventoFichaJugador) cambios).getEvento()) {
                 case INICIAR_JUEGO:
-//                    vista.mostrarFicha(((EventoFichaJugador) cambios).getFicha());
+                    vista.mostrarFicha(((EventoFichaJugador) cambios).getFicha());
 //                if (modelo.getTurno() == jugador) {
 //                    vista.mostrarBoton();
 //                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");

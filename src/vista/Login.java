@@ -16,6 +16,8 @@ public class Login  extends JDialog implements IVista {
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
     private static boolean isJuegoIniciado = false;
+    private static int cantVentanasAbiertas = 0;
+    private final static int cantMaxVentanasAbiertas = 1;
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
@@ -116,15 +118,18 @@ public class Login  extends JDialog implements IVista {
         } else {
             vista = new VistaGrafica(usuario, controlador);
             controlador.setVista(vista);
-//            vista.ocultarBoton();
+            vista.ocultarBoton();
         }
         // muestro la vistas elegida
         vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
+        Login.cantVentanasAbiertas += 1;
+
+        System.out.println("windows opened: " + Login.cantVentanasAbiertas + "\n");
 
         // si es gui ejecuto el juego.
-        if (!isJuegoIniciado) {
+        if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
             if (vista instanceof VistaGrafica) {
                 vista.mostrarBoton();
                 ((VistaGrafica) vista).jugar();
