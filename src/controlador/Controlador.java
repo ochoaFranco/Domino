@@ -164,19 +164,4 @@ public class Controlador implements IControladorRemoto {
                 break;
         }
     }
-
-//
-//    @Override
-//    public void actualizar(IObservableRemoto iObservableRemoto, Object cambios) throws RemoteException {
-//        switch (e) {
-
-//            case JUGADOR_JUGO_FICHA:
-//                vista.mostrarFicha((IFicha) o);
-//                break;
-//                break;
-
-//                break;
-
-//        }
-//    }
 }
