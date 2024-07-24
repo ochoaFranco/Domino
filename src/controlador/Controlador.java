@@ -123,6 +123,15 @@ public class Controlador implements IControladorRemoto {
                     vista.finalizarJuego("El jugador: " + ganador + " ha ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
                 }
                 break;
+            case CAMBIO_FICHAS_JUGADOR:
+                if (cambios.getJugador().getId() == jugador) {
+                    IJugador j = modelo.getJugadorID(jugador);
+                    vista.mostrarMensaje("Fichas jugador: " + j.getNombre());
+                    vista.mostrarFichasJugador(j);
+                }
+                break;
+
+
         }
     }
 

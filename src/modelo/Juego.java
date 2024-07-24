@@ -127,8 +127,9 @@ public class Juego extends ObservableRemoto implements IJuego {
         if (ficha == null) {
             pasarTurno();
         } else {
+            EventoJugador eventoJugador = new EventoJugador(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
             jugador.recibirFicha(ficha);
-//            notificarObservadores(Evento.CAMBIO_FICHAS_JUGADOR, jugador);
+            notificarObservadores(eventoJugador);
         }
     }
 
