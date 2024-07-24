@@ -9,6 +9,7 @@ public class Ficha implements IFicha, Serializable {
     private boolean vertical = false;
     private boolean derechoFlag = false;
     private boolean izquierdoFlag = false;
+    private static final long serialVersionUID = -744829515434409884L;
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;

@@ -23,8 +23,6 @@ public class Controlador implements IControladorRemoto {
 
     @Override
     public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
-        System.out.println("saracatunga conectado jugadorcito\n");
-        System.out.println("modelo: " + modelo + "\n");
         this.modelo = (IJuego) t;
     }
 
@@ -33,6 +31,7 @@ public class Controlador implements IControladorRemoto {
     }
 
     public void conectarJugador(String nombre) {
+        System.out.println("saracatunga conectado jugadorcito : " + nombre + "\n");
         try {
             jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {

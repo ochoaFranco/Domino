@@ -2,7 +2,6 @@ package vista;
 
 import controlador.Controlador;
 import modelo.IFicha;
-import modelo.IJuego;
 import modelo.IJugador;
 
 import javax.swing.*;
@@ -17,8 +16,6 @@ public class Login  extends JDialog implements IVista {
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
     private static boolean isJuegoIniciado = false;
-    private static int cantVentanasAbiertas = 0;
-    private final static int cantMaxVentanasAbiertas = 1;
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
@@ -112,31 +109,31 @@ public class Login  extends JDialog implements IVista {
         String usuario = txtF1.getText();
         String opSeleccionada = (String) interfazComboBox.getSelectedItem();
         // comprobamos la seleccion
+        assert opSeleccionada != null;
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
             vista = new VistaConsola(usuario, controlador);
             controlador.setVista(vista);
         } else {
             vista = new VistaGrafica(usuario, controlador);
             controlador.setVista(vista);
-            vista.ocultarBoton();
+//            vista.ocultarBoton();
         }
         // muestro la vistas elegida
         vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
-        Login.cantVentanasAbiertas += 1;
 
         // si es gui ejecuto el juego.
-        if (!isJuegoIniciado && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
+        if (!isJuegoIniciado) {
             if (vista instanceof VistaGrafica) {
-                ((VistaGrafica) vista).mostrarBoton();
+                vista.mostrarBoton();
                 ((VistaGrafica) vista).jugar();
             }
             else
                 ((VistaConsola)vista).jugar();
+
             Login.isJuegoIniciado = true;
         }
-        controlador.conectarJugador(usuario);
         dispose();
         MenuJuego.incrementarVentanasCerradas();
     }

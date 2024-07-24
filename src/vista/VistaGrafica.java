@@ -42,6 +42,9 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
+        // conecto el jugador al controlador.
+        controlador.conectarJugador(nombre);
+
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
         componenteTablero.setBounds(0,0, 1200, 650);

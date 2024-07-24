@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Juego extends ObservableRemoto implements IJuego {
-    private static List<Jugador> jugadores;
+    private static List<IJugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 15;
     private IJugador turno = null;
@@ -43,9 +43,9 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public Jugador conectarJugador(String nombre) throws RemoteException {
+    public IJugador conectarJugador(String nombre) throws RemoteException {
         System.out.println("Saracatunga conectado");
-        Jugador jugador = new Jugador(nombre);
+        IJugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
         return jugador;
@@ -55,6 +55,7 @@ public class Juego extends ObservableRemoto implements IJuego {
      * desde (0, 0) hasta (6, 6)*/
     @Override
     public void inicializarFichas() throws RemoteException {
+        System.out.println("Dealing tiles to players: " + jugadores);
         for (int i = 0; i <= 6; i++) {
             for (int j = i; j <= 6; j++) {
                 Ficha ficha = new Ficha(i, j);
@@ -115,9 +116,9 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
     }
 
+    // reparte las fichas a todos los jugadores.
     private void repartir() {
-        System.out.println("sracatunga IN");
-        for (Jugador j : jugadores) {
+        for (IJugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
                 IFicha ficha = pozo.sacarFicha();
                 if (ficha != null) {
@@ -135,6 +136,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         for (IJugador j: jugadores) {
             if (j.tengoDobles()) {
                 jugadoresConFichasDobles.add(j);
+                System.out.println("\njugadores: " + jugadores);
             }
             // determino ficha simple más alta.
             if (j.fichaSimpleMasAlta().getIzquierdo() > fichaSimpleAlta ) {
@@ -145,7 +147,6 @@ public class Juego extends ObservableRemoto implements IJuego {
                 jugadorFichaSimpleMasAlta = j;
             }
         }
-
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
@@ -162,7 +163,6 @@ public class Juego extends ObservableRemoto implements IJuego {
             }
 
         }
-        System.out.println("fihcas");
         List<IFicha> fichasJugador = jugadorMano.getFichas();
         fichasJugador.remove(primeraFicha);
         // agrego al tablero las fichas.
