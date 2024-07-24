@@ -44,6 +44,7 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public Jugador conectarJugador(String nombre) throws RemoteException {
+        System.out.println("Saracatunga conectado");
         Jugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
@@ -115,6 +116,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     private void repartir() {
+        System.out.println("sracatunga IN");
         for (Jugador j : jugadores) {
             for (int i = 0; i < 7; i++) {
                 IFicha ficha = pozo.sacarFicha();
@@ -126,11 +128,11 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     private void determinarJugadorMano()  {
-        ArrayList<Jugador> jugadoresConFichasDobles = new ArrayList<>();
+        List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
-        Jugador jugadorFichaSimpleMasAlta = null;
-        Jugador jugMano = null;
-        for (Jugador j: jugadores) {
+        IJugador jugadorFichaSimpleMasAlta = null;
+        IJugador jugMano = null;
+        for (IJugador j: jugadores) {
             if (j.tengoDobles()) {
                 jugadoresConFichasDobles.add(j);
             }
@@ -143,6 +145,7 @@ public class Juego extends ObservableRemoto implements IJuego {
                 jugadorFichaSimpleMasAlta = j;
             }
         }
+
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
@@ -150,14 +153,21 @@ public class Juego extends ObservableRemoto implements IJuego {
             jugadorMano = jugMano;
             primeraFicha = jugMano.fichaDobleMayor();
         } else {
-            jugadorFichaSimpleMasAlta.setMano(true);
-            primeraFicha = jugadorFichaSimpleMasAlta.fichaSimpleMasAlta();
-            jugadorMano = jugadorFichaSimpleMasAlta;
+            try {
+                jugadorFichaSimpleMasAlta.setMano(true);
+                primeraFicha = jugadorFichaSimpleMasAlta.fichaSimpleMasAlta();
+                jugadorMano = jugadorFichaSimpleMasAlta;
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+
         }
-        ArrayList<IFicha> fichasJugador = jugadorMano.getFichas();
+        System.out.println("fihcas");
+        List<IFicha> fichasJugador = jugadorMano.getFichas();
         fichasJugador.remove(primeraFicha);
         // agrego al tablero las fichas.
         try {
+            System.out.println(primeraFicha);
             setearTablero(primeraFicha);
         } catch (FichaIncorrecta f) {
             throw new RuntimeException("ficha incorrecta!!!");
@@ -178,10 +188,10 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
     }
 
-    private Jugador jugadorfichaDobleMasAlta(ArrayList<Jugador> jugadores) {
-        Jugador jFichaDobleMasAlta = null;
+    private IJugador jugadorfichaDobleMasAlta(List<IJugador> jugadores) {
+        IJugador jFichaDobleMasAlta = null;
         int fichaValor = -1;
-        for (Jugador j : jugadores) {
+        for (IJugador j : jugadores) {
             if (j.fichaDobleMayor().getIzquierdo() > fichaValor) {
                 fichaValor = j.fichaDobleMayor().getIzquierdo();
                 jFichaDobleMasAlta = j;
@@ -275,7 +285,7 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     // Busca la ficha a tirar dentro del poll de fichas del jugador.
     private IFicha buscarFicha(int extremIzq, int extemDer, IJugador jug) {
-        ArrayList<IFicha> fichas = jug.getFichas();
+        List<IFicha> fichas = jug.getFichas();
         IFicha ficha = null;
         for (IFicha f : fichas) {
             if (f.getIzquierdo() == extremIzq && f.getDerecho() == extemDer) {

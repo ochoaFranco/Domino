@@ -56,8 +56,6 @@ public class Lobby implements IVista {
         });
     }
 
-
-
     // agrega componenetes al panel.
     private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn) {
         // agregos los componentes al panel.
@@ -96,7 +94,6 @@ public class Lobby implements IVista {
     @Override
     public void mostrarMensaje(String mensaje) {
     }
-
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {

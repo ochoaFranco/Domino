@@ -11,6 +11,7 @@ import vista.IVista;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controlador implements IControladorRemoto {
     private IVista vista;
@@ -22,6 +23,8 @@ public class Controlador implements IControladorRemoto {
 
     @Override
     public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
+        System.out.println("saracatunga conectado jugadorcito\n");
+        System.out.println("modelo: " + modelo + "\n");
         this.modelo = (IJuego) t;
     }
 
@@ -31,7 +34,7 @@ public class Controlador implements IControladorRemoto {
 
     public void conectarJugador(String nombre) {
         try {
-            jugador = modelo.conectarJugador(nombre);
+            jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -61,7 +64,7 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
-    public ArrayList<IFicha> getFichasJugador(IJugador jugador) {
+    public List<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }
 

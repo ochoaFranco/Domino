@@ -1,8 +1,9 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class EventoFichasTablero {
+public class EventoFichasTablero implements Serializable {
     private Evento evento;
     private List<IFicha> fichasTablero;
     public EventoFichasTablero() {

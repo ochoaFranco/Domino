@@ -1,6 +1,8 @@
 package modelo;
 
-public class EventoFichaJugador {
+import java.io.Serializable;
+
+public class EventoFichaJugador implements Serializable {
     private Evento evento;
     private IJugador jugador;
     private IFicha ficha;

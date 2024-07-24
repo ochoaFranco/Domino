@@ -17,7 +17,7 @@ public class AppServidor {
         IJuego juego = Juego.getInstancia();
         Servidor servidor = new Servidor("127.0.0.1", AppServidor.PORT);
         try {
-            servidor.iniciar((Juego)juego);
+            servidor.iniciar(juego);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

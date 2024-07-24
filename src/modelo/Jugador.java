@@ -4,19 +4,26 @@ import modelo.exceptions.FichaIncorrecta;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Jugador implements IJugador, Serializable {
     private String nombre;
-    private ArrayList<IFicha> fichas;
+    private final List<IFicha> fichas;
     private boolean mano = false;
     private int puntos = 0;
-    private Tablero tablero;
-    private IFicha fichaJugada;
+    private static int ID = 0;
+    private int id;
     
     public Jugador(String nombre) {
         this.nombre = nombre;
         fichas = new ArrayList<>();
+        id = Jugador.ID++;
     }
+    @Override
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String getNombre() {
         return nombre;
@@ -51,7 +58,7 @@ public class Jugador implements IJugador, Serializable {
         return fichas.get(fichas.size() - 1);
     }
     @Override
-    public ArrayList<IFicha> getFichas() {
+    public List<IFicha> getFichas() {
         return fichas;
     }
 

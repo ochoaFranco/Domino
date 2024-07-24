@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
+import java.util.List;
 
 public class VistaConsola implements IVista {
     private Controlador controlador;
@@ -91,7 +92,7 @@ public class VistaConsola implements IVista {
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {
-        ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
+        List<IFicha> fichas = controlador.getFichasJugador(jugador);
         StringBuilder ficha = new StringBuilder();
         for (IFicha f : fichas) {
             ficha.append("|").append(f.getIzquierdo()).append("|").append(f.getDerecho()).append("|").append(" ");

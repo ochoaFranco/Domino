@@ -55,7 +55,7 @@ public class MenuJuego extends JDialog implements IVista {
             }
         });
     }
-
+    // levanta la interfaz de login
     private void loginUsuario(Controlador controlador) {
         Login usuario1 = new Login((JFrame) this.getParent(), controlador);
         usuario1.iniciar();

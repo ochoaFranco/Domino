@@ -101,7 +101,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void mostrarFichasJugador(IJugador jugador)  {
         jugadorManoComponente.removeAll();
-        ArrayList<IFicha> fichas = controlador.getFichasJugador(jugador);
+        List<IFicha> fichas = controlador.getFichasJugador(jugador);
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
             jugadorManoComponente.agregarFichaJugador(fichaComponente);

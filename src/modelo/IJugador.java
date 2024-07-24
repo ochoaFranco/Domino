@@ -4,11 +4,13 @@ import modelo.Ficha;
 import modelo.exceptions.FichaIncorrecta;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface IJugador {
+    int getId();
     String getNombre();
     IFicha getUltimaFicha();
-    ArrayList<IFicha> getFichas();
+    List<IFicha> getFichas();
     boolean tengoDobles();
     public IFicha fichaSimpleMasAlta();
     IFicha fichaDobleMayor();

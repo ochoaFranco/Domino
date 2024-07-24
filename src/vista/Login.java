@@ -16,7 +16,6 @@ public class Login  extends JDialog implements IVista {
     private JComboBox<String> interfazComboBox;
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
-    private IJuego juego;
     private static boolean isJuegoIniciado = false;
     private static int cantVentanasAbiertas = 0;
     private final static int cantMaxVentanasAbiertas = 1;
@@ -58,7 +57,6 @@ public class Login  extends JDialog implements IVista {
         this.getContentPane().add(panel);
 
         // Agrego la funcionalidad del boton.
-
         okayBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,7 +106,7 @@ public class Login  extends JDialog implements IVista {
         panel.add(lblNombre);
     }
 
-    // funcionalidad para el clicked btn
+    // levanta la vista correspondiente y cierra las anteriores.
     private void okayBtnPresionado() {
         IVista vista;
         String usuario = txtF1.getText();
@@ -116,11 +114,13 @@ public class Login  extends JDialog implements IVista {
         // comprobamos la seleccion
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
             vista = new VistaConsola(usuario, controlador);
+            controlador.setVista(vista);
         } else {
             vista = new VistaGrafica(usuario, controlador);
-            vista.ocultarBoton(); // ocultamos el boton 'Robar'
+            controlador.setVista(vista);
+            vista.ocultarBoton();
         }
-
+        // muestro la vistas elegida
         vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
@@ -136,6 +136,7 @@ public class Login  extends JDialog implements IVista {
                 ((VistaConsola)vista).jugar();
             Login.isJuegoIniciado = true;
         }
+        controlador.conectarJugador(usuario);
         dispose();
         MenuJuego.incrementarVentanasCerradas();
     }
