@@ -74,6 +74,25 @@ public class Controlador implements IControladorRemoto {
             actualizarEventoJugador((EventoJugador) cambios);
         } else if (cambios instanceof EventoTurnoJugadores) {
             actualizarEventoTurnoJugadores((EventoTurnoJugadores) cambios);
+        } else if (cambios instanceof EventoFichasTablero) {
+            actualizarEventoFichasTablero((EventoFichasTablero) cambios);
+        }
+    }
+
+    // Actualiza el tablero.
+    private void actualizarEventoFichasTablero(EventoFichasTablero cambios) throws RemoteException {
+        if (cambios.getEvento() == Evento.ACTUALIZAR_TABLERO) {
+            List<IFicha> fichasTablero = cambios.getFichasTablero();
+            vista.mostrarTablero(fichasTablero);
+            if (modelo.getTurno() == jugador) {
+                vista.mostrarBoton();
+                vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
+                vista.mostrarFichasJugador(modelo.getJugadorID(jugador));
+            } else {
+                IJugador jugTurno = modelo.getJugadorID(modelo.getTurno());
+                vista.mostrarMensaje("Turno del jugador: " + jugTurno.getNombre() + "\n");
+                vista.ocultarBoton();
+            }
         }
     }
 
