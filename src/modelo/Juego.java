@@ -65,6 +65,8 @@ public class Juego extends ObservableRemoto implements IJuego {
     @Override
     public void iniciarJuego() throws RemoteException {
         System.out.println("starting game\n");
+        // el juego arranca con 2 jugadores
+        if (jugadores.size() != 2) return;
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
