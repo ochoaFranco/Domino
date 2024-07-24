@@ -345,6 +345,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         IJugador jugador = colaTurnos.poll();
         colaTurnos.offer(jugador);
         determinarJugadorTurno(); // actualizo el turno
-//        notificarObservadores(Evento.PASAR_TURNO, turno);
+        EventoJugador eventoJugador = new EventoJugador(Evento.PASAR_TURNO, getJugadorID(turno));
+        notificarObservadores(eventoJugador);
     }
 }

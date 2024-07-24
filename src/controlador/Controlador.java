@@ -130,8 +130,17 @@ public class Controlador implements IControladorRemoto {
                     vista.mostrarFichasJugador(j);
                 }
                 break;
-
-
+            case PASAR_TURNO:
+                vista.mostrarMensaje("El pozo no tiene mas fichas.\n");
+                if (jugador == cambios.getJugador().getId()) {
+                    vista.mostrarBoton();
+                    vista.mostrarMensaje("Es tu turno, elige una ficha: \n");
+                    vista.mostrarFichasJugador(modelo.getJugadorID(jugador));
+                } else {
+                    vista.mostrarMensaje("Turno del jugador: " + cambios.getJugador().getNombre());
+                    vista.ocultarBoton();
+                }
+                break;
         }
     }
 
