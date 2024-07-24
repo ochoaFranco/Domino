@@ -253,9 +253,11 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     private void determinarSiJugadorGano() throws RemoteException {
         if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
-//            notificarObservadores(Evento.FIN_DEL_JUEGO, turno);
+            EventoJugador eventoJugador = new EventoJugador(Evento.FIN_DEL_JUEGO, getJugadorID(turno));
+            notificarObservadores(eventoJugador);
         } else {
-//            notificarObservadores(Evento.CAMBIO_RONDA, turno, jugadores); // jugador que domino la ronda mas todos los jugadores.
+            EventoTurnoJugadores eventoTurnoJugadores = new EventoTurnoJugadores(Evento.CAMBIO_RONDA, buscarJugadorPorID(turno), jugadores);
+            notificarObservadores(eventoTurnoJugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
         }
     }

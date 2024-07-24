@@ -69,38 +69,68 @@ public class Controlador implements IControladorRemoto {
     @Override
     public void actualizar(IObservableRemoto iObservableRemoto, Object cambios) throws RemoteException {
         if (cambios instanceof EventoFichaJugador) {
-            switch (((EventoFichaJugador) cambios).getEvento()) {
-                case INICIAR_JUEGO:
-                    vista.mostrarFicha(((EventoFichaJugador) cambios).getFicha());
-                    if (modelo.getTurno() == jugador) {
-                        vista.mostrarBoton();
-                        vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                    } else {
-                        int jugadorTurno = modelo.getTurno();
-                        vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
-                        vista.ocultarBoton();
-                    }
-                    IJugador jug = modelo.getJugadorID(jugador);
-                    vista.mostrarFichasJugador(jug);
-                    System.out.println("Ive printed all the tiles of player: " + jug.getNombre() + "\n");
-                    System.out.println("and its tiles are " + jug.getFichas() + "\n");
-                    break;
-                case CAMBIO_RONDA:
-                    vista.mostrarMensaje("Jugador que domino la ronda: " + ((EventoFichaJugador) cambios).getJugador().getNombre() + "\n");
-                    vista.mostrarTablaPuntos(((EventoFichaJugador) cambios).getJugador());
-                    vista.limpiarTablero();
-                    vista.mostrarMensaje("Comenzara una nueva ronda..\n");
-                    break;
-            }
+            actualizarEventoFichaJugador((EventoFichaJugador) cambios);
+        } else if (cambios instanceof EventoJugador) {
+            actualizarEventoJugador((EventoJugador) cambios);
+        } else if (cambios instanceof EventoTurnoJugadores) {
+            actualizarEventoTurnoJugadores((EventoTurnoJugadores) cambios);
         }
     }
 
-//    public void actualizar(IObservableRemoto iObservableRemoto, Object cambio) throws RemoteException {
-//
-//    }
+    // Actualiza el cambio de ronda.
+    private void actualizarEventoTurnoJugadores(EventoTurnoJugadores cambios) {
+        switch (cambios.getEvento()) {
+            case CAMBIO_RONDA:
+                IJugador ganadorRonda = cambios.getTurno();
+                List<IJugador> jugadores = cambios.getJugadores();
+                vista.mostrarMensaje("Jugador que domino la ronda: " + ganadorRonda.getNombre() + "\n");
+                vista.mostrarTablaPuntos(jugadores);
+                vista.limpiarTablero();
+                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+                break;
+        }
+    }
+
+    // Actualiza el caso del fin del juego.
+    private void actualizarEventoJugador(EventoJugador cambios) throws RemoteException {
+        switch (cambios.getEvento()) {
+            case FIN_DEL_JUEGO:
+                IJugador jug = modelo.getJugadorID(jugador);
+                IJugador ganador = cambios.getJugador();
+                vista.limpiarTablero();
+                if (ganador.getId() == jugador) {
+                    vista.finalizarJuego("Has ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
+                } else {
+                    vista.finalizarJuego("El jugador: " + ganador + " ha ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
+                }
+                break;
+        }
+    }
+
+    // maneja el caso en el que se actualice un evento ficha jugador.
+    private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
+        switch (cambios.getEvento()) {
+            case INICIAR_JUEGO:
+                vista.mostrarFicha(cambios.getFicha());
+                if (modelo.getTurno() == jugador) {
+                    vista.mostrarBoton();
+                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+                } else {
+                    int jugadorTurno = modelo.getTurno();
+                    vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
+                    vista.ocultarBoton();
+                }
+                IJugador jug = modelo.getJugadorID(jugador);
+                vista.mostrarFichasJugador(jug);
+                System.out.println("Ive printed all the tiles of player: " + jug.getNombre() + "\n");
+                System.out.println("and its tiles are " + jug.getFichas() + "\n");
+                break;
+        }
+    }
+
 //
 //    @Override
-//    public void update(Evento e, Object o) {
+//    public void actualizar(IObservableRemoto iObservableRemoto, Object cambios) throws RemoteException {
 //        switch (e) {
 //            case CAMBIO_FICHAS_JUGADOR :
 //                if (o == jugador) {

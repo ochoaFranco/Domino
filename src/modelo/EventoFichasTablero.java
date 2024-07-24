@@ -6,8 +6,8 @@ import java.util.List;
 public class EventoFichasTablero implements Serializable {
     private Evento evento;
     private List<IFicha> fichasTablero;
-    public EventoFichasTablero() {
 
+    public EventoFichasTablero() {
     }
     public EventoFichasTablero(Evento evento, List<IFicha> fichasTablero) {
         this.evento = evento;
