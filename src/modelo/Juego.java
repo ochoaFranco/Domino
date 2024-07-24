@@ -43,11 +43,11 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public IJugador conectarJugador(String nombre) throws RemoteException {
+    public int conectarJugador(String nombre) throws RemoteException {
         IJugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
         colaTurnos.offer(jugador);
-        return jugador;
+        return jugador.getId();
     }
 
     /** Inicializa un conjunto de fichas para el juego
@@ -75,9 +75,10 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public IJugador getJugadorTurnoID(int id) throws RemoteException {
+    public IJugador getJugadorID(int id) throws RemoteException {
         return buscarJugadorPorID(turno);
     }
+
     // Logica principal del juego.
     @Override
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException {

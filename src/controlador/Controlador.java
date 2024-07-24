@@ -16,7 +16,7 @@ import java.util.List;
 public class Controlador implements IControladorRemoto {
     private IVista vista;
     private IJuego modelo;
-    private IJugador jugador;
+    private int jugador;
 
     public Controlador() {
     }
@@ -72,15 +72,18 @@ public class Controlador implements IControladorRemoto {
             switch (((EventoFichaJugador) cambios).getEvento()) {
                 case INICIAR_JUEGO:
                     vista.mostrarFicha(((EventoFichaJugador) cambios).getFicha());
-                if (modelo.getTurno() == jugador.getId()) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                } else {
-                    int jugadorTurno = modelo.getTurno();
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorTurnoID(jugadorTurno).getNombre() + "\n");
-                    vista.ocultarBoton();
-                }
-                vista.mostrarFichasJugador(jugador);
+                    if (modelo.getTurno() == jugador) {
+                        vista.mostrarBoton();
+                        vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+                    } else {
+                        int jugadorTurno = modelo.getTurno();
+                        vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
+                        vista.ocultarBoton();
+                    }
+                    IJugador jug = modelo.getJugadorID(jugador);
+                    vista.mostrarFichasJugador(jug);
+                    System.out.println("Ive printed all the tiles of player: " + jug.getNombre() + "\n");
+                    System.out.println("and its tiles are " + jug.getFichas() + "\n");
                     break;
                 case CAMBIO_RONDA:
                     vista.mostrarMensaje("Jugador que domino la ronda: " + ((EventoFichaJugador) cambios).getJugador().getNombre() + "\n");
