@@ -15,13 +15,15 @@ public class Login  extends JDialog implements IVista {
     private JComboBox<String> interfazComboBox;
     private JTextField txtF1 = new JTextField();
     private JFrame parent;
-    private static boolean isJuegoIniciado = false;
-    private static int cantVentanasAbiertas = 0;
+    private static boolean isJuegoIniciado;
+    private static int cantVentanasAbiertas;
     private final static int cantMaxVentanasAbiertas = 1;
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
         this.controlador = controlador;
+        isJuegoIniciado = false;
+        cantVentanasAbiertas = 0;
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos

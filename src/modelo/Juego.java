@@ -14,7 +14,7 @@ import java.util.Queue;
 public class Juego extends ObservableRemoto implements IJuego {
     private static List<IJugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 15;
+    private final int LIMITEPUNTOS = 2;
     private int turno = -1;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -43,6 +43,22 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
+    public void desconectarJugador(int idJugador) throws RemoteException {
+        System.out.println("Current players: ");
+        for (IJugador j : jugadores) {
+            System.out.println(j.getNombre() + " " + j.getId());
+        }
+        System.out.println("ID sent: " + idJugador);
+        IJugador jugador = getJugadorID(idJugador);
+        System.out.println("JUgador: to be erased" + jugador.getId());
+        jugadores.remove(jugador);
+        System.out.println("Current players: ");
+        for (IJugador j : jugadores) {
+            System.out.println(j.getNombre() + "\n");
+        }
+    }
+
+    @Override
     public int conectarJugador(String nombre) throws RemoteException {
         IJugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
@@ -64,8 +80,12 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public void iniciarJuego() throws RemoteException {
+        System.out.println("Printing players from game\n");
+        for (IJugador j : jugadores) {
+            System.out.println(j.getNombre() + "\n");
+        }
         // el juego arranca con 2 jugadores
-        if (jugadores.size() != 2) return;
+        if (jugadores.size() < 2) return;
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
@@ -294,6 +314,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     private void casoCierre() throws RemoteException {
+        System.out.println("Closing case\n");
         detectarJugadorGanadorCierre();
         buscarJugadorPorID(turno).getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
         contarPuntosJugadores();

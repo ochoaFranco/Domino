@@ -8,8 +8,8 @@ import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,10 +23,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteJugadorMano jugadorManoComponente;
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
-    private JLabel mensaje = new JLabel();
-    private JLabel lblJ1Nombre = new JLabel();
-    private JLabel lblJ2Nombre = new JLabel();
-    private JLabel lblJ1Pts = new JLabel();
+    private final JLabel mensaje = new JLabel();
+    private final JLabel lblJ1Nombre = new JLabel();
+    private final JLabel lblJ2Nombre = new JLabel();
+    private final JLabel lblJ1Pts = new JLabel();
     private JLabel lblJ2Pts = new JLabel();
     private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
 
@@ -286,7 +286,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.repaint();
     }
 
-
     @Override
     public void ocultarBoton() {
         robarBtn.setVisible(false);
@@ -327,16 +326,27 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void finalizarJuego(String mensaje) {
-//        JOptionPane.showMessageDialog(null, mensaje, "Domino", JOptionPane.INFORMATION_MESSAGE);
         SwingUtilities.invokeLater(() -> {
             // se muestra un mensaje en la ventana principal.
             JLabel lblMensaje = new JLabel(mensaje);
             lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
+            lblMensaje.setFont(new Font("Arial", Font.BOLD, 24));
+            lblMensaje.setForeground(Color.black);
             JFrame mensajeFrame = new JFrame("Game Over");
-            mensajeFrame.add(lblMensaje);
             mensajeFrame.setSize(300, 200);
             mensajeFrame.setLocationRelativeTo(null);
             mensajeFrame.setVisible(true);
+            mensajeFrame.setResizable(false);
+            mensajeFrame.setSize(new Dimension(1500, 200));
+            mensajeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            JPanel panel;
+            lblMensaje.setBounds(50, 50, 1300, 100);
+            // agrego un boton de confirmacion
+            panel = Lobby.getjPanel("img/tablero.png");
+            panel.setLayout(null);
+            panel.add(lblMensaje);
+            panel.setOpaque(false);
+            mensajeFrame.add(panel);
             // cierro la ventana luego de mostrar el mensaje.
             dispose();
         });

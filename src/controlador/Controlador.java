@@ -38,6 +38,14 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
+    public void desconectarJugador() {
+        try {
+            modelo.desconectarJugador(jugador);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void iniciarJuego() {
         try {
             modelo.iniciarJuego();
@@ -79,6 +87,25 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
+    // maneja el caso en el que se actualice un evento ficha jugador.
+    private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
+        switch (cambios.getEvento()) {
+            case INICIAR_JUEGO:
+                vista.mostrarFicha(cambios.getFicha());
+                if (modelo.getTurno() == jugador) {
+                    vista.mostrarBoton();
+                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+                } else {
+                    int jugadorTurno = modelo.getTurno();
+                    vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
+                    vista.ocultarBoton();
+                }
+                IJugador jug = modelo.getJugadorID(jugador);
+                vista.mostrarFichasJugador(jug);
+                break;
+        }
+    }
+
     // Actualiza el tablero.
     private void actualizarEventoFichasTablero(EventoFichasTablero cambios) throws RemoteException {
         if (cambios.getEvento() == Evento.ACTUALIZAR_TABLERO) {
@@ -113,16 +140,6 @@ public class Controlador implements IControladorRemoto {
     // Actualiza el caso del fin del juego.
     private void actualizarEventoJugador(EventoJugador cambios) throws RemoteException {
         switch (cambios.getEvento()) {
-            case FIN_DEL_JUEGO:
-                IJugador jug = modelo.getJugadorID(jugador);
-                IJugador ganador = cambios.getJugador();
-                vista.limpiarTablero();
-                if (ganador.getId() == jugador) {
-                    vista.finalizarJuego("Has ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
-                } else {
-                    vista.finalizarJuego("El jugador: " + ganador.getNombre() + " ha ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
-                }
-                break;
             case CAMBIO_FICHAS_JUGADOR:
                 if (cambios.getJugador().getId() == jugador) {
                     IJugador j = modelo.getJugadorID(jugador);
@@ -141,26 +158,17 @@ public class Controlador implements IControladorRemoto {
                     vista.ocultarBoton();
                 }
                 break;
-        }
-    }
-
-    // maneja el caso en el que se actualice un evento ficha jugador.
-    private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
-        switch (cambios.getEvento()) {
-            case INICIAR_JUEGO:
-                vista.mostrarFicha(cambios.getFicha());
-                if (modelo.getTurno() == jugador) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                } else {
-                    int jugadorTurno = modelo.getTurno();
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
-                    vista.ocultarBoton();
-                }
+            case FIN_DEL_JUEGO:
                 IJugador jug = modelo.getJugadorID(jugador);
-                vista.mostrarFichasJugador(jug);
-                System.out.println("Ive printed all the tiles of player: " + jug.getNombre() + "\n");
-                System.out.println("and its tiles are " + jug.getFichas() + "\n");
+                IJugador ganador = cambios.getJugador();
+                vista.limpiarTablero();
+                if (ganador.getId() == jugador) {
+                    vista.finalizarJuego("Has ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
+//                    modelo.desconectarJugador(ganador.getId());
+                } else {
+                    vista.finalizarJuego("El jugador: " + ganador.getNombre() + " ha ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
+//                    modelo.desconectarJugador(jugador);
+                }
                 break;
         }
     }
