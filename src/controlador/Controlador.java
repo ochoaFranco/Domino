@@ -49,7 +49,12 @@ public class Controlador implements IControladorRemoto {
 
     public void iniciarJuego() {
         try {
-            modelo.iniciarJuego();
+            int cantidadJugadores = modelo.getJugadores().size();
+            System.out.println("Amount of players: " + cantidadJugadores + "\n");
+            if (cantidadJugadores >= 2) {
+                System.out.println("Starting game...\n");
+                modelo.iniciarJuego();
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -90,6 +95,7 @@ public class Controlador implements IControladorRemoto {
 
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
+        System.out.println("Player's ID: " + jugador + "\n");
         switch (cambios.getEvento()) {
             case INICIAR_JUEGO:
                 vista.mostrarFicha(cambios.getFicha());
@@ -98,7 +104,18 @@ public class Controlador implements IControladorRemoto {
                     vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
                 } else {
                     int jugadorTurno = modelo.getTurno();
-                    vista.mostrarMensaje("Turno del jugador: " + modelo.getJugadorID(jugadorTurno).getNombre() + "\n");
+                    IJugador j = modelo.getJugadorID(modelo.getJugadorID(jugadorTurno).getId());
+//                    IJugador j = modelo.getJugadorID(jugadorTurno);
+                    System.out.println("printing name: " + j.getNombre() + "\n");
+                    System.out.println("players turn: " + jugadorTurno + "\n");
+
+                    System.out.println("Players' name and IDs'\n");
+                    for (IJugador k: modelo.getJugadores()) {
+                        System.out.println(k.getNombre() + " ID: " + k.getId() + "\n");
+                    }
+
+                    System.out.println("Player's turn: " + jugadorTurno + " player's name: " + j.getNombre() + "\n");
+                    vista.mostrarMensaje("Turno del jugador: " + j.getNombre() + "\n");
                     vista.ocultarBoton();
                 }
                 IJugador jug = modelo.getJugadorID(jugador);

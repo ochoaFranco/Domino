@@ -14,14 +14,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Juego extends ObservableRemoto implements IJuego {
-    private static List<IJugador> jugadores;
+    private List<IJugador> jugadores;
     private List<IFicha> fichas;
     private final int LIMITEPUNTOS = 2;
-    private int turno = -1;
+    private int turno;
     private static Pozo pozo;
     private IFicha primeraFicha;
     private IJugador jugadorMano = null;
-    private Queue<IJugador> colaTurnos = new LinkedList<>();
+    private Queue<Integer> colaTurnos = new LinkedList<>();
     private static IJuego instancia;
 
     public static IJuego getInstancia() throws RemoteException {
@@ -54,6 +54,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         IJugador jugador = getJugadorID(idJugador);
         System.out.println("JUgador: to be erased" + jugador.getId());
         jugadores.remove(jugador);
+        colaTurnos.remove(idJugador);
         System.out.println("Current players: ");
         for (IJugador j : jugadores) {
             System.out.println(j.getNombre() + "\n");
@@ -64,8 +65,13 @@ public class Juego extends ObservableRemoto implements IJuego {
     public int conectarJugador(String nombre) throws RemoteException {
         IJugador jugador = new Jugador(nombre);
         jugadores.add(jugador);
-        colaTurnos.offer(jugador);
+        colaTurnos.offer(jugador.getId());
         return jugador.getId();
+    }
+
+    @Override
+    public List<IJugador> getJugadores() throws RemoteException {
+        return jugadores;
     }
 
     @Override
@@ -92,12 +98,15 @@ public class Juego extends ObservableRemoto implements IJuego {
         for (IJugador j : jugadores) {
             System.out.println(j.getNombre() + "\n");
         }
-        // el juego arranca con 2 jugadores
-        if (jugadores.size() < 2) return;
+        juntarFichasTablero();
+        juntarFichasJugadores();
+        Collections.shuffle(pozo.getFichas());
+        Tablero.resetearTablero(); // limpio las fichas del tablero.
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
         EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
+        System.out.println("Jugador mano: " + jugadorMano + "\n" + "First Tile: " + primeraFicha + "\n");
         notificarObservadores(eventoFichaJugador);
     }
 
@@ -110,12 +119,12 @@ public class Juego extends ObservableRemoto implements IJuego {
     @Override
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException {
         assert colaTurnos.peek() != null;
-        IFicha ficha = buscarFicha(extremIzq, extremDerec, colaTurnos.peek());
+        IFicha ficha = buscarFicha(extremIzq, extremDerec, getJugadorID(colaTurnos.peek()));
         if (ficha == null) throw new FichaInexistente();
-        IJugador jugador = colaTurnos.peek();
+        IJugador jugador = getJugadorID(colaTurnos.peek());
         jugador.colocarFicha(ficha, extremo);
-        jugador = colaTurnos.poll(); // desencolo al jugador del primer turno.
-        colaTurnos.offer(jugador); // lo vuelvo a encolar al final.
+        jugador = getJugadorID(colaTurnos.poll()); // desencolo al jugador del primer turno.
+        colaTurnos.offer(jugador.getId()); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
         // clase compuesta.
         EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
@@ -132,9 +141,11 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
     }
 
+    // SARACATUNGA BUG!!!!
     @Override
     public void determinarJugadorTurno() throws RemoteException {
-        turno = colaTurnos.peek().getId();
+        turno = colaTurnos.peek();
+        System.out.println("TURN: " + turno + "\n");
     }
 
     // dada una ID busca el jugador y lo retorna.
@@ -172,8 +183,9 @@ public class Juego extends ObservableRemoto implements IJuego {
             }
         }
     }
+
     // it needs to be refactored.
-    private void determinarJugadorMano()  {
+    private void determinarJugadorMano() throws RemoteException {
         List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
         int fichaSimpleAlta = -1;
         IJugador jugadorFichaSimpleMasAlta = null;
@@ -230,10 +242,10 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     // mueve el jugdor al final del turno en el caso de que ya haya tirado.
-    private void moverJugFinalTurno() {
-        if (colaTurnos.peek() == jugadorMano) {
-            IJugador jugador = colaTurnos.poll();
-            colaTurnos.offer(jugador);
+    private void moverJugFinalTurno() throws RemoteException {
+        if (getJugadorID(colaTurnos.peek()) == jugadorMano) {
+            IJugador jugador = getJugadorID(colaTurnos.poll());
+            colaTurnos.offer(jugador.getId());
         }
     }
 
@@ -251,7 +263,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     // cuento los puntos de las fichas de todos lo jugadores.
     private void contarPuntosJugadores() {
         int puntosTotal = 0;
-        for (IJugador j : colaTurnos) {
+        for (IJugador j : jugadores) {
             puntosTotal += j.contarPuntosFicha();
         }
         buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
@@ -292,6 +304,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         iniciarJuego();
     }
 
+    // Junta las fichas del tablero y las agrega al pozo.
     private void juntarFichasTablero() {
         for (IFicha f : Tablero.getFichas()) {
             IFicha ficha;
@@ -306,6 +319,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         Tablero.getFichas().clear(); // saco las fichas del tablero.
     }
 
+    // Junta las fichas de los jugadores y las agrega al  pozo.
     private void juntarFichasJugadores() {
         for (IJugador j : jugadores) {
             for (IFicha f : j.getFichas()) {
@@ -364,8 +378,8 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.
     private void pasarTurno() throws RemoteException {
-        IJugador jugador = colaTurnos.poll();
-        colaTurnos.offer(jugador);
+        IJugador jugador = getJugadorID(colaTurnos.poll());
+        colaTurnos.offer(jugador.getId());
         determinarJugadorTurno(); // actualizo el turno
         EventoJugador eventoJugador = new EventoJugador(Evento.PASAR_TURNO, getJugadorID(turno));
         notificarObservadores(eventoJugador);

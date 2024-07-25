@@ -4,6 +4,8 @@ import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import ar.edu.unlu.rmimvc.observer.IObservadorRemoto;
 import java.rmi.RemoteException;
+import java.util.List;
+
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
 public interface IJuego extends  IObservableRemoto {
@@ -28,4 +30,6 @@ public interface IJuego extends  IObservableRemoto {
     void robarFichaPozo() throws RemoteException;
 
     IJugador getJugadorID(int id) throws RemoteException;
+
+    List<IJugador> getJugadores() throws RemoteException;
 }
