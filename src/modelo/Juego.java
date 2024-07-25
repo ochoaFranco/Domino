@@ -116,6 +116,7 @@ public class Juego extends ObservableRemoto implements IJuego {
             contarPuntosJugadores();
             determinarSiJugadorGano();
         } else if (detectarCierre()) {
+            // I might need to trigger an update to the controller here.
             casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.

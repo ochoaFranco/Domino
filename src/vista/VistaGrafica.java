@@ -9,7 +9,6 @@ import modelo.exceptions.FichaInexistente;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -326,30 +325,22 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void finalizarJuego(String mensaje) {
-        SwingUtilities.invokeLater(() -> {
-            // se muestra un mensaje en la ventana principal.
-            JLabel lblMensaje = new JLabel(mensaje);
-            lblMensaje.setHorizontalAlignment(SwingConstants.CENTER);
-            lblMensaje.setFont(new Font("Arial", Font.BOLD, 24));
-            lblMensaje.setForeground(Color.black);
-            JFrame mensajeFrame = new JFrame("Game Over");
-            mensajeFrame.setSize(300, 200);
-            mensajeFrame.setLocationRelativeTo(null);
-            mensajeFrame.setVisible(true);
-            mensajeFrame.setResizable(false);
-            mensajeFrame.setSize(new Dimension(1500, 200));
-            mensajeFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            JPanel panel;
-            lblMensaje.setBounds(50, 50, 1300, 100);
-            // agrego un boton de confirmacion
-            panel = Lobby.getjPanel("img/tablero.png");
-            panel.setLayout(null);
-            panel.add(lblMensaje);
-            panel.setOpaque(false);
-            mensajeFrame.add(panel);
-            // cierro la ventana luego de mostrar el mensaje.
-            dispose();
-        });
+        this.remove(panel);
+        JPanel nuevoPanel = Lobby.getjPanel("img/dominoes.jpg");
+        nuevoPanel.setLayout(null);
+        JLabel lbl = new JLabel(mensaje);
+        // set texto attributos.
+        lbl.setForeground(Color.white);
+        lbl.setFont(new Font("Arial", Font.BOLD, 24));
+        lbl.setAlignmentX(Component.CENTER_ALIGNMENT); // alinear el texto al centro.
+        lbl.setHorizontalAlignment(SwingConstants.CENTER);
+        lbl.setVerticalAlignment(SwingConstants.CENTER);
+        lbl.setBounds(0, 60, 1000, 100);
+        nuevoPanel.setBounds(0,0,1200, 650);
+        nuevoPanel.add(lbl);
+        this.add(nuevoPanel);
+        revalidate();
+        repaint();
     }
 
     @Override
