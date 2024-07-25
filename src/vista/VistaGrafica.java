@@ -16,7 +16,7 @@ import java.util.List;
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final String nombre;
     private static Controlador controlador;
-    private final JPanel panel;
+    private JPanel panel;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
     private final ComponenteJugadorMano jugadorManoComponente;
@@ -36,6 +36,15 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 650);
         setResizable(false);
+
+        // desconecta al jugador cuando cierra la ventana.
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                controlador.desconectarJugador();
+                System.exit(0);
+            }
+        });
 
         // creo un panel junto con su background
         panel = Lobby.getjPanel("img/tablero.png");
@@ -323,6 +332,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.limpiarFicha();
     }
 
+    // cambia la pantalla actual para mostrar el fin del juego.
     @Override
     public void finalizarJuego(String mensaje) {
         this.remove(panel);

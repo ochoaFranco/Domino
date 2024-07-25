@@ -40,7 +40,8 @@ public class Controlador implements IControladorRemoto {
 
     public void desconectarJugador() {
         try {
-            modelo.desconectarJugador(jugador);
+            System.out.println("I'm about to disconnect a player\n");
+            modelo.cerrar(this, jugador);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

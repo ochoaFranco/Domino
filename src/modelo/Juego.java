@@ -1,8 +1,10 @@
 package modelo;
 
+import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
+import ar.edu.unlu.rmimvc.observer.IObservadorRemoto;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -66,6 +68,12 @@ public class Juego extends ObservableRemoto implements IJuego {
         return jugador.getId();
     }
 
+    @Override
+    public void cerrar(IObservadorRemoto controlador, int usuarioId) throws RemoteException {
+        this.removerObservador(controlador);
+        this.desconectarJugador(usuarioId);
+    }
+
     /** Inicializa un conjunto de fichas para el juego
      * desde (0, 0) hasta (6, 6)*/
     @Override
@@ -95,7 +103,7 @@ public class Juego extends ObservableRemoto implements IJuego {
 
     @Override
     public IJugador getJugadorID(int id) throws RemoteException {
-        return buscarJugadorPorID(turno);
+        return buscarJugadorPorID(id);
     }
 
     // Logica principal del juego.
