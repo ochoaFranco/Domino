@@ -53,13 +53,15 @@ public class Controlador implements IControladorRemoto {
     }
 
     // Recibe los puntos e inicia el juego.
-    public void iniciarJuego(int puntos) {
+    public void iniciarJuego(int puntos, int cantJugadores) {
         try {
             int cantidadJugadores = modelo.getJugadores().size();
-            System.out.println("Amount of players: " + cantidadJugadores + "\n");
-            if (cantidadJugadores >= 4) {
+            System.out.println("Amount of players: " + cantidadJugadores + " amount  of players required: " + cantJugadores + "\n");
+            if (cantidadJugadores == cantJugadores) {
                 System.out.println("Starting game...\n");
                 modelo.iniciarJuego(puntos);
+            } else {
+                System.out.println("Not starting...\n");
             }
         } catch (RemoteException e) {
             e.printStackTrace();

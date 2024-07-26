@@ -25,6 +25,7 @@ public class VistaConsola implements IVista {
     private final String nombre;
     private static boolean jugando = false;
     private int puntos;
+    private int cantJugadors;
 
     public VistaConsola(String nombre, Controlador controlador) {
         this.nombre = nombre;
@@ -115,7 +116,7 @@ public class VistaConsola implements IVista {
     private void determinarComando(String comando) {
         comando = comando.toLowerCase();
         if (comando.equals("jugar")) {
-            jugar(puntos);
+            jugar(puntos,cantJugadors );
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
         } else if (comando.equalsIgnoreCase("robar")) {
@@ -228,10 +229,10 @@ public class VistaConsola implements IVista {
         consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }
 
-    public void jugar(int puntos) {
+    public void jugar(int puntos, int cantJugadores) {
         this.puntos = puntos;
         if (!VistaConsola.jugando) {
-            controlador.iniciarJuego(puntos);
+            controlador.iniciarJuego(puntos, cantJugadores);
             VistaConsola.jugando = true;
         }
     }

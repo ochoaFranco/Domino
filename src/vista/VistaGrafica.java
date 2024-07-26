@@ -250,8 +250,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         }
     }
 
-    public void jugar(int puntos) {
-        controlador.iniciarJuego(puntos);
+    public void jugar(int puntos, int cantJugadores) {
+        controlador.iniciarJuego(puntos, cantJugadores);
     }
 
     @Override

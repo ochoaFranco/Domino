@@ -14,13 +14,14 @@ import java.awt.event.KeyEvent;
 public class Login  extends JDialog implements IVista {
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
-    private JComboBox<Integer> cantJugadoreComboBox;
     private final JTextField txtfieldNombre = new JTextField();
     private final JTextField txtfieldPuntos = new JTextField();
+    private final JTextField txtfielCantJugadores = new JTextField();
     private final JFrame parent;
     private static boolean isJuegoIniciado;
     private static int cantVentanasAbiertas;
     private final static int cantMaxVentanasAbiertas = 1;
+
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
@@ -45,13 +46,13 @@ public class Login  extends JDialog implements IVista {
         // agrego los text fields
         txtfieldNombre.setBounds(180, 8, 100, 20);
         txtfieldPuntos.setBounds(180, 68, 100, 20);
+        txtfielCantJugadores.setBounds(180, 94, 100, 20);
         panel.add(txtfieldNombre);
         panel.add(txtfieldPuntos);
+        panel.add(txtfielCantJugadores);
 
         // Agrego un menu de opciones.
         agregarMenuOpciones(panel);
-        // agrego un menu de opciones para la cantidad de jugadores.
-        agregarMenuOpcionesCantJugadores(panel);
         // agrego los botones.
         JButton okayBtn = new JButton("Ok");
         okayBtn.setBounds(180, 130, 100, 20);
@@ -65,16 +66,19 @@ public class Login  extends JDialog implements IVista {
         okayBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtfieldNombre.getText().isEmpty())
-                    JOptionPane.showMessageDialog(null, "El nombre no puede estar vacio!!!", "Error", JOptionPane.ERROR_MESSAGE);
-                else if (txtfieldPuntos.getText().isEmpty())
-                    JOptionPane.showMessageDialog(null, "Los puntos no pueden estar vacios!!!", "Error", JOptionPane.ERROR_MESSAGE);
+                if (txtfieldNombre.getText().isEmpty() || txtfieldPuntos.getText().isEmpty() || txtfielCantJugadores.getText().isEmpty())
+                    JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
                 else {
                     try {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());
-                        okayBtnPresionado();
+                        int cantJugadors = Integer.parseInt(txtfielCantJugadores.getText());
+                        if (cantJugadors < 2 || cantJugadors > 4)
+                            JOptionPane.showMessageDialog(null, "Revise la cantidad minima y maxima de jugadores !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                        else
+                            okayBtnPresionado();
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Los puntos deben ser numeros !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos" +
+                                " !!!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -97,6 +101,7 @@ public class Login  extends JDialog implements IVista {
                 }
             }
         });
+
     }
 
     private void agregarMenuOpciones(JPanel panel) {
@@ -106,12 +111,6 @@ public class Login  extends JDialog implements IVista {
         panel.add(interfazComboBox);
     }
 
-    private void agregarMenuOpcionesCantJugadores(JPanel panel) {
-        Integer[] interfazCantJugadores = {2, 3, 4};
-        cantJugadoreComboBox = new JComboBox<>(interfazCantJugadores);
-        cantJugadoreComboBox.setBounds(180, 95, 100, 20);
-        panel.add(cantJugadoreComboBox);
-    }
 
     // agrega todos los labels en la pantalla
     private void agregarLabels(JPanel panel) {
@@ -138,10 +137,17 @@ public class Login  extends JDialog implements IVista {
         lblJugadores.setBounds(80, 94, 100, 20);
         lblJugadores.setForeground(Color.white);
         lblJugadores.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de los jugadores (constraints)
+        JLabel lblJugadoresConstraints = new JLabel("(rango 2-4)");
+        lblJugadoresConstraints.setBounds(290, 94, 100, 20);
+        lblJugadoresConstraints.setForeground(Color.white);
+        lblJugadoresConstraints.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(lblNombre);
         panel.add(lblConsola);
         panel.add(lblPuntos);
         panel.add(lblJugadores);
+        panel.add(lblJugadoresConstraints);
     }
 
     // levanta la vista correspondiente y cierra las anteriores.
@@ -167,12 +173,13 @@ public class Login  extends JDialog implements IVista {
 
         // si es gui ejecuto el juego.
         if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
-            int puntos = Integer.parseInt(txtfieldPuntos.getText());
+            int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
+            int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
             if (vista instanceof VistaGrafica) {
-                ((VistaGrafica) vista).jugar(puntos);
+                ((VistaGrafica) vista).jugar(puntos, cantJugadores);
             }
             else
-                ((VistaConsola)vista).jugar(puntos);
+                ((VistaConsola)vista).jugar(puntos, cantJugadores);
 
             Login.isJuegoIniciado = true;
         }
