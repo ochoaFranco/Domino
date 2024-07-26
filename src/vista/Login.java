@@ -100,7 +100,6 @@ public class Login  extends JDialog implements IVista {
                 }
             }
         });
-
     }
 
     private void agregarMenuOpciones(JPanel panel) {
@@ -109,7 +108,6 @@ public class Login  extends JDialog implements IVista {
         interfazComboBox.setBounds(180, 38, 100, 20);
         panel.add(interfazComboBox);
     }
-
 
     // agrega todos los labels en la pantalla
     private void agregarLabels(JPanel panel) {
@@ -182,6 +180,7 @@ public class Login  extends JDialog implements IVista {
 
             Login.isJuegoIniciado = true;
         }
+        JOptionPane.showMessageDialog(null, "Esperando que otros jugadore se unan, el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE);
         dispose();
         MenuJuego.incrementarVentanasCerradas();
     }

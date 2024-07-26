@@ -100,6 +100,15 @@ public class Controlador implements IControladorRemoto {
             actualizarEventoFichasTablero((EventoFichasTablero) cambios);
         }
     }
+    // indica si el juego ya ha sido creado
+    public boolean esJuegoCreado() {
+        try {
+            return modelo.getJugadores().size() == 1;
+        } catch (RemoteException e ) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {

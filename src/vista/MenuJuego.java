@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 public class MenuJuego extends JDialog implements IVista {
     private static final int MAXJUGSOLO = 2;
@@ -39,19 +40,23 @@ public class MenuJuego extends JDialog implements IVista {
         panel.add(label);
 
         // creo los botones
-        JButton soloBtn = new JButton("Solo");
-        soloBtn.setBounds(180, 60, 80, 20);
-        panel.add(soloBtn);
+        JButton creadorBtn = new JButton("Crear");
+        creadorBtn.setBounds(130, 60, 80, 20);
+        JButton unirseBtn = new JButton("Unirse");
+        unirseBtn.setBounds(260, 60, 80, 20);
+        panel.add(creadorBtn);
+        panel.add(unirseBtn);
         // calculo la posicion de la pantalla.
         this.setLocationRelativeTo(null);
 
         this.getContentPane().add(panel);
 
         // Funcionalidad para un solo jugador.
-        soloBtn.addActionListener(new ActionListener() {
+        creadorBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginUsuario(controlador);
+                if (!controlador.esJuegoCreado())
+                    loginUsuario(controlador);
             }
         });
     }
