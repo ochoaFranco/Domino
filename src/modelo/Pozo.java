@@ -11,7 +11,7 @@ public class Pozo {
     
     public IFicha sacarFicha() {
         if (fichas.isEmpty()) return null;
-        return fichas.remove(0);
+        return fichas.removeFirst();
     }
 
     public void agregarFicha(IFicha ficha) {

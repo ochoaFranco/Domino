@@ -31,7 +31,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         return instancia;
     }
 
-    public Juego() throws RemoteException {
+    private Juego() throws RemoteException {
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
         inicializarFichas();
@@ -99,16 +99,27 @@ public class Juego extends ObservableRemoto implements IJuego {
         for (IJugador j : jugadores) {
             System.out.println(j.getNombre() + "\n");
         }
-        juntarFichasTablero();
-        juntarFichasJugadores();
-        Collections.shuffle(pozo.getFichas());
-        Tablero.resetearTablero(); // limpio las fichas del tablero.
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
         EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
         System.out.println("Jugador mano: " + jugadorMano + "\n" + "First Tile: " + primeraFicha + "\n");
         notificarObservadores(eventoFichaJugador);
+    }
+
+    // Reinicia el juego cuando todos los jugadores se desconectaron.
+    @Override
+    public void reniciarJuego() throws RemoteException {
+        System.out.println("REBOOTING GAME\n");
+        jugadores = new ArrayList<>();
+        fichas = new ArrayList<>();
+        inicializarFichas();
+        Collections.shuffle(fichas); // mezcla las fichas.
+        pozo = new Pozo(fichas);
+        Tablero.resetearTablero(); // limpio las fichas del tablero.
+        Tablero.getFichas().clear();
+        System.out.println("TILES: " + fichas.size() + "\n");
+        System.out.println("POZO: " + pozo.getFichas().size() + "\n");
     }
 
     @Override
@@ -302,12 +313,15 @@ public class Juego extends ObservableRemoto implements IJuego {
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
         Tablero.resetearTablero(); // limpio las fichas del tablero.
+        System.out.println("TILES: " + fichas.size() + "\n");
+        System.out.println("POZO: " + pozo.getFichas().size() + "\n");
         iniciarJuego(LIMITEPUNTOS);
     }
 
     // Junta las fichas del tablero y las agrega al pozo.
     private void juntarFichasTablero() {
-        for (IFicha f : Tablero.getFichas()) {
+        List<IFicha> tableroFichas = Tablero.getFichas();
+        for (IFicha f : tableroFichas) {
             IFicha ficha;
             if (f.isDadaVuelta()) {
                 ficha = new Ficha(f.getDerecho(), f.getIzquierdo());

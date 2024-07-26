@@ -40,6 +40,10 @@ public class Tablero {
         Tablero.colocarVertical(extremoDerec); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
+    public static ArrayList<IFicha> getFichas() {
+        return fichas;
+    }
+
     private static void extremosIgualesIzq() {
         if (Tablero.extremoIzq == Tablero.getExtremoDerec()) {
             Tablero.fichas.remove(Tablero.extremoIzq);
@@ -74,7 +78,7 @@ public class Tablero {
         Tablero.extremosIgualesIzq();
         Tablero.extremoIzq = extremoIzq;
         extremoIzq.setIzquierdo(true);
-        Tablero.fichas.add(0, extremoIzq);
+        Tablero.fichas.addFirst(extremoIzq);
         Tablero.colocarVertical(extremoIzq); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
@@ -83,14 +87,5 @@ public class Tablero {
         if (fichas.size() > Tablero.cantFichasMaxTab) {
             ficha.setVertical(true);
         }
-    }
-
-    // falta ser implementada.
-    private static boolean validarPosicion(int extremo) {
-        return true;
-    }
-
-    public static ArrayList<IFicha> getFichas() {
-        return fichas;
     }
 }

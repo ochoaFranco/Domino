@@ -21,6 +21,8 @@ public interface IJuego extends  IObservableRemoto {
 
     void iniciarJuego(int puntos) throws RemoteException;
 
+    void reniciarJuego() throws RemoteException;
+
     // Logica principal del juego.
     void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException;
 

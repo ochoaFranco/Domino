@@ -42,11 +42,17 @@ public class Controlador implements IControladorRemoto {
         try {
             System.out.println("I'm about to disconnect a player\n");
             modelo.cerrar(this, jugador);
+
+            // reinicio el modelo si no hay mas jugadores.
+            if (modelo.getJugadores().isEmpty())
+                modelo.reniciarJuego();
+
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
+    // Recibe los puntos e inicia el juego.
     public void iniciarJuego(int puntos) {
         try {
             int cantidadJugadores = modelo.getJugadores().size();
@@ -182,10 +188,8 @@ public class Controlador implements IControladorRemoto {
                 vista.limpiarTablero();
                 if (ganador.getId() == jugador) {
                     vista.finalizarJuego("Has ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
-//                    modelo.desconectarJugador(ganador.getId());
                 } else {
                     vista.finalizarJuego("El jugador: " + ganador.getNombre() + " ha ganado el juego con " + ganador.getPuntos() + " puntos gracias por jugar al domino!");
-//                    modelo.desconectarJugador(jugador);
                 }
                 break;
         }
