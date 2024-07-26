@@ -12,7 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class Login  extends JDialog implements IVista {
-    private Controlador controlador;
+    private final Controlador controlador;
     private JComboBox<String> interfazComboBox;
     private final JTextField txtfieldNombre = new JTextField();
     private final JTextField txtfieldPuntos = new JTextField();
@@ -21,7 +21,6 @@ public class Login  extends JDialog implements IVista {
     private static boolean isJuegoIniciado;
     private static int cantVentanasAbiertas;
     private final static int cantMaxVentanasAbiertas = 1;
-
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
@@ -165,13 +164,13 @@ public class Login  extends JDialog implements IVista {
             controlador.setVista(vista);
             vista.ocultarBoton();
         }
-        // muestro la vistas elegida
-        vista.iniciar();
+        // muestro la vista elegida
+//        vista.iniciar();
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
         Login.cantVentanasAbiertas += 1;
 
-        // si es gui ejecuto el juego.
+        // EJecuto el juego y levanto las ventanas.
         if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
             int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
             int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
@@ -191,7 +190,6 @@ public class Login  extends JDialog implements IVista {
     public void mostrarMensaje(String mensaje) {
 
     }
-
 
     @Override
     public void mostrarFichasJugador(IJugador jugador) {

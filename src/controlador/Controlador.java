@@ -107,13 +107,13 @@ public class Controlador implements IControladorRemoto {
         switch (cambios.getEvento()) {
             case INICIAR_JUEGO:
                 vista.mostrarFicha(cambios.getFicha());
+                vista.iniciar();
                 if (modelo.getTurno() == jugador) {
                     vista.mostrarBoton();
                     vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
                 } else {
                     int jugadorTurno = modelo.getTurno();
                     IJugador j = modelo.getJugadorID(modelo.getJugadorID(jugadorTurno).getId());
-//                    IJugador j = modelo.getJugadorID(jugadorTurno);
                     System.out.println("printing name: " + j.getNombre() + "\n");
                     System.out.println("players turn: " + jugadorTurno + "\n");
 
