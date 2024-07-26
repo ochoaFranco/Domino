@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 public class Login  extends JDialog implements IVista {
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
-    private JTextField txtF1 = new JTextField();
+    private JTextField txtfieldNombre = new JTextField();
     private JFrame parent;
     private static boolean isJuegoIniciado;
     private static int cantVentanasAbiertas;
@@ -42,8 +42,8 @@ public class Login  extends JDialog implements IVista {
         agregarLblConsola(panel);
 
         // agrego los text fields
-        txtF1.setBounds(180, 20, 100, 20);
-        panel.add(txtF1);
+        txtfieldNombre.setBounds(180, 20, 100, 20);
+        panel.add(txtfieldNombre);
 
         // Agrego un menu de opciones.
         agregarMenuOpciones(panel);
@@ -61,12 +61,15 @@ public class Login  extends JDialog implements IVista {
         okayBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                okayBtnPresionado();
+                if (txtfieldNombre.getText().isEmpty())
+                    JOptionPane.showMessageDialog(null, "El nombre no puede estar vacio!!!", "Error", JOptionPane.ERROR_MESSAGE);
+                else
+                    okayBtnPresionado();
             }
         });
 
         // agrego un listener al textfield y combo box
-        txtF1.addKeyListener(new KeyAdapter() {
+        txtfieldNombre.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -110,7 +113,7 @@ public class Login  extends JDialog implements IVista {
     // levanta la vista correspondiente y cierra las anteriores.
     private void okayBtnPresionado() {
         IVista vista;
-        String usuario = txtF1.getText();
+        String usuario = txtfieldNombre.getText();
         String opSeleccionada = (String) interfazComboBox.getSelectedItem();
         // comprobamos la seleccion
         assert opSeleccionada != null;

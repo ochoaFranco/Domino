@@ -16,7 +16,7 @@ import java.util.Queue;
 public class Juego extends ObservableRemoto implements IJuego {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
-    private final int LIMITEPUNTOS = 2;
+    private int LIMITEPUNTOS = 2;
     private int turno;
     private static Pozo pozo;
     private IFicha primeraFicha;
