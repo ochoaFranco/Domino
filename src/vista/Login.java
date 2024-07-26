@@ -10,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
 public class Login  extends JDialog implements IVista {
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
+    private JComboBox<Integer> cantJugadoreComboBox;
     private final JTextField txtfieldNombre = new JTextField();
     private final JTextField txtfieldPuntos = new JTextField();
-    private JFrame parent;
+    private final JFrame parent;
     private static boolean isJuegoIniciado;
     private static int cantVentanasAbiertas;
     private final static int cantMaxVentanasAbiertas = 1;
@@ -40,17 +42,16 @@ public class Login  extends JDialog implements IVista {
         // atributos de los labels.
         agregarLabels(panel);
 
-        agregarLblConsola(panel);
-
         // agrego los text fields
-        txtfieldNombre.setBounds(180, 20, 100, 20);
-        txtfieldPuntos.setBounds(180, 80, 100, 20);
+        txtfieldNombre.setBounds(180, 8, 100, 20);
+        txtfieldPuntos.setBounds(180, 68, 100, 20);
         panel.add(txtfieldNombre);
         panel.add(txtfieldPuntos);
 
         // Agrego un menu de opciones.
         agregarMenuOpciones(panel);
-
+        // agrego un menu de opciones para la cantidad de jugadores.
+        agregarMenuOpcionesCantJugadores(panel);
         // agrego los botones.
         JButton okayBtn = new JButton("Ok");
         okayBtn.setBounds(180, 130, 100, 20);
@@ -101,29 +102,46 @@ public class Login  extends JDialog implements IVista {
     private void agregarMenuOpciones(JPanel panel) {
         String[] interfazOpciones = {"Grafica", "Consola"};
         interfazComboBox = new JComboBox<>(interfazOpciones);
-        interfazComboBox.setBounds(180, 50, 100, 20);
+        interfazComboBox.setBounds(180, 38, 100, 20);
         panel.add(interfazComboBox);
     }
 
-    private void agregarLblConsola(JPanel panel) {
-        JLabel lblConsola = new JLabel("Interfaz");
-        lblConsola.setBounds(80, 50, 100, 20);
-        lblConsola.setForeground(Color.white);
-        lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
-        panel.add(lblConsola);
+    private void agregarMenuOpcionesCantJugadores(JPanel panel) {
+        Integer[] interfazCantJugadores = {2, 3, 4};
+        cantJugadoreComboBox = new JComboBox<>(interfazCantJugadores);
+        cantJugadoreComboBox.setBounds(180, 95, 100, 20);
+        panel.add(cantJugadoreComboBox);
     }
 
+    // agrega todos los labels en la pantalla
     private void agregarLabels(JPanel panel) {
+        // Atributos para el label del nombre
         JLabel lblNombre = new JLabel("Nombre");
-        lblNombre.setBounds(80, 20, 100, 20);
+        lblNombre.setBounds(80, 8, 100, 20);
         lblNombre.setForeground(Color.white);
         lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de la interfaz
+        JLabel lblConsola = new JLabel("Interfaz");
+        lblConsola.setBounds(80, 38, 100, 20);
+        lblConsola.setForeground(Color.white);
+        lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de los puntos
         JLabel lblPuntos = new JLabel("Puntos");
-        lblPuntos.setBounds(80, 80, 100, 20);
+        lblPuntos.setBounds(80, 68, 100, 20);
         lblPuntos.setForeground(Color.white);
         lblPuntos.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de los jugadores.
+        JLabel lblJugadores = new JLabel("Jugadores");
+        lblJugadores.setBounds(80, 94, 100, 20);
+        lblJugadores.setForeground(Color.white);
+        lblJugadores.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(lblNombre);
+        panel.add(lblConsola);
         panel.add(lblPuntos);
+        panel.add(lblJugadores);
     }
 
     // levanta la vista correspondiente y cierra las anteriores.
