@@ -68,8 +68,14 @@ public class Login  extends JDialog implements IVista {
                     JOptionPane.showMessageDialog(null, "El nombre no puede estar vacio!!!", "Error", JOptionPane.ERROR_MESSAGE);
                 else if (txtfieldPuntos.getText().isEmpty())
                     JOptionPane.showMessageDialog(null, "Los puntos no pueden estar vacios!!!", "Error", JOptionPane.ERROR_MESSAGE);
-                else
-                    okayBtnPresionado();
+                else {
+                    try {
+                        int puntos = Integer.parseInt(txtfieldPuntos.getText());
+                        okayBtnPresionado();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Los puntos deben ser numeros !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         });
 
