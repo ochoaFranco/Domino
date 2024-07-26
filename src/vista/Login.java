@@ -13,7 +13,8 @@ import java.awt.event.KeyEvent;
 public class Login  extends JDialog implements IVista {
     private Controlador controlador;
     private JComboBox<String> interfazComboBox;
-    private JTextField txtfieldNombre = new JTextField();
+    private final JTextField txtfieldNombre = new JTextField();
+    private final JTextField txtfieldPuntos = new JTextField();
     private JFrame parent;
     private static boolean isJuegoIniciado;
     private static int cantVentanasAbiertas;
@@ -43,14 +44,16 @@ public class Login  extends JDialog implements IVista {
 
         // agrego los text fields
         txtfieldNombre.setBounds(180, 20, 100, 20);
+        txtfieldPuntos.setBounds(180, 80, 100, 20);
         panel.add(txtfieldNombre);
+        panel.add(txtfieldPuntos);
 
         // Agrego un menu de opciones.
         agregarMenuOpciones(panel);
 
         // agrego los botones.
         JButton okayBtn = new JButton("Ok");
-        okayBtn.setBounds(180, 100, 100, 20);
+        okayBtn.setBounds(180, 130, 100, 20);
         panel.add(okayBtn);
 
         // calculo tamanio pantalla.
@@ -63,6 +66,8 @@ public class Login  extends JDialog implements IVista {
             public void actionPerformed(ActionEvent e) {
                 if (txtfieldNombre.getText().isEmpty())
                     JOptionPane.showMessageDialog(null, "El nombre no puede estar vacio!!!", "Error", JOptionPane.ERROR_MESSAGE);
+                else if (txtfieldPuntos.getText().isEmpty())
+                    JOptionPane.showMessageDialog(null, "Los puntos no pueden estar vacios!!!", "Error", JOptionPane.ERROR_MESSAGE);
                 else
                     okayBtnPresionado();
             }
@@ -107,7 +112,12 @@ public class Login  extends JDialog implements IVista {
         lblNombre.setBounds(80, 20, 100, 20);
         lblNombre.setForeground(Color.white);
         lblNombre.setFont(new Font("Arial", Font.BOLD, 16));
+        JLabel lblPuntos = new JLabel("Puntos");
+        lblPuntos.setBounds(80, 80, 100, 20);
+        lblPuntos.setForeground(Color.white);
+        lblPuntos.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(lblNombre);
+        panel.add(lblPuntos);
     }
 
     // levanta la vista correspondiente y cierra las anteriores.
@@ -133,11 +143,12 @@ public class Login  extends JDialog implements IVista {
 
         // si es gui ejecuto el juego.
         if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
+            int puntos = Integer.parseInt(txtfieldPuntos.getText());
             if (vista instanceof VistaGrafica) {
-                ((VistaGrafica) vista).jugar();
+                ((VistaGrafica) vista).jugar(puntos);
             }
             else
-                ((VistaConsola)vista).jugar();
+                ((VistaConsola)vista).jugar(puntos);
 
             Login.isJuegoIniciado = true;
         }

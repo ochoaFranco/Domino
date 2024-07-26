@@ -1,29 +1,30 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.Ficha;
 import modelo.IFicha;
 import modelo.IJugador;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
+
 public class VistaConsola implements IVista {
-    private Controlador controlador;
+    private final Controlador controlador;
     private final JFrame frame;
-    private JTextArea consolaOutput;
-    private JTextField inputCMD;
-    private JButton ejecutarBtn;
-    private String nombre;
+    private final JTextArea consolaOutput;
+    private final JTextField inputCMD;
+    private final JButton ejecutarBtn;
+    private final String nombre;
     private static boolean jugando = false;
+    private int puntos;
 
     public VistaConsola(String nombre, Controlador controlador) {
         this.nombre = nombre;
@@ -54,13 +55,17 @@ public class VistaConsola implements IVista {
         // alta del jugador.
         altaJugador(nombre);
 
-        // FUNCIONALIDAD DEL BOTON
-        inputCMD.addActionListener(new ActionListener() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                manejadorComandos();
+            public void windowClosing(WindowEvent e) {
+                controlador.desconectarJugador();
+                System.exit(0);
             }
         });
+
+
+        // FUNCIONALIDAD DEL BOTON
+        inputCMD.addActionListener(e -> manejadorComandos());
 
         ejecutarBtn.addActionListener(new ActionListener() {
             @Override
@@ -110,7 +115,7 @@ public class VistaConsola implements IVista {
     private void determinarComando(String comando) {
         comando = comando.toLowerCase();
         if (comando.equals("jugar")) {
-            jugar();
+            jugar(puntos);
         } else if (comando.startsWith("ficha:")) {
             jugada(comando);
         } else if (comando.equalsIgnoreCase("robar")) {
@@ -223,9 +228,10 @@ public class VistaConsola implements IVista {
         consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }
 
-    public void jugar() {
+    public void jugar(int puntos) {
+        this.puntos = puntos;
         if (!VistaConsola.jugando) {
-            controlador.iniciarJuego();
+            controlador.iniciarJuego(puntos);
             VistaConsola.jugando = true;
         }
     }

@@ -93,7 +93,8 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public void iniciarJuego() throws RemoteException {
+    public void iniciarJuego(int puntos) throws RemoteException {
+        LIMITEPUNTOS = puntos; // seteo los puntos del juego.
         System.out.println("Printing players from game\n");
         for (IJugador j : jugadores) {
             System.out.println(j.getNombre() + "\n");
@@ -301,7 +302,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         juntarFichasJugadores();
         Collections.shuffle(pozo.getFichas());
         Tablero.resetearTablero(); // limpio las fichas del tablero.
-        iniciarJuego();
+        iniciarJuego(LIMITEPUNTOS);
     }
 
     // Junta las fichas del tablero y las agrega al pozo.
