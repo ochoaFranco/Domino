@@ -19,9 +19,9 @@ public interface IJuego extends  IObservableRemoto {
 
     void inicializarFichas() throws RemoteException;
 
-    void iniciarJuego(int puntos) throws RemoteException;
+    void setTotalPuntos(int puntos) throws RemoteException;
 
-    void TotalJugadores(int cantidadJugadores) throws RemoteException;
+    void setTotalJugadores(int cantidadJugadores) throws RemoteException;
 
     void iniciarJuego() throws RemoteException;
 

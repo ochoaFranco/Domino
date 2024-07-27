@@ -17,7 +17,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
 
-    private int LIMITEPUNTOS = 2;
+    private int LIMITEPUNTOS;
     private int turno;
     private static Pozo pozo;
     private IFicha primeraFicha;
@@ -47,7 +47,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
 
     @Override
-    public void TotalJugadores(int cantidadJugadores) throws RemoteException {
+    public void setTotalJugadores(int cantidadJugadores) throws RemoteException {
         this.cantidadJugadores = cantidadJugadores;
     }
     @Override
@@ -97,35 +97,19 @@ public class Juego extends ObservableRemoto implements IJuego {
             }
         }
     }
-    // Inicia el juego por primera vez.
+
     @Override
-    public void iniciarJuego(int puntos) throws RemoteException {
-        LIMITEPUNTOS = puntos; // seteo los puntos del juego.
-        System.out.println("MAX PLAYERS: " + getCantidadJugadores());
-        System.out.println("Printing players from game\n");
-        for (IJugador j : jugadores) {
-            System.out.println(j.getNombre() + "\n");
-        }
-        repartir();
-        determinarJugadorMano();
-        determinarJugadorTurno();
-        EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
-        System.out.println("Jugador mano: " + jugadorMano + "\n" + "First Tile: " + primeraFicha + "\n");
-        notificarObservadores(eventoFichaJugador);
+    public void setTotalPuntos(int puntos) throws RemoteException{
+        LIMITEPUNTOS = puntos;
     }
 
     // se utiliza para reinicair las rondas sin necesidad de resetear los puntos.
     @Override
     public void iniciarJuego() throws RemoteException {
-        System.out.println("Printing players from game\n");
-        for (IJugador j : jugadores) {
-            System.out.println(j.getNombre() + "\n");
-        }
         repartir();
         determinarJugadorMano();
         determinarJugadorTurno();
         EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
-        System.out.println("Jugador mano: " + jugadorMano + "\n" + "First Tile: " + primeraFicha + "\n");
         notificarObservadores(eventoFichaJugador);
     }
 
@@ -136,7 +120,6 @@ public class Juego extends ObservableRemoto implements IJuego {
     // Reinicia el juego cuando todos los jugadores se desconectaron.
     @Override
     public void reniciarJuego() throws RemoteException {
-        System.out.println("REBOOTING GAME\n");
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
         inicializarFichas();
@@ -144,8 +127,6 @@ public class Juego extends ObservableRemoto implements IJuego {
         pozo = new Pozo(fichas);
         Tablero.resetearTablero(); // limpio las fichas del tablero.
         Tablero.getFichas().clear();
-        System.out.println("TILES: " + fichas.size() + "\n");
-        System.out.println("POZO: " + pozo.getFichas().size() + "\n");
     }
 
     @Override

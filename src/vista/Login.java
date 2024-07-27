@@ -19,14 +19,11 @@ public class Login  extends JDialog implements IVista {
     private final JTextField txtfielCantJugadores = new JTextField();
     private final JFrame parent;
     private static boolean isJuegoIniciado;
-//    private static int cantVentanasAbiertas;
-//    private final static int cantMaxVentanasAbiertas = 1;
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
         this.controlador = controlador;
         isJuegoIniciado = false;
-//        cantVentanasAbiertas = 0;
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos
@@ -62,23 +59,29 @@ public class Login  extends JDialog implements IVista {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean esJuegoCreado = controlador.esJuegoCreado();
-                if (txtfieldNombre.getText().isEmpty())
+                if (txtfieldNombre.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
-//                else if (!validarPuntosJugadoresVacios(esJuegoCreado)) {
-//                    try {
-//                        // Validaciones adicionales al creador.
-//                        if (!esJuegoCreado)
-//                            if (validarRangoJugadores())
-//                                okayBtnPresionado();
-//                            else
-//                                JOptionPane.showMessageDialog(null, "Revise la cantidad minima y maxima de jugadores !!!", "Error", JOptionPane.ERROR_MESSAGE);
-//                        else
-//                            okayBtnPresionado();
-//                    } catch (NumberFormatException ex) {
-//                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos" +
-//                                " !!!", "Error", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                }
+                    return;
+                }
+                if (!esJuegoCreado) {
+                    try {
+                        int puntos = Integer.parseInt(txtfieldPuntos.getText());
+                        int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText());
+                        if (puntos < 10 || puntos > 400) {
+                            JOptionPane.showMessageDialog(null, "Los puntos no pueden ser menores a 10 ni mayores a 400 !!!",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        if (cantJugadores < 2 || cantJugadores > 4 ) {
+                            JOptionPane.showMessageDialog(null, "Como minimo debe haber 2 jugadores y como maximo 4 !!!",
+                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                        okayBtnPresionado();
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
                 else
                     okayBtnPresionado();
             }
@@ -213,7 +216,6 @@ public class Login  extends JDialog implements IVista {
 
         // EJecuto el juego y levanto las ventanas.
         if (!isJuegoIniciado) {
-            System.out.println("Is game created? : " + controlador.esJuegoCreado() + "\n");
             if (!controlador.esJuegoCreado()) {
                 int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
                 int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.

@@ -53,9 +53,10 @@ public class Controlador implements IControladorRemoto {
     public void iniciarJuego(int puntos, int cantJugadores) {
         try {
             int cantidadJugadores = modelo.getJugadores().size();
-            modelo.TotalJugadores(cantJugadores);
+            modelo.setTotalJugadores(cantJugadores);
+            modelo.setTotalPuntos(puntos);
             if (cantidadJugadores == cantJugadores)
-                modelo.iniciarJuego(puntos);
+                modelo.iniciarJuego();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -103,6 +104,7 @@ public class Controlador implements IControladorRemoto {
             actualizarEventoFichasTablero((EventoFichasTablero) cambios);
         }
     }
+
     // indica si el juego ya ha sido creado
     public boolean esJuegoCreado() {
         try {

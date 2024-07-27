@@ -44,7 +44,7 @@ public class MenuJuego extends JDialog implements IVista {
         if (estabaCreado)
             unirseBtn.setBounds(130, 60, 80, 20);
         else
-            unirseBtn.setBounds(260, 60, 80, 20);
+            unirseBtn.setBounds(290, 60, 80, 20);
 
         panel.add(unirseBtn);
         // calculo la posicion de la pantalla.
@@ -65,9 +65,10 @@ public class MenuJuego extends JDialog implements IVista {
         unirseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (controlador.esJuegoCreado()) {
+                if (controlador.esJuegoCreado())
                     loginUsuario(controlador);
-                }
+                else
+                    JOptionPane.showMessageDialog(null, "Primero se debe crear la partida!!!", "Crear Partida", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
