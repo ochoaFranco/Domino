@@ -354,7 +354,6 @@ public class Juego extends ObservableRemoto implements IJuego {
     private void casoCierre() throws RemoteException {
         System.out.println("Closing case\n");
         detectarJugadorGanadorCierre();
-        buscarJugadorPorID(turno).getFichas().clear(); // limpio la mano del jugador ya que no jugo todas sus fichas pero gano.
         contarPuntosJugadores();
         determinarSiJugadorGano();
     }

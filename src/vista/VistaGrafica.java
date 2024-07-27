@@ -50,6 +50,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
+        // Agrego las caracteristicas del panel de puntos.
+        ptsPanel.setLayout(new BoxLayout(ptsPanel, BoxLayout.Y_AXIS));
+        ptsPanel.setOpaque(false);
+        ptsPanel.setBackground(Color.black);
+        ptsPanel.setBounds(0,200,450,200);
+
         // Inicializo los labels de los jugadores.
         inicializarLblsJugadores();
 
@@ -67,6 +73,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         jugadorManoComponente = new ComponenteJugadorMano();
         jugadorManoComponente.setBounds(0, 450, 800, 200);
         panel.add(jugadorManoComponente);
+        panel.add(ptsPanel);
 
         // tamanio pantalla
         setLocationRelativeTo(null);
@@ -75,11 +82,12 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         robarBtn.addActionListener(actionEvent -> actualizarManoJugador());
     }
 
-    // Inicializo los Jlabels.
+    // Inicializo los Jlabels y los agrego al panel.
     private void inicializarLblsJugadores() {
         int tamanio = lblJugadores.length;
         for (int i = 0; i < tamanio; i++) {
-            lblJugadores[i] = new JLabel("Jugador " + i + 1);
+            lblJugadores[i] = new JLabel();
+            ptsPanel.add(lblJugadores[i]);
         }
     }
 
@@ -100,10 +108,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarMensaje(String mensaje) {
-        // calculo la posicion del mensaj en la pantalla.
-        int x = 30;
-        int y = 400;
-        mostrarMensaje(mensaje, x, y);
+        if (mensaje.equalsIgnoreCase("Jugador Bloqueado"))
+            JOptionPane.showMessageDialog(null, "Estas bloqueado !!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE);
+        else {
+            // calculo la posicion del mensaj en la pantalla.
+            int x = 30;
+            int y = 400;
+            mostrarMensaje(mensaje, x, y);
+        }
     }
 
     public void mostrarMensaje(String msj, int x, int y) {
@@ -278,23 +290,17 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // cambia el nombre de los lbls.
         if (!nombreCambiado)
             cambiarNombreJugadores(jugadores);
-        ptsPanel.setLayout(new BoxLayout(ptsPanel, BoxLayout.Y_AXIS));
-        ptsPanel.setSize(new Dimension());
-        ptsPanel.setOpaque(false);
-        ptsPanel.setBackground(Color.black);
-        ptsPanel.setBounds(0,200,450,200);
         int yOffset = 110;
         int xOffset = 0;
+        int i = 0;
         // Agrego la informacion de cada jugador.
         for (IJugador j: jugadores) {
-            JLabel label = new JLabel(j.getNombre() + "\n " + j.getPuntos());
-            label.setForeground(Color.black);
-            label.setFont(new Font("Arial", Font.BOLD, 24));
-            label.setBounds(xOffset,yOffset, 200, 200);
-            panel.add(ptsPanel.add(label));
+            lblJugadores[i].setBounds(xOffset, yOffset, 200, 200);
+            lblJugadores[i].setFont(new Font("Arial", Font.BOLD, 24));
+            lblJugadores[i].setForeground(Color.black);
+            lblJugadores[i].setText(j.getNombre() + " " + j.getPuntos());
             yOffset += 30;
         }
-        panel.add(ptsPanel);
         panel.revalidate();
         panel.repaint();
     }
