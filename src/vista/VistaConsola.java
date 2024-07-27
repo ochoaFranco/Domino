@@ -79,9 +79,10 @@ public class VistaConsola implements IVista {
         String comando =  inputCMD.getText();
         determinarComando(comando);
     }
-
+    // inicia la vistas si es que no esta visible.
     public void iniciar() {
-        frame.setVisible(true);
+        if (!frame.isVisible())
+            frame.setVisible(true);
     }
 
     @Override

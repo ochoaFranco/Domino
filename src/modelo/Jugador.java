@@ -64,9 +64,9 @@ public class Jugador implements IJugador, Serializable {
     }
 
     public void colocarFicha(IFicha ficha, String extremo) throws FichaIncorrecta {
-        if (extremo.toLowerCase().equals("i")) {
+        if (extremo.equalsIgnoreCase("i")) {
             Tablero.setExtremoIzq(ficha);
-        } else if (extremo.toLowerCase().equals("d")) {
+        } else if (extremo.equalsIgnoreCase("d")) {
             Tablero.setExtremoDerec(ficha);
         }
         fichas.remove(ficha);

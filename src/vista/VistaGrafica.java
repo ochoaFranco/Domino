@@ -16,18 +16,18 @@ import java.util.List;
 public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final String nombre;
     private static Controlador controlador;
-    private JPanel panel;
+    private final JPanel panel;
     private static IFicha primeraFicha;
     private static int cantClicks = 0;
     private final ComponenteJugadorMano jugadorManoComponente;
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
     private final JLabel mensaje = new JLabel();
-    private final JLabel lblJ1Nombre = new JLabel();
-    private final JLabel lblJ2Nombre = new JLabel();
     private final JLabel lblJ1Pts = new JLabel();
-    private JLabel lblJ2Pts = new JLabel();
+    private JPanel ptsPanel = new JPanel();
     private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
+    private final JLabel[] lblJugadores = new JLabel[4];
+    private boolean nombreCambiado = false; // permite cambiar el nombre de los lbls de la tabla de puntos.
 
     public VistaGrafica(String nombre, Controlador controlador) {
         VistaGrafica.controlador = controlador;
@@ -50,6 +50,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
+        // Inicializo los labels de los jugadores.
+        inicializarLblsJugadores();
 
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
@@ -63,7 +65,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
         // agrego la seccion de las fichas del jugador.
         jugadorManoComponente = new ComponenteJugadorMano();
-        jugadorManoComponente.setBounds(0, 450, 800, 200); // Set position and size
+        jugadorManoComponente.setBounds(0, 450, 800, 200);
         panel.add(jugadorManoComponente);
 
         // tamanio pantalla
@@ -71,6 +73,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         this.getContentPane().add(panel);
         this.addMouseListener(this);
         robarBtn.addActionListener(actionEvent -> actualizarManoJugador());
+    }
+
+    // Inicializo los Jlabels.
+    private void inicializarLblsJugadores() {
+        int tamanio = lblJugadores.length;
+        for (int i = 0; i < tamanio; i++) {
+            lblJugadores[i] = new JLabel("Jugador " + i + 1);
+        }
     }
 
     // se roba una ficha.
@@ -255,45 +265,48 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void jugar() {
         controlador.iniciarJuego();
     }
-
+    // inicia la vista si es que no lo esta.
     @Override
     public void iniciar() {
-        setVisible(true);
+        if (!isVisible())
+            setVisible(true);
     }
 
     @Override
     public void mostrarTablaPuntos(Object o) {
         List<IJugador> jugadores = (ArrayList<IJugador>) o;
-        IJugador j1 = jugadores.getFirst();
-        IJugador j2 = jugadores.getLast();
-
-        // atributos del j1
-        lblJ1Nombre.setForeground(Color.black);
-        lblJ1Nombre.setText(j1.getNombre());
-        lblJ1Nombre.setFont(new Font("Arial", Font.BOLD, 24));
-        lblJ1Nombre.setBounds(10, 250, 200, 200);
-        // puntos j1 label
-        lblJ1Pts.setForeground(Color.black);
-        lblJ1Pts.setText(Integer.toString(j1.getPuntos()));
-        lblJ1Pts.setFont(new Font("Arial", Font.BOLD, 24));
-        lblJ1Pts.setBounds(10, 270, 200, 200);
-
-        // atributos del j2.
-        lblJ2Nombre.setText(j2.getNombre());
-        lblJ2Nombre.setBounds(200, 250, 200, 200);
-        lblJ2Nombre.setForeground(Color.black);
-        lblJ2Nombre.setFont(new Font("Arial", Font.BOLD, 24));
-        panel.add(lblJ1Nombre);
-        panel.add(lblJ2Nombre);
-        // puntos j2 label
-        lblJ2Pts.setForeground(Color.black);
-        lblJ2Pts.setText(Integer.toString(j2.getPuntos()));
-        lblJ2Pts.setFont(new Font("Arial", Font.BOLD, 24));
-        lblJ2Pts.setBounds(200, 270, 200, 200);
-        panel.add(lblJ1Pts);
-        panel.add(lblJ2Pts);
+        // cambia el nombre de los lbls.
+        if (!nombreCambiado)
+            cambiarNombreJugadores(jugadores);
+        ptsPanel.setLayout(new BoxLayout(ptsPanel, BoxLayout.Y_AXIS));
+        ptsPanel.setSize(new Dimension());
+        ptsPanel.setOpaque(false);
+        ptsPanel.setBackground(Color.black);
+        ptsPanel.setBounds(0,200,450,200);
+        int yOffset = 110;
+        int xOffset = 0;
+        // Agrego la informacion de cada jugador.
+        for (IJugador j: jugadores) {
+            JLabel label = new JLabel(j.getNombre() + "\n " + j.getPuntos());
+            label.setForeground(Color.black);
+            label.setFont(new Font("Arial", Font.BOLD, 24));
+            label.setBounds(xOffset,yOffset, 200, 200);
+            panel.add(ptsPanel.add(label));
+            yOffset += 30;
+        }
+        panel.add(ptsPanel);
         panel.revalidate();
         panel.repaint();
+    }
+
+    // Cambia el nombre de los lbls.
+    private void cambiarNombreJugadores(List<IJugador> jugadores) {
+        int i = 0;
+        for (IJugador j: jugadores) {
+            lblJugadores[i].setText(j.getNombre());
+            i++;
+        }
+        nombreCambiado = true;
     }
 
     @Override
@@ -306,7 +319,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         robarBtn.setVisible(true);
         habilitarComponentes(jugadorManoComponente, true);
     }
-
+    /**
+     *
+     * Habilita y deshabilita los listeners de las distintas fichas para impedir que se jueguen las fichas.
+     * @return void
+     */
     private void habilitarComponentes(Container container, boolean habilitar) {
         Component[] componentes = container.getComponents();
         for (Component c: componentes) {

@@ -52,19 +52,9 @@ public class Juego extends ObservableRemoto implements IJuego {
     }
     @Override
     public void desconectarJugador(int idJugador) throws RemoteException {
-        System.out.println("Current players: ");
-        for (IJugador j : jugadores) {
-            System.out.println(j.getNombre() + " " + j.getId());
-        }
-        System.out.println("ID sent: " + idJugador);
         IJugador jugador = getJugadorID(idJugador);
-        System.out.println("JUgador: to be erased" + jugador.getId());
         jugadores.remove(jugador);
         colaTurnos.remove(idJugador);
-        System.out.println("Current players: ");
-        for (IJugador j : jugadores) {
-            System.out.println(j.getNombre() + "\n");
-        }
     }
 
     @Override
@@ -122,6 +112,8 @@ public class Juego extends ObservableRemoto implements IJuego {
     public void reniciarJuego() throws RemoteException {
         jugadores = new ArrayList<>();
         fichas = new ArrayList<>();
+        cantidadJugadores = 0;
+        LIMITEPUNTOS = 0;
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
         pozo = new Pozo(fichas);
@@ -142,6 +134,9 @@ public class Juego extends ObservableRemoto implements IJuego {
         if (ficha == null) throw new FichaInexistente();
         IJugador jugador = getJugadorID(colaTurnos.peek());
         jugador.colocarFicha(ficha, extremo);
+        // Aumentamos la cantidad de veces que se jugo el extremo
+        Tablero.incrementarExtremo(extremIzq);
+        Tablero.incrementarExtremo(extremDerec);
         jugador = getJugadorID(colaTurnos.poll()); // desencolo al jugador del primer turno.
         colaTurnos.offer(jugador.getId()); // lo vuelvo a encolar al final.
         ArrayList<IFicha> fichasTablero = Tablero.getFichas();
@@ -151,8 +146,8 @@ public class Juego extends ObservableRemoto implements IJuego {
         if (jugadorJugoTodasSusFichas(buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
-        } else if (detectarCierre()) {
-            // I might need to trigger an update to the controller here.
+        } else if (Tablero.detectarCierre()) {
+            notificarObservadores(Evento.CIERRE_JUEGO);
             casoCierre();
         } else {
             determinarJugadorTurno(); // paso el turno al siguiente jugador.
@@ -160,11 +155,9 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
     }
 
-    // SARACATUNGA BUG!!!!
     @Override
     public void determinarJugadorTurno() throws RemoteException {
         turno = colaTurnos.peek();
-        System.out.println("TURN: " + turno + "\n");
     }
 
     // dada una ID busca el jugador y lo retorna.
@@ -287,7 +280,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
         buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
     }
-
+    // establece el ganador de la partida.
     private void detectarJugadorGanadorCierre() {
         IJugador ganador = null;
         int puntos = 10000;
@@ -382,20 +375,6 @@ public class Juego extends ObservableRemoto implements IJuego {
             }
         }
         return ficha;
-    }
-
-    // detecta si ningun jugador puede jugar una ficha y no hay mas en el pozo.
-    private boolean detectarCierre() {
-        boolean cierre = false;
-        int contador = 0;
-        if (pozo.getFichas().isEmpty()) {
-            for (IJugador j : jugadores) {
-                if (!j.puedoJugar()) {
-                    contador += 1;
-                }
-            }
-        }
-        return contador == jugadores.size();
     }
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.

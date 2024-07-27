@@ -102,6 +102,10 @@ public class Controlador implements IControladorRemoto {
             actualizarEventoTurnoJugadores((EventoTurnoJugadores) cambios);
         } else if (cambios instanceof EventoFichasTablero) {
             actualizarEventoFichasTablero((EventoFichasTablero) cambios);
+        } else if (cambios instanceof Evento) {
+            if (cambios == Evento.CIERRE_JUEGO) {
+                vista.mostrarMensaje("Jugador Bloqueado");
+            }
         }
     }
 
