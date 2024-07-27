@@ -41,15 +41,11 @@ public class Login  extends JDialog implements IVista {
 
         // atributos de los labels.
         agregarLabels(panel);
-
-        // agrego los text fields
+        // agrego los textfields.
         txtfieldNombre.setBounds(180, 8, 100, 20);
-        txtfieldPuntos.setBounds(180, 68, 100, 20);
-        txtfielCantJugadores.setBounds(180, 94, 100, 20);
         panel.add(txtfieldNombre);
-        panel.add(txtfieldPuntos);
-        panel.add(txtfielCantJugadores);
-
+        // agrego los componentes si es creador.
+        agregarComponentesCreador(panel);
         // Agrego un menu de opciones.
         agregarMenuOpciones(panel);
         // agrego los botones.
@@ -102,6 +98,39 @@ public class Login  extends JDialog implements IVista {
         });
     }
 
+    // Agrega los componentes unicamente si es creador.
+    private void agregarComponentesCreador(JPanel panel) {
+        if (!controlador.esJuegoCreado())
+            return;
+        // agrego los text fields
+        txtfieldPuntos.setBounds(180, 68, 100, 20);
+        txtfielCantJugadores.setBounds(180, 94, 100, 20);
+
+        // Atributos para el label de los puntos
+        JLabel lblPuntos = new JLabel("Puntos");
+        lblPuntos.setBounds(80, 68, 100, 20);
+        lblPuntos.setForeground(Color.white);
+        lblPuntos.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de los jugadores.
+        JLabel lblJugadores = new JLabel("Jugadores");
+        lblJugadores.setBounds(80, 94, 100, 20);
+        lblJugadores.setForeground(Color.white);
+        lblJugadores.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Atributos para el label de los jugadores (constraints)
+        JLabel lblJugadoresConstraints = new JLabel("(rango 2-4)");
+        lblJugadoresConstraints.setBounds(290, 94, 100, 20);
+        lblJugadoresConstraints.setForeground(Color.white);
+        lblJugadoresConstraints.setFont(new Font("Arial", Font.BOLD, 16));
+
+        panel.add(txtfieldPuntos);
+        panel.add(txtfielCantJugadores);
+        panel.add(lblPuntos);
+        panel.add(lblJugadores);
+        panel.add(lblJugadoresConstraints);
+    }
+
     private void agregarMenuOpciones(JPanel panel) {
         String[] interfazOpciones = {"Grafica", "Consola"};
         interfazComboBox = new JComboBox<>(interfazOpciones);
@@ -122,29 +151,8 @@ public class Login  extends JDialog implements IVista {
         lblConsola.setBounds(80, 38, 100, 20);
         lblConsola.setForeground(Color.white);
         lblConsola.setFont(new Font("Arial", Font.BOLD, 16));
-
-        // Atributos para el label de los puntos
-        JLabel lblPuntos = new JLabel("Puntos");
-        lblPuntos.setBounds(80, 68, 100, 20);
-        lblPuntos.setForeground(Color.white);
-        lblPuntos.setFont(new Font("Arial", Font.BOLD, 16));
-
-        // Atributos para el label de los jugadores.
-        JLabel lblJugadores = new JLabel("Jugadores");
-        lblJugadores.setBounds(80, 94, 100, 20);
-        lblJugadores.setForeground(Color.white);
-        lblJugadores.setFont(new Font("Arial", Font.BOLD, 16));
-
-        // Atributos para el label de los jugadores (constraints)
-        JLabel lblJugadoresConstraints = new JLabel("(rango 2-4)");
-        lblJugadoresConstraints.setBounds(290, 94, 100, 20);
-        lblJugadoresConstraints.setForeground(Color.white);
-        lblJugadoresConstraints.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(lblNombre);
         panel.add(lblConsola);
-        panel.add(lblPuntos);
-        panel.add(lblJugadores);
-        panel.add(lblJugadoresConstraints);
     }
 
     // levanta la vista correspondiente y cierra las anteriores.

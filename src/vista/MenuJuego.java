@@ -2,15 +2,12 @@ package vista;
 
 import controlador.Controlador;
 import modelo.IFicha;
-import modelo.IJuego;
 import modelo.IJugador;
-import modelo.Juego;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 public class MenuJuego extends JDialog implements IVista {
     private static final int MAXJUGSOLO = 2;
@@ -20,6 +17,7 @@ public class MenuJuego extends JDialog implements IVista {
     private static final int totalDeVentanasCerradasEsperadas = 1;
     private static JFrame parent;
     private Controlador controlador;
+    private JButton creadorBtn = new JButton();
 
     public MenuJuego(JFrame parent, Controlador controlador) {
         super(parent, "Domino", true);
@@ -40,8 +38,7 @@ public class MenuJuego extends JDialog implements IVista {
         panel.add(label);
 
         // creo los botones
-        JButton creadorBtn = new JButton("Crear");
-        creadorBtn.setBounds(130, 60, 80, 20);
+        agregarComponentesCreador(panel);
         JButton unirseBtn = new JButton("Unirse");
         unirseBtn.setBounds(260, 60, 80, 20);
         panel.add(creadorBtn);
@@ -51,15 +48,34 @@ public class MenuJuego extends JDialog implements IVista {
 
         this.getContentPane().add(panel);
 
-        // Funcionalidad para un solo jugador.
+        // Funcionalidad para el creador.
         creadorBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!controlador.esJuegoCreado())
+                if (controlador.esJuegoCreado())
                     loginUsuario(controlador);
             }
         });
+
+        // Funcionalidad para los participantes del juego.
+        unirseBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loginUsuario(controlador);
+            }
+        });
     }
+
+    private void agregarComponentesCreador(JPanel panel) {
+        if (controlador.esJuegoCreado()) {
+            JOptionPane.showMessageDialog(null, "El juego ya ha sido creado!!!", "Partida ya creada", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        creadorBtn.setText("Crear");
+        creadorBtn.setBounds(130, 60, 80, 20);
+        panel.add(creadorBtn);
+    }
+
     // levanta la interfaz de login
     private void loginUsuario(Controlador controlador) {
         Login usuario1 = new Login((JFrame) this.getParent(), controlador);

@@ -4,13 +4,11 @@ import ar.edu.unlu.rmimvc.cliente.IControladorRemoto;
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 import modelo.*;
 import modelo.IJugador;
-import modelo.IObserver;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import vista.IVista;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Controlador implements IControladorRemoto {
@@ -103,10 +101,11 @@ public class Controlador implements IControladorRemoto {
     // indica si el juego ya ha sido creado
     public boolean esJuegoCreado() {
         try {
-            return modelo.getJugadores().size() == 1;
+            System.out.println(modelo.getJugadores().isEmpty() + "\n");
+            return modelo.getJugadores().isEmpty();
         } catch (RemoteException e ) {
             e.printStackTrace();
-            return false;
+            return true;
         }
     }
 
