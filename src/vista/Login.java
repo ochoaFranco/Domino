@@ -19,14 +19,14 @@ public class Login  extends JDialog implements IVista {
     private final JTextField txtfielCantJugadores = new JTextField();
     private final JFrame parent;
     private static boolean isJuegoIniciado;
-    private static int cantVentanasAbiertas;
-    private final static int cantMaxVentanasAbiertas = 1;
+//    private static int cantVentanasAbiertas;
+//    private final static int cantMaxVentanasAbiertas = 1;
 
     public Login(JFrame parent, Controlador controlador) {
         super(parent, "Login", false);
         this.controlador = controlador;
         isJuegoIniciado = false;
-        cantVentanasAbiertas = 0;
+//        cantVentanasAbiertas = 0;
         // seteo la ventana anterior para poder cerrarla.
         this.parent = parent;
         // seteando atributos
@@ -61,26 +61,39 @@ public class Login  extends JDialog implements IVista {
         okayBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (txtfieldNombre.getText().isEmpty() || txtfieldPuntos.getText().isEmpty() || txtfielCantJugadores.getText().isEmpty())
+                boolean esJuegoCreado = controlador.esJuegoCreado();
+                if (txtfieldNombre.getText().isEmpty())
                     JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
-                else {
-                    try {
-                        int puntos = Integer.parseInt(txtfieldPuntos.getText());
-                        int cantJugadors = Integer.parseInt(txtfielCantJugadores.getText());
-                        if (cantJugadors < 2 || cantJugadors > 4)
-                            JOptionPane.showMessageDialog(null, "Revise la cantidad minima y maxima de jugadores !!!", "Error", JOptionPane.ERROR_MESSAGE);
-                        else
-                            okayBtnPresionado();
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos" +
-                                " !!!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+//                else if (!validarPuntosJugadoresVacios(esJuegoCreado)) {
+//                    try {
+//                        // Validaciones adicionales al creador.
+//                        if (!esJuegoCreado)
+//                            if (validarRangoJugadores())
+//                                okayBtnPresionado();
+//                            else
+//                                JOptionPane.showMessageDialog(null, "Revise la cantidad minima y maxima de jugadores !!!", "Error", JOptionPane.ERROR_MESSAGE);
+//                        else
+//                            okayBtnPresionado();
+//                    } catch (NumberFormatException ex) {
+//                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos" +
+//                                " !!!", "Error", JOptionPane.ERROR_MESSAGE);
+//                    }
+//                }
+                else
+                    okayBtnPresionado();
             }
         });
 
         // agrego un listener al textfield y combo box
         txtfieldNombre.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    okayBtn.doClick();
+            }
+        });
+
+        txtfielCantJugadores.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER)
@@ -97,10 +110,34 @@ public class Login  extends JDialog implements IVista {
             }
         });
     }
+    /**
+     * Valida si el input de los jugadores y los puntos es vacio.
+     * @param esJuegoCreado indica si el juego ha sido creado
+     * @return true Si existen espacios en blanco, falso en caso contrario.
+     */
+    private boolean validarPuntosJugadoresVacios(boolean esJuegoCreado) {
+        if (!esJuegoCreado) {
+            if (txtfieldPuntos.getText().isEmpty() || txtfielCantJugadores.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Valida si el rango de los jugadores esta entre [2-4]
+     * @return False si hay errores, True en caso que todo este correcto.
+     */
+    private boolean validarRangoJugadores() {
+        int puntos = Integer.parseInt(txtfieldPuntos.getText());
+        int cantJugadors = Integer.parseInt(txtfielCantJugadores.getText());
+        return cantJugadors >= 2 && cantJugadors <= 4;
+    }
 
     // Agrega los componentes unicamente si es creador.
     private void agregarComponentesCreador(JPanel panel) {
-        if (!controlador.esJuegoCreado())
+        if (controlador.esJuegoCreado())
             return;
         // agrego los text fields
         txtfieldPuntos.setBounds(180, 68, 100, 20);
@@ -170,25 +207,34 @@ public class Login  extends JDialog implements IVista {
             controlador.setVista(vista);
             vista.ocultarBoton();
         }
-        // muestro la vista elegida
-//        vista.iniciar();
+
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
-        Login.cantVentanasAbiertas += 1;
 
         // EJecuto el juego y levanto las ventanas.
-        if (!isJuegoIniciado  && Login.cantVentanasAbiertas == Login.cantMaxVentanasAbiertas) {
-            int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
-            int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
-            if (vista instanceof VistaGrafica) {
-                ((VistaGrafica) vista).jugar(puntos, cantJugadores);
+        if (!isJuegoIniciado) {
+            System.out.println("Is game created? : " + controlador.esJuegoCreado() + "\n");
+            if (!controlador.esJuegoCreado()) {
+                int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
+                int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
+                // conecto el usuario al controlador.
+                controlador.conectarJugador(usuario);
+                if (vista instanceof VistaGrafica) {
+                    ((VistaGrafica) vista).jugar(puntos, cantJugadores);
+                } else
+                    ((VistaConsola) vista).jugar(puntos, cantJugadores);
+            } else {
+                controlador.conectarJugador(usuario);
+                if (vista instanceof VistaGrafica) {
+                    ((VistaGrafica) vista).jugar();
+                } else
+                    ((VistaConsola) vista).jugar();
             }
-            else
-                ((VistaConsola)vista).jugar(puntos, cantJugadores);
 
             Login.isJuegoIniciado = true;
         }
-        JOptionPane.showMessageDialog(null, "Esperando que otros jugadore se unan, el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Esperando que otros jugadores se unan," +
+                " el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE);
         dispose();
         MenuJuego.incrementarVentanasCerradas();
     }

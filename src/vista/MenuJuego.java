@@ -38,10 +38,14 @@ public class MenuJuego extends JDialog implements IVista {
         panel.add(label);
 
         // creo los botones
-        agregarComponentesCreador(panel);
+        boolean estabaCreado = agregarComponentesCreador(panel);
         JButton unirseBtn = new JButton("Unirse");
-        unirseBtn.setBounds(260, 60, 80, 20);
-        panel.add(creadorBtn);
+        // reubica el boton si la partida ya estaba creada.
+        if (estabaCreado)
+            unirseBtn.setBounds(130, 60, 80, 20);
+        else
+            unirseBtn.setBounds(260, 60, 80, 20);
+
         panel.add(unirseBtn);
         // calculo la posicion de la pantalla.
         this.setLocationRelativeTo(null);
@@ -52,7 +56,7 @@ public class MenuJuego extends JDialog implements IVista {
         creadorBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (controlador.esJuegoCreado())
+                if (!controlador.esJuegoCreado())
                     loginUsuario(controlador);
             }
         });
@@ -61,19 +65,20 @@ public class MenuJuego extends JDialog implements IVista {
         unirseBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginUsuario(controlador);
+                if (controlador.esJuegoCreado()) {
+                    loginUsuario(controlador);
+                }
             }
         });
     }
 
-    private void agregarComponentesCreador(JPanel panel) {
-        if (controlador.esJuegoCreado()) {
-            JOptionPane.showMessageDialog(null, "El juego ya ha sido creado!!!", "Partida ya creada", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    private boolean agregarComponentesCreador(JPanel panel) {
+        if (controlador.esJuegoCreado())
+            return true;
         creadorBtn.setText("Crear");
         creadorBtn.setBounds(130, 60, 80, 20);
         panel.add(creadorBtn);
+        return false;
     }
 
     // levanta la interfaz de login

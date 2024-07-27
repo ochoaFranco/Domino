@@ -21,6 +21,10 @@ public interface IJuego extends  IObservableRemoto {
 
     void iniciarJuego(int puntos) throws RemoteException;
 
+    void TotalJugadores(int cantidadJugadores) throws RemoteException;
+
+    void iniciarJuego() throws RemoteException;
+
     void reniciarJuego() throws RemoteException;
 
     // Logica principal del juego.
@@ -34,4 +38,6 @@ public interface IJuego extends  IObservableRemoto {
     IJugador getJugadorID(int id) throws RemoteException;
 
     List<IJugador> getJugadores() throws RemoteException;
+
+    int getCantidadJugadores() throws RemoteException;
 }

@@ -38,29 +38,34 @@ public class Controlador implements IControladorRemoto {
 
     public void desconectarJugador() {
         try {
-            System.out.println("I'm about to disconnect a player\n");
+
             modelo.cerrar(this, jugador);
 
             // reinicio el modelo si no hay mas jugadores.
             if (modelo.getJugadores().isEmpty())
                 modelo.reniciarJuego();
-
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
-    // Recibe los puntos e inicia el juego.
+    // Recibe los puntos e inicia el juego si es el creador.
     public void iniciarJuego(int puntos, int cantJugadores) {
         try {
             int cantidadJugadores = modelo.getJugadores().size();
-            System.out.println("Amount of players: " + cantidadJugadores + " amount  of players required: " + cantJugadores + "\n");
-            if (cantidadJugadores == cantJugadores) {
-                System.out.println("Starting game...\n");
+            modelo.TotalJugadores(cantJugadores);
+            if (cantidadJugadores == cantJugadores)
                 modelo.iniciarJuego(puntos);
-            } else {
-                System.out.println("Not starting...\n");
-            }
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Se conecta la juego si no es el creador.
+    public void iniciarJuego() {
+        try {
+            if (modelo.getJugadores().size() == modelo.getCantidadJugadores())
+                modelo.iniciarJuego();
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -101,8 +106,7 @@ public class Controlador implements IControladorRemoto {
     // indica si el juego ya ha sido creado
     public boolean esJuegoCreado() {
         try {
-            System.out.println(modelo.getJugadores().isEmpty() + "\n");
-            return modelo.getJugadores().isEmpty();
+            return !modelo.getJugadores().isEmpty();
         } catch (RemoteException e ) {
             e.printStackTrace();
             return true;
@@ -111,7 +115,6 @@ public class Controlador implements IControladorRemoto {
 
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
-        System.out.println("Player's ID: " + jugador + "\n");
         switch (cambios.getEvento()) {
             case INICIAR_JUEGO:
                 vista.mostrarFicha(cambios.getFicha());
@@ -122,15 +125,6 @@ public class Controlador implements IControladorRemoto {
                 } else {
                     int jugadorTurno = modelo.getTurno();
                     IJugador j = modelo.getJugadorID(modelo.getJugadorID(jugadorTurno).getId());
-                    System.out.println("printing name: " + j.getNombre() + "\n");
-                    System.out.println("players turn: " + jugadorTurno + "\n");
-
-                    System.out.println("Players' name and IDs'\n");
-                    for (IJugador k: modelo.getJugadores()) {
-                        System.out.println(k.getNombre() + " ID: " + k.getId() + "\n");
-                    }
-
-                    System.out.println("Player's turn: " + jugadorTurno + " player's name: " + j.getNombre() + "\n");
                     vista.mostrarMensaje("Turno del jugador: " + j.getNombre() + "\n");
                     vista.ocultarBoton();
                 }

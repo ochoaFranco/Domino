@@ -50,8 +50,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
 
-        // conecto el jugador al controlador.
-        controlador.conectarJugador(nombre);
 
         // agrego el tablero.
         componenteTablero = new ComponenteTablero();
@@ -252,6 +250,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     public void jugar(int puntos, int cantJugadores) {
         controlador.iniciarJuego(puntos, cantJugadores);
+    }
+
+    public void jugar() {
+        controlador.iniciarJuego();
     }
 
     @Override

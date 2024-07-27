@@ -30,7 +30,6 @@ public class VistaConsola implements IVista {
     public VistaConsola(String nombre, Controlador controlador) {
         this.nombre = nombre;
         this.controlador = controlador;
-        controlador.conectarJugador(nombre);
         frame = new JFrame("Domino");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -229,10 +228,19 @@ public class VistaConsola implements IVista {
         consolaOutput.append("\nBienvenido " + nombre + "!\n");
     }
 
+    // Inicia el juego el creador.
     public void jugar(int puntos, int cantJugadores) {
         this.puntos = puntos;
         if (!VistaConsola.jugando) {
             controlador.iniciarJuego(puntos, cantJugadores);
+            VistaConsola.jugando = true;
+        }
+    }
+
+    // Los participantes se unen al juego.
+    public void jugar() {
+        if (!VistaConsola.jugando) {
+            controlador.iniciarJuego();
             VistaConsola.jugando = true;
         }
     }
