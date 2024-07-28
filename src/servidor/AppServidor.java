@@ -14,7 +14,7 @@ public class AppServidor {
     private static final int PORT = 8888;
     private static final String IP = "127.0.0.1";
     public static void main(String[] args) throws RemoteException {
-        ArrayList<String> ips = Util.getIpDisponibles();
+//        ArrayList<String> ips = Util.getIpDisponibles();
 //        String ip = (String) JOptionPane.showInputDialog(
 //                null,
 //                "Seleccione la IP en la que escuchará peticiones el servidor", "IP del servidor",
