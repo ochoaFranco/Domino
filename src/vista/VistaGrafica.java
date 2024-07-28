@@ -110,12 +110,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarMensaje(String mensaje) {
 
         if ( mensaje != null  && mensaje.equalsIgnoreCase("Jugador Bloqueado")) {
-          SwingUtilities.invokeLater(new Runnable() {
-              @Override
-              public void run() {
-                  JOptionPane.showMessageDialog(null, "Jugador Bloqueado!!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE);
-              }
-          });
+          SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Jugador Bloqueado!!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE));
         } else {
             int x = 30;
             int y = 400;
@@ -152,11 +147,11 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         try {
             VistaGrafica.controlador.gestionarTurnos(ficha.getIzquierdo(), ficha.getDerecho(), extremo);
         } catch (FichaIncorrecta f) {
-            JOptionPane.showMessageDialog(null, "Ficha Incorrecta!!!", "Error", JOptionPane.ERROR_MESSAGE);
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Ficha Incorrecta!!!", "Error", JOptionPane.ERROR_MESSAGE));
             vFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
         } catch (FichaInexistente i) {
-            JOptionPane.showMessageDialog(null, "Espera tu turno!!!", "Error", JOptionPane.ERROR_MESSAGE);
+            SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, "Espera tu turno!!!", "Error", JOptionPane.ERROR_MESSAGE));
             vFicha.setVisible(true);
             VistaGrafica.decrementarClicks();
         }

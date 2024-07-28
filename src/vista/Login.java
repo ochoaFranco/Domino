@@ -60,7 +60,9 @@ public class Login  extends JDialog implements IVista {
             public void actionPerformed(ActionEvent e) {
                 boolean esJuegoCreado = controlador.esJuegoCreado();
                 if (txtfieldNombre.getText().isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                    SwingUtilities.invokeLater(()->
+                            JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
+
                     return;
                 }
                 if (!esJuegoCreado) {
@@ -68,18 +70,20 @@ public class Login  extends JDialog implements IVista {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());
                         int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText());
                         if (puntos < 10 || puntos > 400) {
-                            JOptionPane.showMessageDialog(null, "Los puntos no pueden ser menores a 10 ni mayores a 400 !!!",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Los puntos no pueden ser menores a 10 ni mayores a 400 !!!",
+                                    "Error", JOptionPane.ERROR_MESSAGE));
                             return;
                         }
                         if (cantJugadores < 2 || cantJugadores > 4 ) {
-                            JOptionPane.showMessageDialog(null, "Como minimo debe haber 2 jugadores y como maximo 4 !!!",
-                                    "Error", JOptionPane.ERROR_MESSAGE);
+                            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Como minimo debe haber 2 jugadores y como maximo 4 !!!",
+                                    "Error", JOptionPane.ERROR_MESSAGE));
                             return;
                         }
                         okayBtnPresionado();
                     } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                        SwingUtilities.invokeLater(()->
+                                JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos !!!",
+                                        "Error", JOptionPane.ERROR_MESSAGE));
                     }
                 }
                 else
@@ -121,7 +125,7 @@ public class Login  extends JDialog implements IVista {
     private boolean validarPuntosJugadoresVacios(boolean esJuegoCreado) {
         if (!esJuegoCreado) {
             if (txtfieldPuntos.getText().isEmpty() || txtfielCantJugadores.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE);
+                SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
                 return true;
             }
         }
@@ -235,8 +239,8 @@ public class Login  extends JDialog implements IVista {
 
             Login.isJuegoIniciado = true;
         }
-        JOptionPane.showMessageDialog(null, "Esperando que otros jugadores se unan," +
-                " el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE);
+        SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Esperando que otros jugadores se unan," +
+                " el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE));
         dispose();
         MenuJuego.incrementarVentanasCerradas();
     }

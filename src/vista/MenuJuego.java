@@ -68,7 +68,8 @@ public class MenuJuego extends JDialog implements IVista {
                 if (controlador.esJuegoCreado())
                     loginUsuario(controlador);
                 else
-                    JOptionPane.showMessageDialog(null, "Primero se debe crear la partida!!!", "Crear Partida", JOptionPane.INFORMATION_MESSAGE);
+                    SwingUtilities.invokeLater(()->
+                            JOptionPane.showMessageDialog(null, "Primero se debe crear la partida!!!", "Crear Partida", JOptionPane.INFORMATION_MESSAGE));
             }
         });
     }
