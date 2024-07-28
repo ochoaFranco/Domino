@@ -6,17 +6,16 @@ import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import ar.edu.unlu.rmimvc.observer.IObservadorRemoto;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
-public class Juego extends ObservableRemoto implements IJuego {
+public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
-
+    @Serial
+    private static final long serialVersionUID = 1L;
     private int LIMITEPUNTOS;
     private int turno;
     private static Pozo pozo;
@@ -25,6 +24,7 @@ public class Juego extends ObservableRemoto implements IJuego {
     private Queue<Integer> colaTurnos = new LinkedList<>();
     private static IJuego instancia;
     private int cantidadJugadores = 0;
+    private final IJugador[] rankCincoMejores = new IJugador[5];
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
@@ -304,16 +304,37 @@ public class Juego extends ObservableRemoto implements IJuego {
         turno = ganador.getId(); // marcamos al ganador como el jugador del turno para dsp contar los puntos.
     }
 
-
+    // Notifica a los observadores si gano el jugador, caso contrario reinicia la ronda.
     private void determinarSiJugadorGano() throws RemoteException {
         if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
             EventoJugador eventoJugador = new EventoJugador(Evento.FIN_DEL_JUEGO, getJugadorID(turno));
+            agregarjugadorRanking();
             notificarObservadores(eventoJugador);
         } else {
             EventoTurnoJugadores eventoTurnoJugadores = new EventoTurnoJugadores(Evento.CAMBIO_RONDA, buscarJugadorPorID(turno), jugadores);
             notificarObservadores(eventoTurnoJugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
         }
+    }
+
+    // agrega el ganador al ranking si es que tiene los puntos para agregarse.
+    private void agregarjugadorRanking() {
+        IJugador jugador = buscarJugadorPorID(turno);
+        if (jugador == null)
+            return;
+        boolean agregado = false;
+        int i = 0;
+        int tamanio = rankCincoMejores.length;
+        while ( i < tamanio && !agregado) {
+            if (rankCincoMejores[i] == null || jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
+                rankCincoMejores[i] = jugador;
+                agregado = true;
+                System.out.println("PLAYER ADDED!!!\n");
+            }
+            i++;
+        }
+        // ordena el array para que quede ordenado de manor a mayor.
+        Arrays.sort(rankCincoMejores, Comparator.nullsLast(Comparator.comparingInt(IJugador::getPuntos).reversed()));
     }
 
     private void reiniciarRonda() throws RemoteException {

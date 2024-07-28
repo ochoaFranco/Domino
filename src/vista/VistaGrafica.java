@@ -297,7 +297,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // Agrego el titulo de los puntos.
         lblPuntos.setBounds(xOffset, 220, 200, 200);
         lblPuntos.setText("JUEGO A " + puntos);
-        lblPuntos.setFont(new Font("Arial", Font.BOLD, 24));
+        lblPuntos.setFont(new Font("Arial", Font.BOLD, 22));
         lblPuntos.setOpaque(true);
         lblPuntos.setBackground(new Color(214, 138, 89));
         lblPuntos.setForeground(Color.black);
@@ -305,7 +305,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // Agrego la informacion de cada jugador.
         for (IJugador j: jugadores) {
             lblJugadores[i].setBounds(xOffset, yOffset, 200, 200);
-            lblJugadores[i].setFont(new Font("Arial", Font.BOLD, 24));
+            lblJugadores[i].setFont(new Font("Arial", Font.BOLD, 18));
             lblJugadores[i].setForeground(Color.black);
             lblJugadores[i].setText(j.getNombre() + " " + j.getPuntos());
             lblJugadores[i].setOpaque(true);

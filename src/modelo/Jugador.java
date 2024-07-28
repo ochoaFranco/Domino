@@ -2,13 +2,15 @@ package modelo;
 
 import modelo.exceptions.FichaIncorrecta;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Jugador implements IJugador, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private String nombre;
-    private static final long serialVersionUID = -7848877797693205738L;
     private final List<IFicha> fichas;
     private boolean mano = false;
     private int puntos = 0;
