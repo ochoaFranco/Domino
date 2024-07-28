@@ -60,6 +60,15 @@ public class Tablero {
     public static void resetearTablero() {
         extremoIzq = null;
         extremoDerec = null;
+        resetearArrayExtremos();
+    }
+
+    // Reseteo los extremos.
+    private static void resetearArrayExtremos() {
+        int tamanio = extremosJugados.length;
+        for (int i = 0; i < tamanio; i++) {
+            extremosJugados[i] = 0;
+        }
     }
 
     // agrega una ficha en el extremo izquierdo.
@@ -88,14 +97,16 @@ public class Tablero {
     public static void incrementarExtremo(int extremo) {
         Tablero.extremosJugados[extremo] += 1;
     }
-    
-    // Detecta el cierre del juego, sucede cuando un extremo se juega el maximo cantidad de veces.
+
+    // Detecta el cierre del juego, sucede cuando un extremo se juega el maximo cantidad de veces
+    // y coincide con los extremos.
     public static boolean detectarCierre() {
         int tamanio = Tablero.extremosJugados.length;
         int i = 0;
         boolean cierre = false;
         while (i < tamanio && !cierre) {
-            if (Tablero.extremosJugados[i] == MAXIMO)
+            if (Tablero.extremosJugados[i] == MAXIMO &&
+                    (i == extremoIzq.getIzquierdo() || i == extremoDerec.getDerecho()))
                 cierre = true;
             i++;
         }

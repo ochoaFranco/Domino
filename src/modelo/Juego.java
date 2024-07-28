@@ -150,11 +150,12 @@ public class Juego extends ObservableRemoto implements IJuego {
             notificarObservadores(Evento.CIERRE_JUEGO);
             casoCierre();
         } else {
-            determinarJugadorTurno(); // paso el turno al siguiente jugador.
+            determinarJugadorTurno();
             notificarObservadores(evFichasTablero);
         }
     }
 
+    // Determina quien es el jugador del siguiente turno.
     @Override
     public void determinarJugadorTurno() throws RemoteException {
         turno = colaTurnos.peek();
@@ -272,6 +273,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
         return jFichaDobleMasAlta;
     }
+
     // cuento los puntos de las fichas de todos lo jugadores.
     private void contarPuntosJugadores() {
         int puntosTotal = 0;
@@ -280,6 +282,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
         buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
     }
+
     // establece el ganador de la partida.
     private void detectarJugadorGanadorCierre() {
         IJugador ganador = null;
@@ -351,6 +354,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
     }
 
+    // Detecta si los jugadores no pueden jugar porque están bloqueados.
     private void casoCierre() throws RemoteException {
         System.out.println("Closing case\n");
         detectarJugadorGanadorCierre();

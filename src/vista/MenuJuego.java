@@ -42,7 +42,7 @@ public class MenuJuego extends JDialog implements IVista {
         JButton unirseBtn = new JButton("Unirse");
         // reubica el boton si la partida ya estaba creada.
         if (estabaCreado)
-            unirseBtn.setBounds(130, 60, 80, 20);
+            unirseBtn.setBounds(180, 60, 80, 20);
         else
             unirseBtn.setBounds(290, 60, 80, 20);
 

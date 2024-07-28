@@ -109,9 +109,8 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void mostrarMensaje(String mensaje) {
         if (mensaje.equalsIgnoreCase("Jugador Bloqueado"))
-            JOptionPane.showMessageDialog(null, "Estas bloqueado !!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Jugador Bloqueado!!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE);
         else {
-            // calculo la posicion del mensaj en la pantalla.
             int x = 30;
             int y = 400;
             mostrarMensaje(mensaje, x, y);
@@ -287,10 +286,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     @Override
     public void mostrarTablaPuntos(Object o) {
         List<IJugador> jugadores = (ArrayList<IJugador>) o;
-        // cambia el nombre de los lbls.
-        if (!nombreCambiado)
-            cambiarNombreJugadores(jugadores);
-        int yOffset = 110;
+        int yOffset = 260;
         int xOffset = 0;
         int i = 0;
         // Agrego la informacion de cada jugador.
@@ -300,6 +296,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
             lblJugadores[i].setForeground(Color.black);
             lblJugadores[i].setText(j.getNombre() + " " + j.getPuntos());
             yOffset += 30;
+            i++;
         }
         panel.revalidate();
         panel.repaint();
