@@ -164,10 +164,16 @@ public class Controlador implements IControladorRemoto {
                 IJugador ganadorRonda = cambios.getTurno();
                 List<IJugador> jugadores = cambios.getJugadores();
                 vista.mostrarMensaje("Jugador que domino la ronda: " + ganadorRonda.getNombre() + "\n");
-                vista.mostrarTablaPuntos(jugadores);
-                vista.limpiarTablero();
-                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
-                break;
+                int puntos = 0;
+                try {
+                    puntos = modelo.getLIMITEPUNTOS();
+                    vista.mostrarTablaPuntos(jugadores, puntos);
+                    vista.limpiarTablero();
+                    vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+                    break;
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
         }
     }
 

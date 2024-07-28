@@ -69,6 +69,10 @@ public class Juego extends ObservableRemoto implements IJuego {
     public List<IJugador> getJugadores() throws RemoteException {
         return jugadores;
     }
+    @Override
+    public int getLIMITEPUNTOS() throws RemoteException {
+        return LIMITEPUNTOS;
+    }
 
     @Override
     public void cerrar(IObservadorRemoto controlador, int usuarioId) throws RemoteException {
@@ -299,6 +303,7 @@ public class Juego extends ObservableRemoto implements IJuego {
         }
         turno = ganador.getId(); // marcamos al ganador como el jugador del turno para dsp contar los puntos.
     }
+
 
     private void determinarSiJugadorGano() throws RemoteException {
         if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {

@@ -271,7 +271,7 @@ public class Login  extends JDialog implements IVista {
     }
 
     @Override
-    public void mostrarTablaPuntos(Object o) {
+    public void mostrarTablaPuntos(Object o, int puntos) {
 
     }
 

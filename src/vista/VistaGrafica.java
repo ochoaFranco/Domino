@@ -7,6 +7,7 @@ import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -23,11 +24,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
     private final JLabel mensaje = new JLabel();
-    private final JLabel lblJ1Pts = new JLabel();
+    private final JLabel lblPuntos = new JLabel();
     private JPanel ptsPanel = new JPanel();
     private final List<MouseListener> mouseListenersGuardados = new ArrayList<>();
     private final JLabel[] lblJugadores = new JLabel[4];
-    private boolean nombreCambiado = false; // permite cambiar el nombre de los lbls de la tabla de puntos.
 
     public VistaGrafica(String nombre, Controlador controlador) {
         VistaGrafica.controlador = controlador;
@@ -49,6 +49,9 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         // creo un panel junto con su background
         panel = Lobby.getjPanel("img/tablero.png");
         panel.setLayout(null);
+
+        // Agrego el label de los puntos.
+        ptsPanel.add(lblPuntos);
 
         // Agrego las caracteristicas del panel de puntos.
         ptsPanel.setLayout(new BoxLayout(ptsPanel, BoxLayout.Y_AXIS));
@@ -285,32 +288,34 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     }
 
     @Override
-    public void mostrarTablaPuntos(Object o) {
+    public void mostrarTablaPuntos(Object o, int puntos) {
         List<IJugador> jugadores = (ArrayList<IJugador>) o;
-        int yOffset = 260;
+        int yOffset = 290;
         int xOffset = 0;
         int i = 0;
+        Border bordeNegro = BorderFactory.createLineBorder(Color.black, 2);
+        // Agrego el titulo de los puntos.
+        lblPuntos.setBounds(xOffset, 220, 200, 200);
+        lblPuntos.setText("JUEGO A " + puntos);
+        lblPuntos.setFont(new Font("Arial", Font.BOLD, 24));
+        lblPuntos.setOpaque(true);
+        lblPuntos.setBackground(new Color(214, 138, 89));
+        lblPuntos.setForeground(Color.black);
+        lblPuntos.setBorder(bordeNegro);
         // Agrego la informacion de cada jugador.
         for (IJugador j: jugadores) {
             lblJugadores[i].setBounds(xOffset, yOffset, 200, 200);
             lblJugadores[i].setFont(new Font("Arial", Font.BOLD, 24));
             lblJugadores[i].setForeground(Color.black);
             lblJugadores[i].setText(j.getNombre() + " " + j.getPuntos());
+            lblJugadores[i].setOpaque(true);
+            lblJugadores[i].setBackground(new Color(214, 138, 89));
+            lblJugadores[i].setBorder(bordeNegro);
             yOffset += 30;
             i++;
         }
         panel.revalidate();
         panel.repaint();
-    }
-
-    // Cambia el nombre de los lbls.
-    private void cambiarNombreJugadores(List<IJugador> jugadores) {
-        int i = 0;
-        for (IJugador j: jugadores) {
-            lblJugadores[i].setText(j.getNombre());
-            i++;
-        }
-        nombreCambiado = true;
     }
 
     @Override

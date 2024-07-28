@@ -275,7 +275,7 @@ public class VistaConsola implements IVista {
         }
     }
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
-    public void mostrarTablaPuntos(Object o) {
+    public void mostrarTablaPuntos(Object o, int puntos) {
         for (IJugador f : (ArrayList<IJugador>)o) {
             consolaOutput.append("Jugador: " + f.getNombre() + " Puntos: " + f.getPuntos() + "\n");
         }

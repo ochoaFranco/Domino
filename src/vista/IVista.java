@@ -10,7 +10,7 @@ public interface IVista {
     void mostrarFicha(IFicha ficha);
     void iniciar();
     void mostrarTablero(Object o);
-    void mostrarTablaPuntos(Object o);
+    void mostrarTablaPuntos(Object o, int puntos);
     void ocultarBoton();
     void mostrarBoton();
     void limpiarTablero();

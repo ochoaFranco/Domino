@@ -116,7 +116,7 @@ public class Lobby implements IVista {
     }
 
     @Override
-    public void mostrarTablaPuntos(Object o) {
+    public void mostrarTablaPuntos(Object o, int puntos) {
 
     }
 
