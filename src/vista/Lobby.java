@@ -31,14 +31,19 @@ public class Lobby implements IVista {
         texto.setFont(new Font("Arial", Font.BOLD, 24));
         texto.setAlignmentX(Component.CENTER_ALIGNMENT); // alinear el texto al centro.
 
-        // set boton attributos.
+        // Atributos de los botones.
         JButton jugarBtn = new JButton("JUGAR");
         jugarBtn.setBackground(Color.white);
         jugarBtn.setForeground(Color.black);
         jugarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        JButton rankingBtn = new JButton("Ranking");
+        rankingBtn.setBackground(Color.white);
+        rankingBtn.setForeground(Color.black);
+        rankingBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         // se agregan los componenetes al panel.
-        agregarComponentes(panel, texto, jugarBtn);
+        agregarComponentes(panel, texto, jugarBtn, rankingBtn);
 
         // Add the panel to the frame
         frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -47,22 +52,44 @@ public class Lobby implements IVista {
 
         frame.setLocationRelativeTo(null);
 
-        // Funcionalidad del boton.
-        jugarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ejecutarMenu();
-            }
-        });
+        // Funcionalidad del jugarBtn.
+        jugarBtn.addActionListener(e -> ejecutarMenu());
+
+        // funcionalidad del rankingBtn
+        rankingBtn.addActionListener(e -> mostrarRanking());
     }
 
-    // agrega componenetes al panel.
-    private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn) {
+    // Muestra el ranking de los jugdores.
+    private void mostrarRanking() {
+        IJugador[] jugadoresRanking = controlador.getRanking();
+        String finalRanking;
+        if (jugadoresRanking[0] != null) {
+            finalRanking = jugadoresRankingAtributos(jugadoresRanking);
+            SwingUtilities.invokeLater(()-> JOptionPane.showMessageDialog(null, finalRanking, "Ranking", JOptionPane.INFORMATION_MESSAGE));
+        } else {
+            SwingUtilities.invokeLater(()-> JOptionPane.showMessageDialog(null, "No hay jugadores en el ranking aun", "Ranking", JOptionPane.INFORMATION_MESSAGE));
+        }
+    }
+    // Retonra los atributos de los jugadores del ranking.
+    private String jugadoresRankingAtributos(IJugador[] jugadoresRanking) {
+        StringBuilder ranking = new StringBuilder(" ");
+        for (IJugador j : jugadoresRanking) {
+            if (j != null)
+                ranking.append(j.getNombre()).append(" ").append(j.getPuntos()).append(" puntos\n");
+        }
+
+        return ranking.toString();
+    }
+
+    // agrega componentes al panel.
+    private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn, JButton rankingBtn) {
         // agregos los componentes al panel.
         panel.add(Box.createRigidArea(new Dimension(0, 100)));
         panel.add(texto);
         panel.add(Box.createRigidArea(new Dimension(0, 20)));
         panel.add(jugarBtn);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(rankingBtn);
     }
 
     private void ejecutarMenu() {

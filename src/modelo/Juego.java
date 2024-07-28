@@ -325,16 +325,35 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         boolean agregado = false;
         int i = 0;
         int tamanio = rankCincoMejores.length;
-        while ( i < tamanio && !agregado) {
-            if (rankCincoMejores[i] == null || jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
-                rankCincoMejores[i] = jugador;
-                agregado = true;
-                System.out.println("PLAYER ADDED!!!\n");
+        int posicion = posicionLibre(rankCincoMejores);
+        if (posicion != -1)
+            rankCincoMejores[posicion] = jugador;
+        else {
+            while (i < tamanio && !agregado) {
+                if (jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
+                    rankCincoMejores[i] = jugador;
+                    agregado = true;
+                    System.out.println("PLAYER ADDED!!!\n");
+                }
+                i++;
             }
-            i++;
         }
         // ordena el array para que quede ordenado de manor a mayor.
         Arrays.sort(rankCincoMejores, Comparator.nullsLast(Comparator.comparingInt(IJugador::getPuntos).reversed()));
+    }
+
+    // Busca una posicion libre en el array.
+    private int posicionLibre(IJugador[] jugadores) {
+        for (int i = 0; i < jugadores.length; i++) {
+            if (jugadores[i] == null)
+
+                return i;
+        }
+        return -1;
+    }
+
+    public IJugador[] getRankCincoMejores() throws RemoteException {
+        return rankCincoMejores;
     }
 
     private void reiniciarRonda() throws RemoteException {

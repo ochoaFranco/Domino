@@ -32,6 +32,8 @@ public interface IJuego extends  IObservableRemoto {
 
     void determinarJugadorTurno() throws RemoteException;
 
+    IJugador[] getRankCincoMejores() throws RemoteException;
+
     int getLIMITEPUNTOS() throws RemoteException;
     // robo fichas del pozo y actualizo la mano.
     void robarFichaPozo() throws RemoteException;

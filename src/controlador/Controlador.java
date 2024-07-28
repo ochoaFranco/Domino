@@ -88,6 +88,16 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
+    // obtiene el ranking de los 5 mejores jugadores.
+    public IJugador[] getRanking() {
+        try {
+            return modelo.getRankCincoMejores();
+        } catch (RemoteException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     public List<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }
