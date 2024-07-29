@@ -43,4 +43,6 @@ public interface IJuego extends  IObservableRemoto {
     List<IJugador> getJugadores() throws RemoteException;
 
     int getCantidadJugadores() throws RemoteException;
+
+    boolean existeJugador(String nombre) throws RemoteException;
 }

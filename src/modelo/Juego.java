@@ -1,6 +1,5 @@
 package modelo;
 
-import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
@@ -66,6 +65,16 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         jugadores.add(jugador);
         colaTurnos.offer(jugador.getId());
         return jugador.getId();
+    }
+
+    @Override
+    // Comprueba si existe el jugador.
+    public boolean existeJugador(String nombre) throws RemoteException {
+        for (IJugador j: jugadores) {
+            if (j.getNombre().equalsIgnoreCase(nombre))
+                return true;
+        }
+        return false;
     }
 
     @Override

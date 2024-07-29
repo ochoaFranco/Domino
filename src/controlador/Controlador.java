@@ -36,11 +36,20 @@ public class Controlador implements IControladorRemoto {
         }
     }
 
+    // Determina si ya existe el jugador.
+    public boolean existeJugador(String nombre) {
+        try {
+            System.out.println("Name: " + nombre+ " exists? " + modelo.existeJugador(nombre));
+            return modelo.existeJugador(nombre);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
     public void desconectarJugador() {
         try {
-
             modelo.cerrar(this, jugador);
-
             // reinicio el modelo si no hay mas jugadores.
             if (modelo.getJugadores().isEmpty())
                 modelo.reniciarJuego();

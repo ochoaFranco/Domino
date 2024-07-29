@@ -59,10 +59,13 @@ public class Login  extends JDialog implements IVista {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean esJuegoCreado = controlador.esJuegoCreado();
+                boolean nicknameInvalido = controlador.existeJugador(txtfieldNombre.getText());
                 if (txtfieldNombre.getText().isEmpty()) {
                     SwingUtilities.invokeLater(()->
                             JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
-
+                    return;
+                } else if (nicknameInvalido) {
+                    JOptionPane.showMessageDialog(null, "El nombre elegido ya existe!!!", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 if (!esJuegoCreado) {
@@ -116,30 +119,6 @@ public class Login  extends JDialog implements IVista {
                 }
             }
         });
-    }
-    /**
-     * Valida si el input de los jugadores y los puntos es vacio.
-     * @param esJuegoCreado indica si el juego ha sido creado
-     * @return true Si existen espacios en blanco, falso en caso contrario.
-     */
-    private boolean validarPuntosJugadoresVacios(boolean esJuegoCreado) {
-        if (!esJuegoCreado) {
-            if (txtfieldPuntos.getText().isEmpty() || txtfielCantJugadores.getText().isEmpty()) {
-                SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Valida si el rango de los jugadores esta entre [2-4]
-     * @return False si hay errores, True en caso que todo este correcto.
-     */
-    private boolean validarRangoJugadores() {
-        int puntos = Integer.parseInt(txtfieldPuntos.getText());
-        int cantJugadors = Integer.parseInt(txtfielCantJugadores.getText());
-        return cantJugadors >= 2 && cantJugadors <= 4;
     }
 
     // Agrega los componentes unicamente si es creador.
