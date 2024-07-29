@@ -23,6 +23,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     private final ComponenteJugadorMano jugadorManoComponente;
     private final ComponenteTablero componenteTablero;
     private final JButton robarBtn;
+    private final JButton desconectarseBtn = new JButton("Desconectarse");
     private final JLabel mensaje = new JLabel();
     private final JLabel lblPuntos = new JLabel();
     private JPanel ptsPanel = new JPanel();
@@ -67,10 +68,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         componenteTablero.setBounds(0,0, 1200, 650);
         panel.add(componenteTablero);
 
-        // agrego boton
+        // agrego robarBtn
         robarBtn = new JButton("Robar");
         robarBtn.setBounds(1000, 500, 100, 20);
         panel.add(robarBtn);
+
+        // Agrego desconectarseBtn
+        desconectarseBtn.setBounds(1000, 530, 120, 20);
+        panel.add(desconectarseBtn);
 
         // agrego la seccion de las fichas del jugador.
         jugadorManoComponente = new ComponenteJugadorMano();
@@ -111,7 +116,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mostrarMensaje(String mensaje) {
-
         if ( mensaje != null  && mensaje.equalsIgnoreCase("Jugador Bloqueado")) {
           SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Jugador Bloqueado!!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE));
         } else {
@@ -252,7 +256,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                     else
                         vistaFicha.setAnguloRotacion(90);
                     // rotar ficha vertical abajo derecha.
-                } else if (!rotarHorizontalAbajoDer){
+                } else if (!rotarHorizontalAbajoDer) {
                     if (f.isDadaVuelta())
                         vistaFicha.setAnguloRotacion(-180);
                     else
@@ -280,6 +284,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void jugar() {
         controlador.iniciarJuego();
     }
+
     // inicia la vista si es que no lo esta.
     @Override
     public void iniciar() {
@@ -383,12 +388,10 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-
     }
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
-
     }
 
     @Override
@@ -402,6 +405,5 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent mouseEvent) {
-
     }
 }
