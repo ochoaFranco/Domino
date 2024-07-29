@@ -273,4 +273,9 @@ public class Login  extends JDialog implements IVista {
     public void finalizarJuego(String mensaje) {
 
     }
+
+    @Override
+    public void desconectar() {
+
+    }
 }

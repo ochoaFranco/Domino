@@ -97,6 +97,12 @@ public class VistaConsola implements IVista {
     }
 
     @Override
+    public void desconectar() {
+        mostrarMensaje("Un jugador se ha desconectado, se guardara el juego para jugar luego.");
+        frame.dispose();
+    }
+
+    @Override
     public void mostrarFichasJugador(IJugador jugador) {
         List<IFicha> fichas = controlador.getFichasJugador(jugador);
         StringBuilder ficha = new StringBuilder();
@@ -123,6 +129,11 @@ public class VistaConsola implements IVista {
             actualizarManoJugador();
         } else if (comando.startsWith("jugadores:")) {
             setearJugadores(comando);
+        } else if (comando.equalsIgnoreCase("desconectar")) {
+            mostrarMensaje("Abandonaras el juego...");
+            controlador.persistirPartida();
+            System.out.println("SARACATUNGA DISCONNECTING PLAYER!!!\n");
+            frame.dispose();
         }
     }
 

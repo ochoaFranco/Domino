@@ -87,7 +87,9 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         setLocationRelativeTo(null);
         this.getContentPane().add(panel);
         this.addMouseListener(this);
+        // Interaccion con el robarBtn.
         robarBtn.addActionListener(actionEvent -> actualizarManoJugador());
+        desconectarseBtn.addActionListener(actionEvent -> controlador.persistirPartida());
     }
 
     // Inicializo los Jlabels y los agrego al panel.
@@ -384,6 +386,14 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         this.add(nuevoPanel);
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void desconectar() {
+        SwingUtilities.invokeLater(()-> JOptionPane.showMessageDialog(null, "Se ha desconectado un jugador, se guardara la partida para continuar luego!!!",
+                        "Jugador desconectado", JOptionPane.INFORMATION_MESSAGE));
+        System.out.println("SARACATUNGA DISCONNECT IN!!!\n");
+        SwingUtilities.invokeLater(this::dispose);
     }
 
     @Override

@@ -7,5 +7,6 @@ public enum Evento {
     PASAR_TURNO,
     CAMBIO_RONDA,
     CIERRE_JUEGO,
+    JUGADOR_DESCONECTADO,
     FIN_DEL_JUEGO
 }

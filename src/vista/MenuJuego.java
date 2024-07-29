@@ -129,6 +129,11 @@ public class MenuJuego extends JDialog implements IVista {
     }
 
     @Override
+    public void desconectar() {
+
+    }
+
+    @Override
     public void mostrarFichasJugador(IJugador jugador) {
 
     }

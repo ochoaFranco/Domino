@@ -26,7 +26,8 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private int cantidadJugadores = 0;
     private final int RANKING = 5;
     private final IJugador[] rankCincoMejores = new IJugador[RANKING];
-    private static Serializador serializador = new Serializador("ranking.dat");
+    private static Serializador serializadorRanking = new Serializador("ranking.dat");
+    private static Serializador serializadorEstadoPartida = new Serializador("juego.dat");
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
@@ -104,12 +105,22 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         }
     }
 
+    // Persiste la partida cuando se desconecta un jugador.
+    @Override
+    public void persistirPartida() throws RemoteException {
+        String cabecera = new String("Juego");
+        serializadorEstadoPartida.writeOneObject(cabecera);
+        serializadorEstadoPartida.addOneObject(getInstancia());
+        notificarObservadores(Evento.JUGADOR_DESCONECTADO);
+        System.out.println("GAME HAS BEEN SAVED!!!\n");
+    }
+
     @Override
     public void setTotalPuntos(int puntos) throws RemoteException{
         LIMITEPUNTOS = puntos;
     }
 
-    // se utiliza para reinicair las rondas sin necesidad de resetear los puntos.
+    // se utiliza para reiniciar las rondas sin necesidad de resetear los puntos.
     @Override
     public void iniciarJuego() throws RemoteException {
         repartir();
@@ -334,14 +345,14 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private void persistirJugador() {
         // escribo en el header del archivo.
         if (rankCincoMejores[0] != null) {
-            serializador.writeOneObject(rankCincoMejores[0]);
+            serializadorRanking.writeOneObject(rankCincoMejores[0]);
             int i = 1;
             boolean parar = false;
             while (i < rankCincoMejores.length && !parar) {
                 if (rankCincoMejores[i] == null)
                     parar = true;
                 else
-                    serializador.addOneObject(rankCincoMejores[i]);
+                    serializadorRanking.addOneObject(rankCincoMejores[i]);
                 i++;
             }
         }
@@ -363,7 +374,6 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
                 if (jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
                     rankCincoMejores[i] = jugador;
                     agregado = true;
-                    System.out.println("PLAYER ADDED!!!\n");
                 }
                 i--;
             }
@@ -383,7 +393,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     // lee el archivo retornando los 5 mejores del ranking.
     public IJugador[] getRankCincoMejores() throws RemoteException {
-        Object[] recuperado = serializador.readObjects();
+        Object[] recuperado = serializadorRanking.readObjects();
         if (recuperado != null) {
             for (int i = 0; i < recuperado.length; i++) {
                 rankCincoMejores[i] = (IJugador) recuperado[i];

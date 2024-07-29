@@ -10,6 +10,7 @@ import vista.IVista;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.Objects;
 
 public class Controlador implements IControladorRemoto {
     private IVista vista;
@@ -107,6 +108,15 @@ public class Controlador implements IControladorRemoto {
         return null;
     }
 
+    // Permite persistir las partidas.
+    public void persistirPartida() {
+        try {
+            modelo.persistirPartida();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<IFicha> getFichasJugador(IJugador jugador) {
         return jugador.getFichas();
     }
@@ -122,9 +132,27 @@ public class Controlador implements IControladorRemoto {
         } else if (cambios instanceof EventoFichasTablero) {
             actualizarEventoFichasTablero((EventoFichasTablero) cambios);
         } else if (cambios instanceof Evento) {
-            if (cambios == Evento.CIERRE_JUEGO) {
+            actualizarEstado((Evento) cambios);
+        }
+    }
+
+    private void actualizarEstado(Evento e) {
+        switch (e) {
+            case JUGADOR_DESCONECTADO:
+                try {
+                    if (modelo.getTurno() == jugador) {
+                        vista.mostrarMensaje("Hasta luego!!!");
+                    }
+                    else {
+                        vista.mostrarMensaje("Se ha desconectado un jugador!!!");
+                    }
+                    vista.desconectar();
+                } catch (RemoteException ex){
+                    ex.printStackTrace();
+                }
+                break;
+            case CIERRE_JUEGO:
                 vista.mostrarMensaje("Jugador Bloqueado");
-            }
         }
     }
 
@@ -140,22 +168,20 @@ public class Controlador implements IControladorRemoto {
 
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
-        switch (cambios.getEvento()) {
-            case INICIAR_JUEGO:
-                vista.mostrarFicha(cambios.getFicha());
-                vista.iniciar();
-                if (modelo.getTurno() == jugador) {
-                    vista.mostrarBoton();
-                    vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
-                } else {
-                    int jugadorTurno = modelo.getTurno();
-                    IJugador j = modelo.getJugadorID(modelo.getJugadorID(jugadorTurno).getId());
-                    vista.mostrarMensaje("Turno del jugador: " + j.getNombre() + "\n");
-                    vista.ocultarBoton();
-                }
-                IJugador jug = modelo.getJugadorID(jugador);
-                vista.mostrarFichasJugador(jug);
-                break;
+        if ((cambios.getEvento()) == Evento.INICIAR_JUEGO) {
+            vista.mostrarFicha(cambios.getFicha());
+            vista.iniciar();
+            if (modelo.getTurno() == jugador) {
+                vista.mostrarBoton();
+                vista.mostrarMensaje("Es tu turno, elige una ficha para jugar: \n");
+            } else {
+                int jugadorTurno = modelo.getTurno();
+                IJugador j = modelo.getJugadorID(modelo.getJugadorID(jugadorTurno).getId());
+                vista.mostrarMensaje("Turno del jugador: " + j.getNombre() + "\n");
+                vista.ocultarBoton();
+            }
+            IJugador jug = modelo.getJugadorID(jugador);
+            vista.mostrarFichasJugador(jug);
         }
     }
 
@@ -178,21 +204,19 @@ public class Controlador implements IControladorRemoto {
 
     // Actualiza el cambio de ronda.
     private void actualizarEventoTurnoJugadores(EventoTurnoJugadores cambios) {
-        switch (cambios.getEvento()) {
-            case CAMBIO_RONDA:
-                IJugador ganadorRonda = cambios.getTurno();
-                List<IJugador> jugadores = cambios.getJugadores();
-                vista.mostrarMensaje("Jugador que domino la ronda: " + ganadorRonda.getNombre() + "\n");
-                int puntos = 0;
-                try {
-                    puntos = modelo.getLIMITEPUNTOS();
-                    vista.mostrarTablaPuntos(jugadores, puntos);
-                    vista.limpiarTablero();
-                    vista.mostrarMensaje("Comenzara una nueva ronda..\n");
-                    break;
-                } catch (RemoteException ex) {
-                    ex.printStackTrace();
-                }
+        if ((cambios.getEvento()) == Evento.CAMBIO_RONDA) {
+            IJugador ganadorRonda = cambios.getTurno();
+            List<IJugador> jugadores = cambios.getJugadores();
+            vista.mostrarMensaje("Jugador que domino la ronda: " + ganadorRonda.getNombre() + "\n");
+            int puntos;
+            try {
+                puntos = modelo.getLIMITEPUNTOS();
+                vista.mostrarTablaPuntos(jugadores, puntos);
+                vista.limpiarTablero();
+                vista.mostrarMensaje("Comenzara una nueva ronda..\n");
+            } catch (RemoteException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

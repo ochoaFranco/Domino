@@ -167,4 +167,9 @@ public class Lobby implements IVista {
 
     }
 
+    @Override
+    public void desconectar() {
+
+    }
+
 }

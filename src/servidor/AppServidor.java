@@ -36,10 +36,14 @@ public class AppServidor {
         try {
             servidor.iniciar(juego);
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error de red !!!",
+                    "Error Red", JOptionPane.ERROR_MESSAGE));
+            new javax.swing.Timer(7000, evt -> System.exit(1)).start();
             e.printStackTrace();
         } catch (RMIMVCException e) {
-            // TODO Auto-generated catch block
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error !!!",
+                    "Error", JOptionPane.ERROR_MESSAGE));
+            new javax.swing.Timer(7000, evt -> System.exit(1)).start();
             e.printStackTrace();
         }
     }

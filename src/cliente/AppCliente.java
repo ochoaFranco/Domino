@@ -1,11 +1,9 @@
 package cliente;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import javax.swing.*;
 
-import javax.swing.JOptionPane;
 import ar.edu.unlu.rmimvc.RMIMVCException;
-import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
 import controlador.Controlador;
 import vista.IVista;
@@ -60,16 +58,28 @@ public class AppCliente {
 //        );
         Controlador controlador = new Controlador();
         IVista vista = new Lobby(controlador);
-        Cliente c = new Cliente(AppCliente.IP, Integer.parseInt(port), AppCliente.IP, AppCliente.PORT);
-        vista.iniciar();
+        Cliente c = null;
+        try {
+            c = new Cliente(AppCliente.IP, Integer.parseInt(port), AppCliente.IP, AppCliente.PORT);
+            vista.iniciar();
+        } catch (NumberFormatException ex) {
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error de red, revise la configuracion.!!!",
+                    "Error Red", JOptionPane.ERROR_MESSAGE));
+            System.exit(1);
+            ex.printStackTrace();
+        }
         try {
             c.iniciar(controlador);
         } catch (RemoteException e) {
-            // TODO Auto-generated catch block
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error de red, revise la configuracion.!!!",
+                    "Error Red", JOptionPane.ERROR_MESSAGE));
             e.printStackTrace();
+            System.exit(1);
         } catch (RMIMVCException e) {
-            // TODO Auto-generated catch block
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error !!!",
+                    "Error", JOptionPane.ERROR_MESSAGE));
             e.printStackTrace();
         }
     }
 }
+
