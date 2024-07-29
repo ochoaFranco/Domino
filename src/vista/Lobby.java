@@ -70,6 +70,7 @@ public class Lobby implements IVista {
             SwingUtilities.invokeLater(()-> JOptionPane.showMessageDialog(null, "No hay jugadores en el ranking aun", "Ranking", JOptionPane.INFORMATION_MESSAGE));
         }
     }
+
     // Retonra los atributos de los jugadores del ranking.
     private String jugadoresRankingAtributos(IJugador[] jugadoresRanking) {
         StringBuilder ranking = new StringBuilder(" ");

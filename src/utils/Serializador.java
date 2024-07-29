@@ -70,7 +70,7 @@ public class Serializador {
             System.out.println("Lectura completada");
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("El archivo aun no ha sido creado!!");
 
         } catch (IOException e) {
             e.printStackTrace();

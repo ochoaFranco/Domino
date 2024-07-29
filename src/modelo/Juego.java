@@ -5,6 +5,7 @@ import ar.edu.unlu.rmimvc.observer.ObservableRemoto;
 import modelo.exceptions.FichaIncorrecta;
 import modelo.exceptions.FichaInexistente;
 import ar.edu.unlu.rmimvc.observer.IObservadorRemoto;
+import utils.Serializador;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +25,9 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private Queue<Integer> colaTurnos = new LinkedList<>();
     private static IJuego instancia;
     private int cantidadJugadores = 0;
-    private final IJugador[] rankCincoMejores = new IJugador[5];
+    private final int RANKING = 5;
+    private final IJugador[] rankCincoMejores = new IJugador[RANKING];
+    private static Serializador serializador = new Serializador("ranking.dat");
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
@@ -309,11 +312,29 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
             EventoJugador eventoJugador = new EventoJugador(Evento.FIN_DEL_JUEGO, getJugadorID(turno));
             agregarjugadorRanking();
+            persistirJugador();
             notificarObservadores(eventoJugador);
         } else {
             EventoTurnoJugadores eventoTurnoJugadores = new EventoTurnoJugadores(Evento.CAMBIO_RONDA, buscarJugadorPorID(turno), jugadores);
             notificarObservadores(eventoTurnoJugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
+        }
+    }
+
+    // Persiste los jugadores para luego mostrar un ranking.
+    private void persistirJugador() {
+        // escribo en el header del archivo.
+        if (rankCincoMejores[0] != null) {
+            serializador.writeOneObject(rankCincoMejores[0]);
+            int i = 1;
+            boolean parar = false;
+            while (i < rankCincoMejores.length && !parar) {
+                if (rankCincoMejores[i] == null)
+                    parar = true;
+                else
+                    serializador.addOneObject(rankCincoMejores[i]);
+                i++;
+            }
         }
     }
 
@@ -323,22 +344,22 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         if (jugador == null)
             return;
         boolean agregado = false;
-        int i = 0;
-        int tamanio = rankCincoMejores.length;
+        int i = rankCincoMejores.length - 1;
+        int tamanio = 0;
         int posicion = posicionLibre(rankCincoMejores);
         if (posicion != -1)
             rankCincoMejores[posicion] = jugador;
         else {
-            while (i < tamanio && !agregado) {
+            while (i > tamanio && !agregado) {
                 if (jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
                     rankCincoMejores[i] = jugador;
                     agregado = true;
                     System.out.println("PLAYER ADDED!!!\n");
                 }
-                i++;
+                i--;
             }
         }
-        // ordena el array para que quede ordenado de manor a mayor.
+        // ordena el array.
         Arrays.sort(rankCincoMejores, Comparator.nullsLast(Comparator.comparingInt(IJugador::getPuntos).reversed()));
     }
 
@@ -346,13 +367,19 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private int posicionLibre(IJugador[] jugadores) {
         for (int i = 0; i < jugadores.length; i++) {
             if (jugadores[i] == null)
-
                 return i;
         }
         return -1;
     }
 
+    // lee el archivo retornando los 5 mejores del ranking.
     public IJugador[] getRankCincoMejores() throws RemoteException {
+        Object[] recuperado = serializador.readObjects();
+        if (recuperado != null) {
+            for (int i = 0; i < recuperado.length; i++) {
+                rankCincoMejores[i] = (IJugador) recuperado[i];
+            }
+        }
         return rankCincoMejores;
     }
 
