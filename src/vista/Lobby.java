@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-public class Lobby implements IVista {
+public class Lobby {
     private final JFrame frame;
     private Controlador controlador;
 
@@ -119,57 +119,8 @@ public class Lobby implements IVista {
         return panel;
     }
 
-    @Override
-    public void mostrarMensaje(String mensaje) {
-    }
-
-    @Override
-    public void mostrarFichasJugador(IJugador jugador) {
-
-    }
-
-    @Override
-    public void mostrarFicha(IFicha ficha) {
-
-    }
-
-    @Override
     public void iniciar() {
         frame.setVisible(true);
-    }
-
-    @Override
-    public void mostrarTablero(Object o) {
-
-    }
-
-    @Override
-    public void mostrarTablaPuntos(Object o, int puntos) {
-
-    }
-
-    @Override
-    public void ocultarBoton() {
-
-    }
-
-    @Override
-    public void mostrarBoton() {
-    }
-
-    @Override
-    public void limpiarTablero() {
-
-    }
-
-    @Override
-    public void finalizarJuego(String mensaje) {
-
-    }
-
-    @Override
-    public void desconectar() {
-
     }
 
 }

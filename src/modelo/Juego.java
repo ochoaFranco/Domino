@@ -28,6 +28,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private final IJugador[] rankCincoMejores = new IJugador[RANKING];
     private static Serializador serializadorRanking = new Serializador("ranking.dat");
     private static Serializador serializadorEstadoPartida = new Serializador("juego.dat");
+    private AdministradorJugadores adminJugadores;
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
@@ -38,6 +39,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     private Juego() throws RemoteException {
         jugadores = new ArrayList<>();
+        adminJugadores = new AdministradorJugadores(jugadores);
         fichas = new ArrayList<>();
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
@@ -71,17 +73,14 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     @Override
     // Comprueba si existe el jugador.
     public boolean existeJugador(String nombre) throws RemoteException {
-        for (IJugador j: jugadores) {
-            if (j.getNombre().equalsIgnoreCase(nombre))
-                return true;
-        }
-        return false;
+        return adminJugadores.existeJugador(nombre);
     }
 
     @Override
     public List<IJugador> getJugadores() throws RemoteException {
         return jugadores;
     }
+
     @Override
     public int getLIMITEPUNTOS() throws RemoteException {
         return LIMITEPUNTOS;
@@ -404,7 +403,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     private void reiniciarRonda() throws RemoteException {
         juntarFichasTablero();
-        juntarFichasJugadores();
+        adminJugadores.juntarFichasJugadores(pozo);
         Collections.shuffle(pozo.getFichas());
         Tablero.resetearTablero(); // limpio las fichas del tablero.
         System.out.println("TILES: " + fichas.size() + "\n");
@@ -426,23 +425,6 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
             pozo.agregarFicha(ficha);
         }
         Tablero.getFichas().clear(); // saco las fichas del tablero.
-    }
-
-    // Junta las fichas de los jugadores y las agrega al  pozo.
-    private void juntarFichasJugadores() {
-        for (IJugador j : jugadores) {
-            for (IFicha f : j.getFichas()) {
-                IFicha ficha;
-                if (f.isDadaVuelta()) {
-                    ficha = new Ficha(f.getDerecho(), f.getIzquierdo());
-                } else {
-                    ficha = new Ficha(f.getIzquierdo(), f.getDerecho());
-                }
-                ficha.darVuelta(false);
-                pozo.agregarFicha(ficha);
-            }
-            j.getFichas().clear(); // vacio la mano del jugador.
-        }
     }
 
     // Detecta si los jugadores no pueden jugar porque están bloqueados.

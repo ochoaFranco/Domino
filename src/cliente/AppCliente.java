@@ -57,7 +57,7 @@ public class AppCliente {
 //                8888
 //        );
         Controlador controlador = new Controlador();
-        IVista vista = new Lobby(controlador);
+        Lobby vista = new Lobby(controlador);
         Cliente c = null;
         try {
             c = new Cliente(AppCliente.IP, Integer.parseInt(port), AppCliente.IP, AppCliente.PORT);
