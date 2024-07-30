@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.servidor.Servidor;
 import modelo.IJuego;
-import modelo.Partida;
+import modelo.Domino;
 
 import javax.swing.*;
 
@@ -30,7 +30,7 @@ public class AppServidor {
 //                null,
 //                8888
 //        );
-        IJuego juego = Partida.getInstancia();
+        IJuego juego = Domino.getInstancia();
         Servidor servidor = new Servidor(AppServidor.IP, AppServidor.PORT);
         try {
             servidor.iniciar(juego);

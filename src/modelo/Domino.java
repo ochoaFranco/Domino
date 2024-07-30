@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Partida extends ObservableRemoto implements IJuego, Serializable {
+public class Domino extends ObservableRemoto implements IJuego, Serializable {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
     @Serial
@@ -32,12 +32,12 @@ public class Partida extends ObservableRemoto implements IJuego, Serializable {
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
-            instancia = new Partida();
+            instancia = new Domino();
         }
         return instancia;
     }
 
-    private Partida() throws RemoteException {
+    private Domino() throws RemoteException {
         jugadores = new ArrayList<>();
         adminJugadores = new AdministradorJugadores(jugadores);
         fichas = new ArrayList<>();
@@ -51,7 +51,7 @@ public class Partida extends ObservableRemoto implements IJuego, Serializable {
     }
 
     public static void setPrimeraFicha(IFicha primeraFicha) {
-        Partida.primeraFicha = primeraFicha;
+        Domino.primeraFicha = primeraFicha;
     }
 
     @Override
@@ -60,11 +60,11 @@ public class Partida extends ObservableRemoto implements IJuego, Serializable {
     }
 
     public static IJugador getJugadorMano() throws RemoteException {
-        return Partida.jugadorMano;
+        return Domino.jugadorMano;
     }
 
     public static void setJugadorMano(IJugador jugMano) throws RemoteException {
-        Partida.jugadorMano = jugMano;
+        Domino.jugadorMano = jugMano;
     }
 
     @Override
@@ -242,14 +242,6 @@ public class Partida extends ObservableRemoto implements IJuego, Serializable {
         moverJugFinalTurno();
     }
 
-    private IJugador setJugadorMano(List<IJugador> jugadoresConFichasDobles) {
-        IJugador jugMano;
-        jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
-        jugMano.setMano(true);
-        jugadorMano = jugMano;
-        return jugMano;
-    }
-
     private void setearTablero(IFicha ficha) throws FichaIncorrecta {
         Tablero.setExtremoDerec(ficha);
         Tablero.setExtremoIzq(ficha);
@@ -261,18 +253,6 @@ public class Partida extends ObservableRemoto implements IJuego, Serializable {
             IJugador jugador = getJugadorID(colaTurnos.poll());
             colaTurnos.offer(jugador.getId());
         }
-    }
-
-    private IJugador jugadorfichaDobleMasAlta(List<IJugador> jugadores) {
-        IJugador jFichaDobleMasAlta = null;
-        int fichaValor = -1;
-        for (IJugador j : jugadores) {
-            if (j.fichaDobleMayor().getIzquierdo() > fichaValor) {
-                fichaValor = j.fichaDobleMayor().getIzquierdo();
-                jFichaDobleMasAlta = j;
-            }
-        }
-        return jFichaDobleMasAlta;
     }
 
     // cuento los puntos de las fichas de todos lo jugadores.

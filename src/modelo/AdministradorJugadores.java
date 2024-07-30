@@ -1,7 +1,5 @@
 package modelo;
 
-import modelo.exceptions.FichaIncorrecta;
-
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
@@ -102,19 +100,19 @@ public class AdministradorJugadores implements Serializable {
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugMano = setJugadorMano(jugadoresConFichasDobles);
-            Partida.setPrimeraFicha(jugMano.fichaDobleMayor());
+            Domino.setPrimeraFicha(jugMano.fichaDobleMayor());
         } else {
             try {
                 jugadorFichaSimpleMasAlta.setMano(true);
-                Partida.setPrimeraFicha(jugadorFichaSimpleMasAlta.fichaSimpleMasAlta());
-                Partida.setJugadorMano(jugadorFichaSimpleMasAlta);
+                Domino.setPrimeraFicha(jugadorFichaSimpleMasAlta.fichaSimpleMasAlta());
+                Domino.setJugadorMano(jugadorFichaSimpleMasAlta);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        List<IFicha> fichasJugador = Partida.getJugadorMano().getFichas();
-        System.out.println("HAND PLAYER: " + Partida.getJugadorMano().getNombre() + "\n");
-        fichasJugador.remove(Partida.getPrimeraFicha());
+        List<IFicha> fichasJugador = Domino.getJugadorMano().getFichas();
+        System.out.println("HAND PLAYER: " + Domino.getJugadorMano().getNombre() + "\n");
+        fichasJugador.remove(Domino.getPrimeraFicha());
     }
 
     /**
@@ -145,7 +143,7 @@ public class AdministradorJugadores implements Serializable {
         IJugador jugMano;
         jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
         jugMano.setMano(true);
-        Partida.setJugadorMano(jugMano);
+        Domino.setJugadorMano(jugMano);
         return jugMano;
     }
 
