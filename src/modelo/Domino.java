@@ -11,26 +11,26 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Domino extends ObservableRemoto implements IJuego, Serializable {
+public class Domino extends ObservableRemoto implements IDomino, Serializable {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
     @Serial
     private static final long serialVersionUID = 1L;
     private int LIMITEPUNTOS;
     private int turno;
-    private static Pozo pozo;
+    private Pozo pozo;
     private static IFicha primeraFicha;
     private static IJugador jugadorMano = null;
     private Queue<Integer> colaTurnos = new LinkedList<>();
-    private static IJuego instancia;
+    private static IDomino instancia;
     private int cantidadJugadores = 0;
     private final int RANKING = 5;
     private final IJugador[] rankCincoMejores = new IJugador[RANKING];
     private static Serializador serializadorRanking = new Serializador("ranking.dat");
-    private static Serializador serializadorEstadoPartida = new Serializador("juego.dat");
     private AdministradorJugadores adminJugadores;
+    private Tablero tablero;
 
-    public static IJuego getInstancia() throws RemoteException {
+    public static IDomino getInstancia() throws RemoteException {
         if (instancia == null) {
             instancia = new Domino();
         }
@@ -44,6 +44,7 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
         pozo = new Pozo(fichas);
+        tablero = new Tablero();
     }
 
     public static IFicha getPrimeraFicha() {
@@ -120,12 +121,26 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Domino{" + "\n" +
+                "adminJugadores=" + adminJugadores+ "\n" +
+                ", jugadores="  + jugadores + "\n" +
+                ", fichas=" + fichas + "\n" +
+                ", LIMITEPUNTOS=" + LIMITEPUNTOS + "\n" +
+                ", turno=" + turno + "\n" +
+                ", colaTurnos=" + colaTurnos + "\n" +
+                ", cantidadJugadores=" + cantidadJugadores + "\n" +
+                ", RANKING=" + RANKING +
+                ", rankCincoMejores=" + Arrays.toString(rankCincoMejores) +
+                '}';
+    }
+
     // Persiste la partida cuando se desconecta un jugador.
     @Override
     public void persistirPartida() throws RemoteException {
         String cabecera = new String("Juego");
-        serializadorEstadoPartida.writeOneObject(cabecera);
-        serializadorEstadoPartida.addOneObject(getInstancia());
+        AdministradorPartidas.agregarPartida(new Partida(this));
         notificarObservadores(Evento.JUGADOR_DESCONECTADO);
         System.out.println("GAME HAS BEEN SAVED!!!\n");
     }
@@ -159,8 +174,8 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
         inicializarFichas();
         Collections.shuffle(fichas); // mezcla las fichas.
         pozo = new Pozo(fichas);
-        Tablero.resetearTablero(); // limpio las fichas del tablero.
-        Tablero.getFichas().clear();
+        tablero.resetearTablero(); // limpio las fichas del tablero.
+        tablero.getFichas().clear();
     }
 
     @Override
@@ -175,25 +190,25 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
         IFicha ficha = buscarFicha(extremIzq, extremDerec, getJugadorID(colaTurnos.peek()));
         if (ficha == null) throw new FichaInexistente();
         IJugador jugador = getJugadorID(colaTurnos.peek());
-        jugador.colocarFicha(ficha, extremo);
+        jugador.colocarFicha(ficha, extremo, tablero);
         // Aumentamos la cantidad de veces que se jugo el extremo
-        Tablero.incrementarExtremo(extremIzq);
-        Tablero.incrementarExtremo(extremDerec);
+        tablero.incrementarExtremo(extremIzq);
+        tablero.incrementarExtremo(extremDerec);
         jugador = getJugadorID(colaTurnos.poll()); // desencolo al jugador del primer turno.
         colaTurnos.offer(jugador.getId()); // lo vuelvo a encolar al final.
-        ArrayList<IFicha> fichasTablero = Tablero.getFichas();
+        ArrayList<IFicha> fichastablero = tablero.getFichas();
         // clase compuesta.
-        EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
+        EventoFichasTablero evFichastablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichastablero);
         // dermino si el jugador jugo todas sus fichas.
         if (adminJugadores.jugadorJugoTodasSusFichas(adminJugadores.buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
-        } else if (Tablero.detectarCierre()) {
+        } else if (tablero.detectarCierre()) {
             notificarObservadores(Evento.CIERRE_JUEGO);
             casoCierre();
         } else {
             determinarJugadorTurno();
-            notificarObservadores(evFichasTablero);
+            notificarObservadores(evFichastablero);
         }
     }
 
@@ -235,16 +250,16 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
         // agrego al tablero las fichas.
         try {
             System.out.println(primeraFicha);
-            setearTablero(primeraFicha);
+            seteartablero(primeraFicha);
         } catch (FichaIncorrecta f) {
             throw new RuntimeException("ficha incorrecta!!!");
         }
         moverJugFinalTurno();
     }
 
-    private void setearTablero(IFicha ficha) throws FichaIncorrecta {
-        Tablero.setExtremoDerec(ficha);
-        Tablero.setExtremoIzq(ficha);
+    private void seteartablero(IFicha ficha) throws FichaIncorrecta {
+        tablero.setExtremoDerec(ficha);
+        tablero.setExtremoIzq(ficha);
     }
 
     // mueve el jugdor al final del turno en el caso de que ya haya tirado.
@@ -324,18 +339,18 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
     }
 
     private void reiniciarRonda() throws RemoteException {
-        juntarFichasTablero();
+        juntarFichastablero();
         adminJugadores.juntarFichasJugadores(pozo);
         Collections.shuffle(pozo.getFichas());
-        Tablero.resetearTablero(); // limpio las fichas del tablero.
+        tablero.resetearTablero(); // limpio las fichas del tablero.
         System.out.println("TILES: " + fichas.size() + "\n");
         System.out.println("POZO: " + pozo.getFichas().size() + "\n");
         iniciarJuego();
     }
 
     // Junta las fichas del tablero y las agrega al pozo.
-    private void juntarFichasTablero() {
-        List<IFicha> tableroFichas = Tablero.getFichas();
+    private void juntarFichastablero() {
+        List<IFicha> tableroFichas = tablero.getFichas();
         for (IFicha f : tableroFichas) {
             IFicha ficha;
             if (f.isDadaVuelta()) {
@@ -346,7 +361,7 @@ public class Domino extends ObservableRemoto implements IJuego, Serializable {
             ficha.darVuelta(false);
             pozo.agregarFicha(ficha);
         }
-        Tablero.getFichas().clear(); // saco las fichas del tablero.
+        tablero.getFichas().clear(); // saco las fichas del tablero.
     }
 
     // Detecta si los jugadores no pueden jugar porque están bloqueados.

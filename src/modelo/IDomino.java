@@ -8,7 +8,7 @@ import java.util.List;
 
 import ar.edu.unlu.rmimvc.observer.IObservableRemoto;
 
-public interface IJuego extends  IObservableRemoto {
+public interface IDomino extends  IObservableRemoto {
     int getTurno() throws RemoteException;
 
     void desconectarJugador(int idJugador) throws RemoteException;

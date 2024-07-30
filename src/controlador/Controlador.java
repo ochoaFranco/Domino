@@ -10,11 +10,10 @@ import vista.IVista;
 
 import java.rmi.RemoteException;
 import java.util.List;
-import java.util.Objects;
 
 public class Controlador implements IControladorRemoto {
     private IVista vista;
-    private IJuego modelo;
+    private IDomino modelo;
     private int jugador;
 
     public Controlador() {
@@ -22,7 +21,7 @@ public class Controlador implements IControladorRemoto {
 
     @Override
     public <T extends IObservableRemoto> void setModeloRemoto(T t) throws RemoteException {
-        this.modelo = (IJuego) t;
+        this.modelo = (IDomino) t;
     }
 
     public void setVista(IVista vista) {

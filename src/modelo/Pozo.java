@@ -1,8 +1,9 @@
 package modelo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Pozo {
+public class Pozo implements Serializable {
     private List<IFicha> fichas;
     
     public Pozo(List<IFicha> fichas) {

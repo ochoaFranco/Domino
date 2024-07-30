@@ -2,28 +2,33 @@ package modelo;
 
 import modelo.exceptions.FichaIncorrecta;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tablero {
-    private static final int MAXIMO = 8;
-    private static ArrayList<IFicha> fichas = new ArrayList<>();
-    private static IFicha extremoIzq;
-    private static IFicha extremoDerec;
-    private static final int cantFichasMaxTab = 10;
-    private final static int[] extremosJugados = new int[7];
+public class Tablero implements Serializable {
+    private final int MAXIMO = 8;
+    private ArrayList<IFicha> fichas = new ArrayList<>();
+    private IFicha extremoIzq;
+    private IFicha extremoDerec;
+    private final int cantFichasMaxTab = 10;
+    private final int[] extremosJugados = new int[7];
 
-    public static IFicha getExtremoDerec() {
+    public Tablero() {
+
+    }
+
+    public IFicha getExtremoDerec() {
         return extremoDerec;
     }
 
-    public static IFicha getExtremoIzq() {
+    public IFicha getExtremoIzq() {
         return extremoIzq;
     }
 
     // agrega una ficha en el extremo derecho.
-    public static void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta {
-        if (Tablero.extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
-            int tableroDer = Tablero.extremoDerec.getDerecho();
+    public void setExtremoDerec(IFicha extremoDerec) throws FichaIncorrecta {
+        if (extremoIzq != null) { // seria nulo cuando no hay fichas en el tablero.
+            int tableroDer = this.extremoDerec.getDerecho();
             if (tableroDer == extremoDerec.getIzquierdo() || tableroDer == extremoDerec.getDerecho()) {
                 if (extremoDerec.getIzquierdo() != tableroDer) {
                     int bkup = extremoDerec.getDerecho();
@@ -35,36 +40,36 @@ public class Tablero {
                 throw new FichaIncorrecta();
             }
         }
-        Tablero.extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
-        Tablero.extremoDerec = extremoDerec;
-        extremoDerec.setDerecho(true);
-        Tablero.fichas.add(extremoDerec);
-        Tablero.colocarVertical(extremoDerec); // chequeo si la ficha tiene que ser ubicada de manera vert.
+        extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
+        this.extremoDerec = extremoDerec;
+        this.extremoDerec.setDerecho(true);
+        fichas.add(extremoDerec);
+        colocarVertical(extremoDerec); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
-    public static ArrayList<IFicha> getFichas() {
+    public ArrayList<IFicha> getFichas() {
         return fichas;
     }
 
-    private static void extremosIgualesIzq() {
-        if (Tablero.extremoIzq == Tablero.getExtremoDerec()) {
-            Tablero.fichas.remove(Tablero.extremoIzq);
+    private void extremosIgualesIzq() {
+        if (extremoIzq == getExtremoDerec()) {
+            fichas.remove(extremoIzq);
         }
     }
-    private static void extremosIgualesDer() {
-        if (Tablero.extremoIzq == Tablero.getExtremoDerec()) {
-            Tablero.fichas.remove(Tablero.extremoDerec);
+    private void extremosIgualesDer() {
+        if (extremoIzq == getExtremoDerec()) {
+            fichas.remove(extremoDerec);
         }
     }
 
-    public static void resetearTablero() {
+    public void resetearTablero() {
         extremoIzq = null;
         extremoDerec = null;
         resetearArrayExtremos();
     }
 
     // Reseteo los extremos.
-    private static void resetearArrayExtremos() {
+    private void resetearArrayExtremos() {
         int tamanio = extremosJugados.length;
         for (int i = 0; i < tamanio; i++) {
             extremosJugados[i] = 0;
@@ -72,9 +77,9 @@ public class Tablero {
     }
 
     // agrega una ficha en el extremo izquierdo.
-    public static void setExtremoIzq(IFicha extremoIzq) throws FichaIncorrecta {
-        if (Tablero.extremoIzq != null) {
-            int tableroIzq = Tablero.extremoIzq.getIzquierdo();
+    public void setExtremoIzq(IFicha extremoIzq) throws FichaIncorrecta {
+        if (this.extremoIzq != null) {
+            int tableroIzq = this.extremoIzq.getIzquierdo();
             if (tableroIzq == extremoIzq.getIzquierdo() || tableroIzq == extremoIzq.getDerecho()) {
                 if (extremoIzq.getDerecho() != tableroIzq) {
                     int bkup = extremoIzq.getIzquierdo();
@@ -86,26 +91,26 @@ public class Tablero {
                 throw new FichaIncorrecta();
             }
         }
-        Tablero.extremosIgualesIzq();
-        Tablero.extremoIzq = extremoIzq;
-        extremoIzq.setIzquierdo(true);
-        Tablero.fichas.addFirst(extremoIzq);
-        Tablero.colocarVertical(extremoIzq); // chequeo si la ficha tiene que ser ubicada de manera vert.
+        extremosIgualesIzq();
+        this.extremoIzq = extremoIzq;
+        this.extremoIzq.setIzquierdo(true);
+        fichas.addFirst(extremoIzq);
+        colocarVertical(extremoIzq); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }
 
     // Incrementa la cantidad de veces que un extremo ha sido jugado.
-    public static void incrementarExtremo(int extremo) {
-        Tablero.extremosJugados[extremo] += 1;
+    public void incrementarExtremo(int extremo) {
+        extremosJugados[extremo] += 1;
     }
 
     // Detecta el cierre del juego, sucede cuando un extremo se juega el maximo cantidad de veces
     // y coincide con los extremos.
-    public static boolean detectarCierre() {
-        int tamanio = Tablero.extremosJugados.length;
+    public boolean detectarCierre() {
+        int tamanio = extremosJugados.length;
         int i = 0;
         boolean cierre = false;
         while (i < tamanio && !cierre) {
-            if (Tablero.extremosJugados[i] == MAXIMO &&
+            if (extremosJugados[i] == MAXIMO &&
                     (i == extremoIzq.getIzquierdo() || i == extremoDerec.getDerecho()))
                 cierre = true;
             i++;
@@ -114,8 +119,8 @@ public class Tablero {
     }
 
     // si se lleno el tablero, se coloca vertical.
-    private static void colocarVertical(IFicha ficha) {
-        if (fichas.size() > Tablero.cantFichasMaxTab) {
+    private void colocarVertical(IFicha ficha) {
+        if (fichas.size() > cantFichasMaxTab) {
             ficha.setVertical(true);
         }
     }

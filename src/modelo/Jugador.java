@@ -65,28 +65,13 @@ public class Jugador implements IJugador, Serializable {
         return fichas;
     }
 
-    public void colocarFicha(IFicha ficha, String extremo) throws FichaIncorrecta {
+    public void colocarFicha(IFicha ficha, String extremo, Tablero tablero) throws FichaIncorrecta {
         if (extremo.equalsIgnoreCase("i")) {
-            Tablero.setExtremoIzq(ficha);
+            tablero.setExtremoIzq(ficha);
         } else if (extremo.equalsIgnoreCase("d")) {
-            Tablero.setExtremoDerec(ficha);
+            tablero.setExtremoDerec(ficha);
         }
         fichas.remove(ficha);
-    }
-
-    // determina si un jugador puede jugar una ficha.
-    public boolean puedoJugar() {
-        int extremoIzquierdo = Tablero.getExtremoIzq().getIzquierdo();
-        int extremoDerecho = Tablero.getExtremoDerec().getDerecho();
-        for (IFicha f: fichas) {
-            if (f.getIzquierdo() == extremoIzquierdo || f.getDerecho() == extremoIzquierdo) {
-                return true;
-            }
-            if (f.getIzquierdo() == extremoDerecho || f.getDerecho() == extremoDerecho) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public IFicha fichaDobleMayor() {
@@ -119,6 +104,17 @@ public class Jugador implements IJugador, Serializable {
             i++;
         }
         return algunDoble;
+    }
+
+    @Override
+    public String toString() {
+        return "Jugador{" +
+                "fichas=" + fichas +
+                ", nombre='" + nombre + '\'' +
+                ", mano=" + mano +
+                ", puntos=" + puntos +
+                ", id=" + id +
+                '}';
     }
 
     public void setMano(boolean mano) {
