@@ -1,12 +1,12 @@
 package modelo;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import modelo.exceptions.FichaIncorrecta;
 
-public class AdministradorJugadores {
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.*;
+
+public class AdministradorJugadores implements Serializable {
     List<IJugador> jugadores = new ArrayList<>();
 
     public AdministradorJugadores(List<IJugador> jugadores) {
@@ -16,9 +16,8 @@ public class AdministradorJugadores {
     /**
      * @param nombre nombre del jugador a buscar.
      * @return true si el jugador existe false caso contrario.
-     * @throws RemoteException error de red.
      */
-    public boolean existeJugador(String nombre) throws RemoteException {
+    public boolean existeJugador(String nombre) {
         boolean result = false;
         for (IJugador j: jugadores) {
             if (j.getNombre().equalsIgnoreCase(nombre)) {
@@ -86,5 +85,79 @@ public class AdministradorJugadores {
                 return j;
         }
         return null;
+    }
+
+    // determina si el jugador no tiene mas fichas.
+    public boolean jugadorJugoTodasSusFichas(IJugador jugador) {
+        return jugador.getFichas().isEmpty();
+    }
+
+    public void determinarJugadorMano(List<IJugador> jugadores) throws RemoteException {
+        List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
+        int fichaSimpleAlta;
+        IJugador jugadorFichaSimpleMasAlta = determinarJugadorFichaSimpleMayor(jugadores, jugadoresConFichasDobles);
+        IJugador jugMano;
+
+
+        // seteo el jugador mano y la primera ficha a poner en el tablero.
+        if (!jugadoresConFichasDobles.isEmpty()) {
+            jugMano = setJugadorMano(jugadoresConFichasDobles);
+            Partida.setPrimeraFicha(jugMano.fichaDobleMayor());
+        } else {
+            try {
+                jugadorFichaSimpleMasAlta.setMano(true);
+                Partida.setPrimeraFicha(jugadorFichaSimpleMasAlta.fichaSimpleMasAlta());
+                Partida.setJugadorMano(jugadorFichaSimpleMasAlta);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        List<IFicha> fichasJugador = Partida.getJugadorMano().getFichas();
+        System.out.println("HAND PLAYER: " + Partida.getJugadorMano().getNombre() + "\n");
+        fichasJugador.remove(Partida.getPrimeraFicha());
+    }
+
+    /**
+     * @param jugadores Jugadores de la partida.
+     * @param jugadoresConFichasDobles se guardan los jugadores con fichas dobles.
+     * @return IJugador jugador con la ficha simple mayor.
+     */
+    private IJugador determinarJugadorFichaSimpleMayor(List<IJugador> jugadores, List<IJugador> jugadoresConFichasDobles) {
+        int fichaSimpleAlta = -1;
+        IJugador jugadorFichaSimpleMasAlta = null;
+        for (IJugador j : jugadores) {
+            if (j.tengoDobles()) {
+                jugadoresConFichasDobles.add(j);
+            }
+            // determino ficha simple más alta.
+            if (j.fichaSimpleMasAlta().getIzquierdo() > fichaSimpleAlta) {
+                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
+                jugadorFichaSimpleMasAlta = j;
+            } else if (j.fichaSimpleMasAlta().getDerecho() > fichaSimpleAlta) {
+                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
+                jugadorFichaSimpleMasAlta = j;
+            }
+        }
+        return jugadorFichaSimpleMasAlta;
+    }
+
+    private IJugador setJugadorMano(List<IJugador> jugadoresConFichasDobles) throws RemoteException {
+        IJugador jugMano;
+        jugMano = jugadorfichaDobleMasAlta(jugadoresConFichasDobles);
+        jugMano.setMano(true);
+        Partida.setJugadorMano(jugMano);
+        return jugMano;
+    }
+
+    private IJugador jugadorfichaDobleMasAlta(List<IJugador> jugadores) {
+        IJugador jFichaDobleMasAlta = null;
+        int fichaValor = -1;
+        for (IJugador j : jugadores) {
+            if (j.fichaDobleMayor().getIzquierdo() > fichaValor) {
+                fichaValor = j.fichaDobleMayor().getIzquierdo();
+                jFichaDobleMasAlta = j;
+            }
+        }
+        return jFichaDobleMasAlta;
     }
 }

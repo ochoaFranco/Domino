@@ -1,15 +1,10 @@
 package vista;
 
 import controlador.Controlador;
-import modelo.IFicha;
-import modelo.IJuego;
 import modelo.IJugador;
-import modelo.Juego;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 public class Lobby {

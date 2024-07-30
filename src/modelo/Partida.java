@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class Juego extends ObservableRemoto implements IJuego, Serializable {
+public class Partida extends ObservableRemoto implements IJuego, Serializable {
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
     @Serial
@@ -19,8 +19,8 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
     private int LIMITEPUNTOS;
     private int turno;
     private static Pozo pozo;
-    private IFicha primeraFicha;
-    private IJugador jugadorMano = null;
+    private static IFicha primeraFicha;
+    private static IJugador jugadorMano = null;
     private Queue<Integer> colaTurnos = new LinkedList<>();
     private static IJuego instancia;
     private int cantidadJugadores = 0;
@@ -32,12 +32,12 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     public static IJuego getInstancia() throws RemoteException {
         if (instancia == null) {
-            instancia = new Juego();
+            instancia = new Partida();
         }
         return instancia;
     }
 
-    private Juego() throws RemoteException {
+    private Partida() throws RemoteException {
         jugadores = new ArrayList<>();
         adminJugadores = new AdministradorJugadores(jugadores);
         fichas = new ArrayList<>();
@@ -46,9 +46,25 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         pozo = new Pozo(fichas);
     }
 
+    public static IFicha getPrimeraFicha() {
+        return primeraFicha;
+    }
+
+    public static void setPrimeraFicha(IFicha primeraFicha) {
+        Partida.primeraFicha = primeraFicha;
+    }
+
     @Override
     public int getTurno() throws RemoteException {
         return turno;
+    }
+
+    public static IJugador getJugadorMano() throws RemoteException {
+        return Partida.jugadorMano;
+    }
+
+    public static void setJugadorMano(IJugador jugMano) throws RemoteException {
+        Partida.jugadorMano = jugMano;
     }
 
     @Override
@@ -169,7 +185,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         // clase compuesta.
         EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         // dermino si el jugador jugo todas sus fichas.
-        if (jugadorJugoTodasSusFichas(adminJugadores.buscarJugadorPorID(turno))) {
+        if (adminJugadores.jugadorJugoTodasSusFichas(adminJugadores.buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
         } else if (Tablero.detectarCierre()) {
@@ -215,38 +231,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     // it needs to be refactored.
     private void determinarJugadorMano() throws RemoteException {
-        List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
-        int fichaSimpleAlta = -1;
-        IJugador jugadorFichaSimpleMasAlta = null;
-        IJugador jugMano = null;
-        for (IJugador j: jugadores) {
-            if (j.tengoDobles()) {
-                jugadoresConFichasDobles.add(j);
-            }
-            // determino ficha simple más alta.
-            if (j.fichaSimpleMasAlta().getIzquierdo() > fichaSimpleAlta ) {
-                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
-                jugadorFichaSimpleMasAlta = j;
-            } else if (j.fichaSimpleMasAlta().getDerecho() > fichaSimpleAlta) {
-                fichaSimpleAlta = j.fichaSimpleMasAlta().getIzquierdo();
-                jugadorFichaSimpleMasAlta = j;
-            }
-        }
-        // seteo el jugador mano y la primera ficha a poner en el tablero.
-        if (!jugadoresConFichasDobles.isEmpty()) {
-            jugMano = setJugadorMano(jugadoresConFichasDobles);
-            primeraFicha = jugMano.fichaDobleMayor();
-        } else {
-            try {
-                jugadorFichaSimpleMasAlta.setMano(true);
-                primeraFicha = jugadorFichaSimpleMasAlta.fichaSimpleMasAlta();
-                jugadorMano = jugadorFichaSimpleMasAlta;
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-        List<IFicha> fichasJugador = jugadorMano.getFichas();
-        fichasJugador.remove(primeraFicha);
+        adminJugadores.determinarJugadorMano(jugadores);
         // agrego al tablero las fichas.
         try {
             System.out.println(primeraFicha);
@@ -390,11 +375,6 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         detectarJugadorGanadorCierre();
         contarPuntosJugadores();
         determinarSiJugadorGano();
-    }
-
-    // determina si el jugador no tiene mas fichas.
-    private boolean jugadorJugoTodasSusFichas(IJugador jugador) {
-        return jugador.getFichas().isEmpty();
     }
 
     // Busca la ficha a tirar dentro del poll de fichas del jugador.
