@@ -149,7 +149,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     @Override
     public IJugador getJugadorID(int id) throws RemoteException {
-        return buscarJugadorPorID(id);
+        return adminJugadores.buscarJugadorPorID(id);
     }
 
     // Logica principal del juego.
@@ -169,7 +169,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         // clase compuesta.
         EventoFichasTablero evFichasTablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichasTablero);
         // dermino si el jugador jugo todas sus fichas.
-        if (jugadorJugoTodasSusFichas(buscarJugadorPorID(turno))) {
+        if (jugadorJugoTodasSusFichas(adminJugadores.buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
         } else if (Tablero.detectarCierre()) {
@@ -187,20 +187,10 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         turno = colaTurnos.peek();
     }
 
-    // dada una ID busca el jugador y lo retorna.
-    private IJugador buscarJugadorPorID(int id) {
-        IJugador jugador;
-        for (IJugador j : jugadores) {
-            if (j.getId() == id)
-                return j;
-        }
-        return null;
-    }
-
     // robo fichas del pozo y actualizo la mano.
     @Override
     public void robarFichaPozo() throws RemoteException {
-        IJugador jugador = buscarJugadorPorID(turno);
+        IJugador jugador = adminJugadores.buscarJugadorPorID(turno);
         IFicha ficha = pozo.sacarFicha();
         if (ficha == null) {
             pasarTurno();
@@ -306,7 +296,7 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
         for (IJugador j : jugadores) {
             puntosTotal += j.contarPuntosFicha();
         }
-        buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
+        adminJugadores.buscarJugadorPorID(turno).sumarPuntos(puntosTotal);
     }
 
     // establece el ganador de la partida.
@@ -328,13 +318,13 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
 
     // Notifica a los observadores si gano el jugador, caso contrario reinicia la ronda.
     private void determinarSiJugadorGano() throws RemoteException {
-        if (buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
+        if (adminJugadores.buscarJugadorPorID(turno).getPuntos() >= LIMITEPUNTOS) {
             EventoJugador eventoJugador = new EventoJugador(Evento.FIN_DEL_JUEGO, getJugadorID(turno));
-            agregarjugadorRanking();
+            adminJugadores.agregarjugadorRanking(rankCincoMejores, turno);
             persistirJugador();
             notificarObservadores(eventoJugador);
         } else {
-            EventoTurnoJugadores eventoTurnoJugadores = new EventoTurnoJugadores(Evento.CAMBIO_RONDA, buscarJugadorPorID(turno), jugadores);
+            EventoTurnoJugadores eventoTurnoJugadores = new EventoTurnoJugadores(Evento.CAMBIO_RONDA, adminJugadores.buscarJugadorPorID(turno), jugadores);
             notificarObservadores(eventoTurnoJugadores); // jugador que domino la ronda mas todos los jugadores.
             reiniciarRonda();
         }
@@ -355,39 +345,6 @@ public class Juego extends ObservableRemoto implements IJuego, Serializable {
                 i++;
             }
         }
-    }
-
-    // agrega el ganador al ranking si es que tiene los puntos para agregarse.
-    private void agregarjugadorRanking() {
-        IJugador jugador = buscarJugadorPorID(turno);
-        if (jugador == null)
-            return;
-        boolean agregado = false;
-        int i = rankCincoMejores.length - 1;
-        int tamanio = 0;
-        int posicion = posicionLibre(rankCincoMejores);
-        if (posicion != -1)
-            rankCincoMejores[posicion] = jugador;
-        else {
-            while (i > tamanio && !agregado) {
-                if (jugador.getPuntos() > rankCincoMejores[i].getPuntos()) {
-                    rankCincoMejores[i] = jugador;
-                    agregado = true;
-                }
-                i--;
-            }
-        }
-        // ordena el array.
-        Arrays.sort(rankCincoMejores, Comparator.nullsLast(Comparator.comparingInt(IJugador::getPuntos).reversed()));
-    }
-
-    // Busca una posicion libre en el array.
-    private int posicionLibre(IJugador[] jugadores) {
-        for (int i = 0; i < jugadores.length; i++) {
-            if (jugadores[i] == null)
-                return i;
-        }
-        return -1;
     }
 
     // lee el archivo retornando los 5 mejores del ranking.
