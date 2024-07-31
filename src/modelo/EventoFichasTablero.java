@@ -1,9 +1,12 @@
 package modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 public class EventoFichasTablero implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 4222409450443789390L;
     private Evento evento;
     private List<IFicha> fichasTablero;
 

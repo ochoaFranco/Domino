@@ -2,6 +2,7 @@ package modelo;
 
 import utils.Serializador;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -9,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class AdministradorPartidas implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -9171934268332987443L;
     private static List<Partida> partidas = new ArrayList<>();
     private static final Serializador serializadorPartida = new Serializador("partida.dat");
 
@@ -32,12 +35,11 @@ public class AdministradorPartidas implements Serializable {
         IDomino partida;
         if (partidas != null) {
             partida = ((Partida)partidas[0]).getDomino();
-            System.out.println("GAME POINTS: " + partida.getLIMITEPUNTOS() + "\n");
+            System.out.println("LOADING SAVED GAME!!!\n");
             List<IJugador> jugadores = partida.getJugadores();
             for (IJugador j: jugadores) {
                 System.out.println(j + "\n");
             }
-            System.out.println("Domino class + " + "\n" + partida);
         } else {
             System.out.println("COULDN'T LOAD GAME!!\n");
             partida = Domino.getInstancia();

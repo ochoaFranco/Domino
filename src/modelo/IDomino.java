@@ -19,6 +19,8 @@ public interface IDomino extends  IObservableRemoto {
 
     void inicializarFichas() throws RemoteException;
 
+    void cargarPartida() throws RemoteException;
+
     void setTotalPuntos(int puntos) throws RemoteException;
 
     void setTotalJugadores(int cantidadJugadores) throws RemoteException;
@@ -44,7 +46,15 @@ public interface IDomino extends  IObservableRemoto {
 
     List<IJugador> getJugadores() throws RemoteException;
 
+    Pozo getPozo() throws RemoteException;
+
+    void setPozo(Pozo pozo) throws RemoteException;
+
+    Tablero getTablero() throws RemoteException;
+
+    void setTablero(Tablero tablero) throws RemoteException;
+
     int getCantidadJugadores() throws RemoteException;
 
-    boolean existeJugador(String nombre) throws RemoteException;
+    int existeJugador(String nombre) throws RemoteException;
 }

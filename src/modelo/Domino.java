@@ -12,10 +12,10 @@ import java.rmi.RemoteException;
 import java.util.*;
 
 public class Domino extends ObservableRemoto implements IDomino, Serializable {
+    @Serial
+    private static final long serialVersionUID = 4058236233430914018L;
     private List<IJugador> jugadores;
     private List<IFicha> fichas;
-    @Serial
-    private static final long serialVersionUID = 1L;
     private int LIMITEPUNTOS;
     private int turno;
     private Pozo pozo;
@@ -89,7 +89,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
 
     @Override
     // Comprueba si existe el jugador.
-    public boolean existeJugador(String nombre) throws RemoteException {
+    public int existeJugador(String nombre) throws RemoteException {
         return adminJugadores.existeJugador(nombre);
     }
 
@@ -146,6 +146,11 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
     }
 
     @Override
+    public void cargarPartida() throws RemoteException{
+        notificarObservadores(Evento.CARGAR_PARTIDA);
+    }
+
+    @Override
     public void setTotalPuntos(int puntos) throws RemoteException{
         LIMITEPUNTOS = puntos;
     }
@@ -158,6 +163,26 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         determinarJugadorTurno();
         EventoFichaJugador eventoFichaJugador = new EventoFichaJugador(Evento.INICIAR_JUEGO, primeraFicha, jugadorMano);
         notificarObservadores(eventoFichaJugador);
+    }
+
+    @Override
+    public Pozo getPozo() throws RemoteException {
+        return pozo;
+    }
+
+    @Override
+    public void setPozo(Pozo pozo) throws RemoteException {
+        this.pozo = pozo;
+    }
+
+    @Override
+    public Tablero getTablero() throws RemoteException {
+        return tablero;
+    }
+
+    @Override
+    public void setTablero(Tablero tablero) throws RemoteException {
+        this.tablero = tablero;
     }
 
     public int getCantidadJugadores() throws RemoteException {

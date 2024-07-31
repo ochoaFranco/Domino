@@ -6,7 +6,6 @@ import javax.swing.*;
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
 import controlador.Controlador;
-import vista.IVista;
 import vista.Lobby;
 
 public class AppCliente {
@@ -75,6 +74,7 @@ public class AppCliente {
                     "Error Red", JOptionPane.ERROR_MESSAGE));
             e.printStackTrace();
             System.exit(1);
+
         } catch (RMIMVCException e) {
             SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error !!!",
                     "Error", JOptionPane.ERROR_MESSAGE));

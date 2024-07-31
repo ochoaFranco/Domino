@@ -1,9 +1,12 @@
 package modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 public class EventoTurnoJugadores implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -1912765850828224632L;
     private Evento evento;
     private IJugador turno;
     private List<IJugador> jugadores;

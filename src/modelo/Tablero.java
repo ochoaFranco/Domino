@@ -2,10 +2,13 @@ package modelo;
 
 import modelo.exceptions.FichaIncorrecta;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Tablero implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 5232608685946468912L;
     private final int MAXIMO = 8;
     private ArrayList<IFicha> fichas = new ArrayList<>();
     private IFicha extremoIzq;

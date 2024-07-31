@@ -1,29 +1,35 @@
 package modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.*;
 
 public class AdministradorJugadores implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -5496765246632781179L;
     List<IJugador> jugadores = new ArrayList<>();
-
     public AdministradorJugadores(List<IJugador> jugadores) {
         this.jugadores = jugadores;
     }
 
     /**
      * @param nombre nombre del jugador a buscar.
-     * @return true si el jugador existe false caso contrario.
+     * @return El ID del jugador encontrado, -1 si no existe.
      */
-    public boolean existeJugador(String nombre) {
-        boolean result = false;
-        for (IJugador j: jugadores) {
-            if (j.getNombre().equalsIgnoreCase(nombre)) {
-                result = true;
-                break;
+    public int existeJugador(String nombre) {
+        int resultado = -1;
+        int i = 0;
+        boolean parar = false;
+        while (i < jugadores.size() && !parar) {
+            if (jugadores.get(i).getNombre().equalsIgnoreCase(nombre)) {
+                resultado = jugadores.get(i).getId();
+                parar = true;
             }
+            i++;
         }
-        return result;
+
+        return resultado;
     }
 
     // Junta las fichas de los jugadores y las agrega al  pozo.

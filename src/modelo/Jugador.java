@@ -9,7 +9,8 @@ import java.util.List;
 
 public class Jugador implements IJugador, Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1492707030087004443L;
+
     private String nombre;
     private final List<IFicha> fichas;
     private boolean mano = false;

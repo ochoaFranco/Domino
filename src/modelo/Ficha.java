@@ -1,15 +1,18 @@
 package modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class Ficha implements IFicha, Serializable {
+    @Serial
+    private static final long serialVersionUID = 5880280855451753727L;
     private  int izquierdo;
     private  int derecho;
     private boolean dadaVuelta = false;
     private boolean vertical = false;
     private boolean derechoFlag = false;
     private boolean izquierdoFlag = false;
-    private static final long serialVersionUID = -744829515434409884L;
+
 
     public Ficha(int izquierdo, int derecho) {
         this.izquierdo = izquierdo;

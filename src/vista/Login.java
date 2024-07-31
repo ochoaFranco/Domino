@@ -59,13 +59,16 @@ public class Login  extends JDialog implements IVista {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean esJuegoCreado = controlador.esJuegoCreado();
-                boolean nicknameInvalido = controlador.existeJugador(txtfieldNombre.getText());
+                int idJugador = controlador.existeJugador(txtfieldNombre.getText());
                 if (txtfieldNombre.getText().isEmpty()) {
                     SwingUtilities.invokeLater(()->
                             JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
                     return;
-                } else if (nicknameInvalido) {
-                    JOptionPane.showMessageDialog(null, "El nombre elegido ya existe!!!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (idJugador != -1) {
+                    controlador.setJugador(idJugador);
+                    String opSeleccionada = (String) interfazComboBox.getSelectedItem();
+                    elegirVista(opSeleccionada,txtfieldNombre.getText());
+                    controlador.pedirCargaPartida();
                     return;
                 }
                 if (!esJuegoCreado) {
@@ -178,13 +181,8 @@ public class Login  extends JDialog implements IVista {
         panel.add(lblConsola);
     }
 
-    // levanta la vista correspondiente y cierra las anteriores.
-    private void okayBtnPresionado() {
+    private IVista elegirVista(String opSeleccionada, String usuario) {
         IVista vista;
-        String usuario = txtfieldNombre.getText();
-        String opSeleccionada = (String) interfazComboBox.getSelectedItem();
-        // comprobamos la seleccion
-        assert opSeleccionada != null;
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
             vista = new VistaConsola(usuario, controlador);
             controlador.setVista(vista);
@@ -193,6 +191,16 @@ public class Login  extends JDialog implements IVista {
             controlador.setVista(vista);
             vista.ocultarBoton();
         }
+        return vista;
+    }
+
+    // levanta la vista correspondiente y cierra las anteriores.
+    private void okayBtnPresionado() {
+        String usuario = txtfieldNombre.getText();
+        String opSeleccionada = (String) interfazComboBox.getSelectedItem();
+        // comprobamos la seleccion
+        assert opSeleccionada != null;
+        IVista vista = elegirVista(opSeleccionada,usuario);
 
         if (vista instanceof VistaConsola)
             vista.ocultarBoton();
@@ -202,7 +210,7 @@ public class Login  extends JDialog implements IVista {
             if (!controlador.esJuegoCreado()) {
                 int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
                 int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
-                // conecto el usuario al controlador.
+                // conecto el usuario creador de la sala al juego.
                 controlador.conectarJugador(usuario);
                 if (vista instanceof VistaGrafica) {
                     ((VistaGrafica) vista).jugar(puntos, cantJugadores);

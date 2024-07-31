@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 
 public class Lobby {
     private final JFrame frame;
-    private Controlador controlador;
+    private final Controlador controlador;
 
     public Lobby(Controlador controlador) throws RemoteException {
         this.controlador = controlador;
@@ -51,7 +51,7 @@ public class Lobby {
         jugarBtn.addActionListener(e -> ejecutarMenu());
 
         // funcionalidad del rankingBtn
-        rankingBtn.addActionListener(e -> mostrarRanking());
+//        rankingBtn.addActionListener(e -> mostrarRanking());
     }
 
     // Muestra el ranking de los jugdores.

@@ -1,8 +1,11 @@
 package modelo;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class EventoFichaJugador implements Serializable {
+    @Serial
+    private static final long serialVersionUID = -6795695403245609016L;
     private Evento evento;
     private IJugador jugador;
     private IFicha ficha;
