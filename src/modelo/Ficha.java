@@ -73,4 +73,9 @@ public class Ficha implements IFicha, Serializable {
     public void setIzquierdo(boolean izquierdo) {
         this.izquierdoFlag = izquierdo;
     }
+
+    @Override
+    public String toString() {
+        return izquierdo + " " + derecho;
+    }
 }

@@ -125,7 +125,11 @@ public class Controlador implements IControladorRemoto {
             List<IFicha> fichasTablero = modelo.getTablero().getFichas();
             vista.iniciar();
             vista.limpiarTablero();
-            vista.mostrarTablero(fichasTablero);
+            boolean extremosIguales = modelo.esTableroIniciado();
+            if (!extremosIguales)
+                vista.mostrarTablero(fichasTablero);
+            else
+                vista.mostrarFicha(fichasTablero.getFirst());
             if (modelo.getTurno() == jugador) {
                 vista.mostrarBoton();
                 vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
@@ -202,6 +206,10 @@ public class Controlador implements IControladorRemoto {
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
         if ((cambios.getEvento()) == Evento.INICIAR_JUEGO) {
+            System.out.println("DISPLAYING BOARD TILES!!!\n");
+            for (IFicha f : modelo.getTablero().getFichas()) {
+                System.out.println(f + "\n");
+            }
             vista.mostrarFicha(cambios.getFicha());
             vista.iniciar();
             if (modelo.getTurno() == jugador) {
@@ -222,6 +230,10 @@ public class Controlador implements IControladorRemoto {
     private void actualizarEventoFichasTablero(EventoFichasTablero cambios) throws RemoteException {
         if (cambios.getEvento() == Evento.ACTUALIZAR_TABLERO) {
             List<IFicha> fichasTablero = cambios.getFichasTablero();
+            System.out.println("DISPLAYING BOARD TILES!!!\n");
+            for (IFicha f : fichasTablero) {
+                System.out.println(f + "\n");
+            }
             vista.mostrarTablero(fichasTablero);
             if (modelo.getTurno() == jugador) {
                 vista.mostrarBoton();

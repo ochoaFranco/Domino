@@ -36,10 +36,15 @@ public class AdministradorPartidas implements Serializable {
         if (partidas != null) {
             partida = ((Partida)partidas[0]).getDomino();
             System.out.println("LOADING SAVED GAME!!!\n");
+            List<IFicha> fichas = partida.getTablero().getFichas();
+            for (IFicha f: fichas) {
+                System.out.println(f + "\n");
+            }
             List<IJugador> jugadores = partida.getJugadores();
             for (IJugador j: jugadores) {
                 System.out.println(j + "\n");
             }
+            
         } else {
             System.out.println("COULDN'T LOAD GAME!!\n");
             partida = Domino.getInstancia();

@@ -29,6 +29,8 @@ public interface IDomino extends  IObservableRemoto {
 
     void reniciarJuego() throws RemoteException;
 
+    boolean esTableroIniciado() throws RemoteException;
+
     void persistirPartida() throws RemoteException;
 
     // Logica principal del juego.
@@ -39,6 +41,7 @@ public interface IDomino extends  IObservableRemoto {
     IJugador[] getRankCincoMejores() throws RemoteException;
 
     int getLIMITEPUNTOS() throws RemoteException;
+
     // robo fichas del pozo y actualizo la mano.
     void robarFichaPozo() throws RemoteException;
 

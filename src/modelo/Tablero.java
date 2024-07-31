@@ -45,9 +45,19 @@ public class Tablero implements Serializable {
         }
         extremosIgualesDer(); // checkeo si hay extremos iguales antes de agregar la ficha.
         this.extremoDerec = extremoDerec;
-        this.extremoDerec.setDerecho(true);
+        extremoDerec.setDerecho(true);
         fichas.add(extremoDerec);
         colocarVertical(extremoDerec); // chequeo si la ficha tiene que ser ubicada de manera vert.
+    }
+
+    /**
+     * Permite determinar si el tablero solo tiene la primera ficha jugada.
+     * @return verdadero si el tablero tiene solo la primera ficha, falso caso contrario.
+     */
+    public boolean tableroIniciado() {
+        boolean izqIguales = extremoIzq.getIzquierdo() == extremoDerec.getIzquierdo();
+        boolean derIguales = extremoIzq.getDerecho() == extremoDerec.getDerecho();
+        return izqIguales == derIguales;
     }
 
     public ArrayList<IFicha> getFichas() {
@@ -55,12 +65,13 @@ public class Tablero implements Serializable {
     }
 
     private void extremosIgualesIzq() {
-        if (extremoIzq == getExtremoDerec()) {
+        if (extremoIzq == extremoDerec) {
             fichas.remove(extremoIzq);
         }
     }
+
     private void extremosIgualesDer() {
-        if (extremoIzq == getExtremoDerec()) {
+        if (extremoIzq == extremoDerec) {
             fichas.remove(extremoDerec);
         }
     }
@@ -96,7 +107,7 @@ public class Tablero implements Serializable {
         }
         extremosIgualesIzq();
         this.extremoIzq = extremoIzq;
-        this.extremoIzq.setIzquierdo(true);
+        extremoIzq.setIzquierdo(true);
         fichas.addFirst(extremoIzq);
         colocarVertical(extremoIzq); // chequeo si la ficha tiene que ser ubicada de manera vert.
     }

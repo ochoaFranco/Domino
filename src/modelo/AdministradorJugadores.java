@@ -98,11 +98,8 @@ public class AdministradorJugadores implements Serializable {
 
     public void determinarJugadorMano(List<IJugador> jugadores) throws RemoteException {
         List<IJugador> jugadoresConFichasDobles = new ArrayList<>();
-        int fichaSimpleAlta;
         IJugador jugadorFichaSimpleMasAlta = determinarJugadorFichaSimpleMayor(jugadores, jugadoresConFichasDobles);
         IJugador jugMano;
-
-
         // seteo el jugador mano y la primera ficha a poner en el tablero.
         if (!jugadoresConFichasDobles.isEmpty()) {
             jugMano = setJugadorMano(jugadoresConFichasDobles);

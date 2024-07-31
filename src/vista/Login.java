@@ -69,9 +69,11 @@ public class Login  extends JDialog implements IVista {
                     String opSeleccionada = (String) interfazComboBox.getSelectedItem();
                     elegirVista(opSeleccionada,txtfieldNombre.getText());
                     controlador.pedirCargaPartida();
+                    MenuJuego.incrementarVentanasCerradas();
                     dispose();
                     return;
                 }
+
                 if (!esJuegoCreado) {
                     try {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());

@@ -47,7 +47,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         tablero = new Tablero();
     }
 
-    public static IFicha getPrimeraFicha() {
+    public static IFicha getPrimeraFicha() throws RemoteException {
         return primeraFicha;
     }
 
@@ -122,18 +122,8 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Domino{" + "\n" +
-                "adminJugadores=" + adminJugadores+ "\n" +
-                ", jugadores="  + jugadores + "\n" +
-                ", fichas=" + fichas + "\n" +
-                ", LIMITEPUNTOS=" + LIMITEPUNTOS + "\n" +
-                ", turno=" + turno + "\n" +
-                ", colaTurnos=" + colaTurnos + "\n" +
-                ", cantidadJugadores=" + cantidadJugadores + "\n" +
-                ", RANKING=" + RANKING +
-                ", rankCincoMejores=" + Arrays.toString(rankCincoMejores) +
-                '}';
+    public boolean esTableroIniciado() throws RemoteException {
+        return tablero.tableroIniciado();
     }
 
     // Persiste la partida cuando se desconecta un jugador.
@@ -269,7 +259,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         }
     }
 
-    // it needs to be refactored.
+
     private void determinarJugadorMano() throws RemoteException {
         adminJugadores.determinarJugadorMano(jugadores);
         // agrego al tablero las fichas.
@@ -418,4 +408,20 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         EventoJugador eventoJugador = new EventoJugador(Evento.PASAR_TURNO, getJugadorID(turno));
         notificarObservadores(eventoJugador);
     }
+
+    @Override
+    public String toString() {
+        return "Domino{" + "\n" +
+                "adminJugadores=" + adminJugadores+ "\n" +
+                ", jugadores="  + jugadores + "\n" +
+                ", fichas=" + fichas + "\n" +
+                ", LIMITEPUNTOS=" + LIMITEPUNTOS + "\n" +
+                ", turno=" + turno + "\n" +
+                ", colaTurnos=" + colaTurnos + "\n" +
+                ", cantidadJugadores=" + cantidadJugadores + "\n" +
+                ", RANKING=" + RANKING +
+                ", rankCincoMejores=" + Arrays.toString(rankCincoMejores) +
+                '}';
+    }
+
 }
