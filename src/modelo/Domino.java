@@ -259,7 +259,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         }
     }
 
-
     private void determinarJugadorMano() throws RemoteException {
         adminJugadores.determinarJugadorMano(jugadores);
         // agrego al tablero las fichas.
@@ -408,20 +407,4 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         EventoJugador eventoJugador = new EventoJugador(Evento.PASAR_TURNO, getJugadorID(turno));
         notificarObservadores(eventoJugador);
     }
-
-    @Override
-    public String toString() {
-        return "Domino{" + "\n" +
-                "adminJugadores=" + adminJugadores+ "\n" +
-                ", jugadores="  + jugadores + "\n" +
-                ", fichas=" + fichas + "\n" +
-                ", LIMITEPUNTOS=" + LIMITEPUNTOS + "\n" +
-                ", turno=" + turno + "\n" +
-                ", colaTurnos=" + colaTurnos + "\n" +
-                ", cantidadJugadores=" + cantidadJugadores + "\n" +
-                ", RANKING=" + RANKING +
-                ", rankCincoMejores=" + Arrays.toString(rankCincoMejores) +
-                '}';
-    }
-
 }

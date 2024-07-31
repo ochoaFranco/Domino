@@ -1,5 +1,4 @@
 package modelo;
-
 import utils.Serializador;
 
 import java.io.Serial;
@@ -44,7 +43,7 @@ public class AdministradorPartidas implements Serializable {
             for (IJugador j: jugadores) {
                 System.out.println(j + "\n");
             }
-            
+
         } else {
             System.out.println("COULDN'T LOAD GAME!!\n");
             partida = Domino.getInstancia();
