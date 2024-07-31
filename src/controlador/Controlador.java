@@ -124,12 +124,14 @@ public class Controlador implements IControladorRemoto {
         try {
             List<IFicha> fichasTablero = modelo.getTablero().getFichas();
             vista.iniciar();
+            vista.limpiarTablero();
             vista.mostrarTablero(fichasTablero);
             if (modelo.getTurno() == jugador) {
                 vista.mostrarBoton();
                 vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");
-                vista.mostrarFichasJugador(modelo.getJugadorID(jugador));
+                vista.mostrarFichasJugador(modelo.getJugadorID(modelo.getTurno()));
             } else {
+                vista.mostrarFichasJugador(modelo.getJugadorID(jugador));
                 IJugador jugTurno = modelo.getJugadorID(modelo.getTurno());
                 vista.mostrarMensaje("Turno del jugador: " + jugTurno.getNombre() + "\n");
                 vista.ocultarBoton();
@@ -196,7 +198,6 @@ public class Controlador implements IControladorRemoto {
                 vista.mostrarMensaje("Jugador Bloqueado");
         }
     }
-
 
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {

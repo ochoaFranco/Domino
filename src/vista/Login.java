@@ -69,6 +69,7 @@ public class Login  extends JDialog implements IVista {
                     String opSeleccionada = (String) interfazComboBox.getSelectedItem();
                     elegirVista(opSeleccionada,txtfieldNombre.getText());
                     controlador.pedirCargaPartida();
+                    dispose();
                     return;
                 }
                 if (!esJuegoCreado) {
