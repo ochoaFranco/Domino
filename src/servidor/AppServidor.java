@@ -31,7 +31,7 @@ public class AppServidor {
 //                null,
 //                8888
 //        );
-        String nombre =  JOptionPane.showInputDialog(null, "Ingrese su nombre", "Nombre usuario", JOptionPane.QUESTION_MESSAGE);
+        String nombre =  JOptionPane.showInputDialog(null, "Ingrese el nombre de la partida a recuperar (deje vacio para una nueva)", "Nombre usuario", JOptionPane.QUESTION_MESSAGE);
 
 //        IDomino juego = AdministradorPartidas.getUltimaPartida();
         IDomino juego = AdministradorPartidas.getPartidaJugador(nombre);

@@ -28,17 +28,13 @@ public class Lobby {
 
         // Atributos de los botones.
         JButton jugarBtn = new JButton("JUGAR");
-        jugarBtn.setBackground(Color.white);
-        jugarBtn.setForeground(Color.black);
-        jugarBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        atributosBotones(jugarBtn, Color.white, Color.black);
         JButton rankingBtn = new JButton("Ranking");
-        rankingBtn.setBackground(Color.white);
-        rankingBtn.setForeground(Color.black);
-        rankingBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
+        atributosBotones(rankingBtn, Color.white, Color.black);
+        JButton comoJugarBtn = new JButton("¿Como jugar?");
+        atributosBotones(comoJugarBtn, Color.white, Color.black);
         // se agregan los componenetes al panel.
-        agregarComponentes(panel, texto, jugarBtn, rankingBtn);
+        agregarComponentes(panel, texto, jugarBtn, rankingBtn, comoJugarBtn);
 
         // Add the panel to the frame
         frame.getContentPane().add(panel, BorderLayout.CENTER);
@@ -52,6 +48,37 @@ public class Lobby {
 
         // funcionalidad del rankingBtn
         rankingBtn.addActionListener(e -> mostrarRanking());
+        
+        // funcionalidad del comoJugarBtn
+        comoJugarBtn.addActionListener(e -> mostrarInstrucciones());
+    }
+
+    private void mostrarInstrucciones() {
+        String instrucciones = "<html><body style='font-size:12px;'>" +
+                "<h2 style='color: blue;'>Vista gráfica</h2>" +
+                "<p>Para jugar a la izquierda simplemente haga click en el botón <i>izquierda</i>, caso contrario para la derecha.</p>" +
+                "<p>El botón <i>robar</i> le permite sacar una ficha del pozo, basta con hacer un click.</p>" +
+                "<h2 style='color: red;'>Vista Consola</h2>" +
+                "<p>Esta utiliza comandos para poder jugar, los mismos son detallados a continuación.</p>" +
+                "<p> <i>ficha: valorIzquierdo Valor derecho + posición (i o d)</i>, por ejemplo, para jugar la ficha 3 5 en la izquierda usted debe hacer ficha: 3 5 i. En el caso de la derecha es lo mismo pero debe reemplazar la i por la d.</p>" +
+                "<p><i>robar</i>: permite sacar una ficha del pozo.</p>" +
+                "<p><i>desconectar</i>: permite desconectarse del juego para jugar más tarde.</p>" +
+                "</body></html>";
+
+        SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, instrucciones, "¿Cómo jugar?", JOptionPane.INFORMATION_MESSAGE));
+    }
+
+
+    /**
+     * Recibe un boton y lo customiza dependiendo de los parametros pasados.
+     * @param btn el boton al cual se le quiere aplicar los atributos.
+     * @param colorBck color para el background.
+     * @param colorFrg color para el foreground.
+     */
+    private void atributosBotones(JButton btn, Color colorBck, Color colorFrg) {
+        btn.setBackground(colorBck);
+        btn.setForeground(colorFrg);
+        btn.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     // Muestra el ranking de los jugdores.
@@ -78,7 +105,7 @@ public class Lobby {
     }
 
     // agrega componentes al panel.
-    private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn, JButton rankingBtn) {
+    private static void agregarComponentes(JPanel panel, JLabel texto, JButton jugarBtn, JButton rankingBtn, JButton comoJugarBtn) {
         // agregos los componentes al panel.
         panel.add(Box.createRigidArea(new Dimension(0, 100)));
         panel.add(texto);
@@ -86,6 +113,8 @@ public class Lobby {
         panel.add(jugarBtn);
         panel.add(Box.createRigidArea(new Dimension(0, 20)));
         panel.add(rankingBtn);
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(comoJugarBtn);
     }
 
     private void ejecutarMenu() {
