@@ -394,6 +394,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
                         "Jugador desconectado", JOptionPane.INFORMATION_MESSAGE));
         System.out.println("SARACATUNGA DISCONNECT IN!!!\n");
         SwingUtilities.invokeLater(this::dispose);
+        SwingUtilities.invokeLater(()-> System.exit(0));
     }
 
     @Override

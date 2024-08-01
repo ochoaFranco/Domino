@@ -100,7 +100,8 @@ public class VistaConsola implements IVista {
     public void desconectar() {
         System.out.println("SARACATUNGA DISCONNECTING FROM CONSOLE!!!\n");
         mostrarMensaje("Un jugador se ha desconectado, se guardara el juego para jugar luego.");
-        frame.dispose();
+        SwingUtilities.invokeLater(frame::dispose);
+        System.exit(0);
     }
 
     @Override

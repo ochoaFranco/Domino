@@ -46,6 +46,8 @@ public class AdministradorPartidas implements Serializable {
      * @return juego donde se encuentra jugando, o nulo si es un jugador nuevo.
      */
     public static IDomino getPartidaJugador(String nombre) {
+        if (nombre.isEmpty())
+            return null;
         Object[] partidas = serializadorPartida.readObjects();
         String[] jugadores;
         IDomino juego;
