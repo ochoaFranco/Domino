@@ -31,8 +31,8 @@ public class MenuJuego extends JDialog implements IVista {
         JPanel panel = Lobby.getjPanel("img/dominoes.jpg");
         panel.setLayout(null);
         // agrego un label
-        JLabel label = new JLabel("Elija la modalidad con la que desea jugar.");
-        label.setBounds(80, 20, 400, 20);
+        JLabel label = new JLabel("Cree una partida o unase a una.");
+        label.setBounds(120, 20, 400, 20);
         label.setForeground(Color.white);
         label.setFont(new Font("Arial", Font.BOLD, 16));
         panel.add(label);
