@@ -56,13 +56,13 @@ public class Lobby {
     private void mostrarInstrucciones() {
         String instrucciones = "<html><body style='font-size:12px;'>" +
                 "<h2 style='color: blue;'>Vista gráfica</h2>" +
-                "<p>Para jugar a la izquierda simplemente haga click en el botón <i>izquierda</i>, caso contrario para la derecha.</p>" +
-                "<p>El botón <i>robar</i> le permite sacar una ficha del pozo, basta con hacer un click.</p>" +
+                "<p>Para jugar a la izquierda simplemente haga click en el botón <i style='color: green;'>izquierda</i>, caso contrario para la derecha.</p>" +
+                "<p>El botón <i style='color: green;'>robar</i> le permite sacar una ficha del pozo, basta con hacer un click.</p>" +
                 "<h2 style='color: red;'>Vista Consola</h2>" +
                 "<p>Esta utiliza comandos para poder jugar, los mismos son detallados a continuación.</p>" +
-                "<p> <i>ficha: valorIzquierdo Valor derecho + posición (i o d)</i>, por ejemplo, para jugar la ficha 3 5 en la izquierda usted debe hacer ficha: 3 5 i. En el caso de la derecha es lo mismo pero debe reemplazar la i por la d.</p>" +
-                "<p><i>robar</i>: permite sacar una ficha del pozo.</p>" +
-                "<p><i>desconectar</i>: permite desconectarse del juego para jugar más tarde.</p>" +
+                "<p> <i style='color: green;'>ficha: valorIzquierdo Valor derecho + posición (i o d)</i>, por ejemplo, para jugar la ficha 3 5 en la izquierda usted debe hacer ficha: 3 5 i. En el caso de la derecha es lo mismo pero debe reemplazar la i por la d.</p>" +
+                "<p><i style='color: green;'>robar</i>: permite sacar una ficha del pozo.</p>" +
+                "<p><i style='color: green;'>desconectar</i>: permite desconectarse del juego para jugar más tarde.</p>" +
                 "</body></html>";
 
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, instrucciones, "¿Cómo jugar?", JOptionPane.INFORMATION_MESSAGE));
