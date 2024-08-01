@@ -123,7 +123,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
 
     @Override
     public boolean esTableroIniciado() throws RemoteException {
-        System.out.println("IS BOARD INITIALIZED?: " + tablero.tableroIniciado() + "\n");
         return tablero.tableroIniciado();
     }
 
@@ -131,10 +130,9 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
     @Override
     public void persistirPartida() throws RemoteException {
         String nombres = adminJugadores.nombreJugadores(jugadores);
-        System.out.println("Players' names: " + nombres);
         AdministradorPartidas.agregarPartida(new Partida(this, nombres));
         notificarObservadores(Evento.JUGADOR_DESCONECTADO);
-        System.out.println("GAME HAS BEEN SAVED!!!\n");
+
     }
 
     @Override
@@ -261,12 +259,11 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         }
     }
 
-
     private void determinarJugadorMano() throws RemoteException {
         adminJugadores.determinarJugadorMano(jugadores);
         // agrego al tablero las fichas.
         try {
-            System.out.println(primeraFicha);
+
             seteartablero(primeraFicha);
         } catch (FichaIncorrecta f) {
             throw new RuntimeException("ficha incorrecta!!!");
@@ -360,8 +357,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         adminJugadores.juntarFichasJugadores(pozo);
         Collections.shuffle(pozo.getFichas());
         tablero.resetearTablero(); // limpio las fichas del tablero.
-        System.out.println("TILES: " + fichas.size() + "\n");
-        System.out.println("POZO: " + pozo.getFichas().size() + "\n");
         iniciarJuego();
     }
 
@@ -383,7 +378,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
 
     // Detecta si los jugadores no pueden jugar porque están bloqueados.
     private void casoCierre() throws RemoteException {
-        System.out.println("Closing case\n");
         detectarJugadorGanadorCierre();
         contarPuntosJugadores();
         determinarSiJugadorGano();

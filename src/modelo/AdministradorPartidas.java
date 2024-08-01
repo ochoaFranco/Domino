@@ -34,17 +34,12 @@ public class AdministradorPartidas implements Serializable {
             return null;
         Object[] partidas = serializadorPartida.readObjects();
         String[] jugadores;
-        IDomino juego;
-        System.out.println("SSARACATUNGA GAMES IN!! " + partidas + "\n");
         if (partidas != null) {
             for (int i = 0; i < partidas.length; i++) {
                 Partida partida = ((Partida)partidas[i]);
                jugadores =  partida.getJugadores();
                for (int j = 0; j < jugadores.length; j++) {
-                   System.out.println("PLAYER NAME: " + jugadores[j] + "\n");
                    if (jugadores[j].equalsIgnoreCase(nombre)) {
-                       System.out.println("SARACATUNGA FOUND IT !! " + jugadores[j] + "\n");
-                       System.out.println(partida.getDomino().getTablero().getFichas() + "\n");
                        return partida.getDomino();
                    }
                }

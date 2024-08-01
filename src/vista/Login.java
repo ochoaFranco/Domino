@@ -79,7 +79,6 @@ public class Login  extends JDialog {
                 }
 
                 if (!esJuegoCreado) {
-                    System.out.println("I SHOULDNT BE HERE!!\n");
                     try {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());
                         int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText());
@@ -181,9 +180,9 @@ public class Login  extends JDialog {
      */
     public void cargarPartidaJugador(int idJugador, Object opSeleccionada, String nombre) {
         controlador.setJugador(idJugador);
-        System.out.println("PLAYER ID: " + idJugador + "\n");
+
         String opSeleccionada1 = (String) opSeleccionada;
-        System.out.println("SELECTED OPTION: " + opSeleccionada1 + "\n");
+
         elegirVista(opSeleccionada1, nombre);
     }
 
@@ -287,7 +286,6 @@ public class Login  extends JDialog {
                 } else
                     ((VistaConsola) vista).jugar();
             }
-
             Login.isJuegoIniciado = true;
         }
         SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Esperando que otros jugadores se unan," +

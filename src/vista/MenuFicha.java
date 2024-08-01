@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuFicha extends JDialog implements IVista {
+public class MenuFicha extends JDialog {
     private JButton izquierdaBtn;
     private JButton derechaBtn;
     private JButton salirBtn;
@@ -108,57 +108,7 @@ public class MenuFicha extends JDialog implements IVista {
         MenuFicha.jugar = jugar;
     }
 
-    @Override
-    public void mostrarMensaje(String mensaje) {
-
-    }
-
-    @Override
-    public void mostrarFichasJugador(IJugador jugador) {
-
-    }
-
-    @Override
-    public void mostrarFicha(IFicha ficha) {
-
-    }
-
-    @Override
     public void iniciar() {
         setVisible(true);
-    }
-
-    @Override
-    public void mostrarTablero(Object o) {
-
-    }
-
-    @Override
-    public void mostrarTablaPuntos(Object o, int puntos) {
-
-    }
-
-    @Override
-    public void ocultarBoton() {
-
-    }
-
-    @Override
-    public void mostrarBoton() {
-    }
-
-    @Override
-    public void limpiarTablero() {
-
-    }
-
-    @Override
-    public void finalizarJuego(String mensaje) {
-
-    }
-
-    @Override
-    public void desconectar() {
-
     }
 }

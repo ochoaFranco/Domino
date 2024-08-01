@@ -142,7 +142,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarFichasJugador(IJugador jugador)  {
         jugadorManoComponente.removeAll();
         List<IFicha> fichas = controlador.getFichasJugador(jugador);
-        System.out.println("TILES: " + fichas + "\n");
+
         for (IFicha ficha: fichas) {
             VistaFicha fichaComponente = new VistaFicha(ficha, true, true, false);
             jugadorManoComponente.agregarFichaJugador(fichaComponente);
@@ -392,7 +392,6 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void desconectar() {
         SwingUtilities.invokeLater(()-> JOptionPane.showMessageDialog(null, "Se ha desconectado un jugador, se guardara la partida para continuar luego!!!",
                         "Jugador desconectado", JOptionPane.INFORMATION_MESSAGE));
-        System.out.println("SARACATUNGA DISCONNECT IN!!!\n");
         SwingUtilities.invokeLater(this::dispose);
         SwingUtilities.invokeLater(()-> System.exit(0));
     }

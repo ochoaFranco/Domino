@@ -30,7 +30,6 @@ public class Controlador implements IControladorRemoto {
 
     public void conectarJugador(String nombre) {
         try {
-            System.out.println("CONNECTING PLAYER!!\n");
             jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -44,7 +43,6 @@ public class Controlador implements IControladorRemoto {
     // Determina si ya existe el jugador.
     public int existeJugador(String nombre) {
         try {
-            System.out.println("Name: " + nombre+ " exists? " + modelo.existeJugador(nombre));
             return modelo.existeJugador(nombre);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -124,16 +122,13 @@ public class Controlador implements IControladorRemoto {
     public void cargarPartida() {
         try {
             List<IFicha> fichasTablero = modelo.getTablero().getFichas();
-            System.out.println("board TILES: " + fichasTablero + "\n");
             vista.iniciar();
             vista.limpiarTablero();
             boolean extremosIguales = modelo.esTableroIniciado();
             if (!extremosIguales) {
-                System.out.println("DISPLAYING BOARD!!\n");
                 vista.mostrarTablero(fichasTablero);
             }
             else {
-                System.out.println("DISPLAYING ONLY FIRST TILE!!!\n");
                 vista.mostrarFicha(fichasTablero.getFirst());
             }
             if (modelo.getTurno() == jugador) {
@@ -170,7 +165,6 @@ public class Controlador implements IControladorRemoto {
     }
 
     public List<IFicha> getFichasJugador(IJugador jugador) {
-        System.out.println("PRINTING PLAYER!! + " + jugador + "\n");
         return jugador.getFichas();
     }
 
@@ -213,10 +207,6 @@ public class Controlador implements IControladorRemoto {
     // maneja el caso en el que se actualice un evento ficha jugador.
     private void actualizarEventoFichaJugador(EventoFichaJugador cambios) throws RemoteException {
         if ((cambios.getEvento()) == Evento.INICIAR_JUEGO) {
-            System.out.println("DISPLAYING BOARD TILES!!!\n");
-            for (IFicha f : modelo.getTablero().getFichas()) {
-                System.out.println(f + "\n");
-            }
             vista.mostrarFicha(cambios.getFicha());
             vista.iniciar();
             if (modelo.getTurno() == jugador) {
@@ -237,10 +227,6 @@ public class Controlador implements IControladorRemoto {
     private void actualizarEventoFichasTablero(EventoFichasTablero cambios) throws RemoteException {
         if (cambios.getEvento() == Evento.ACTUALIZAR_TABLERO) {
             List<IFicha> fichasTablero = cambios.getFichasTablero();
-            System.out.println("DISPLAYING BOARD TILES!!!\n");
-            for (IFicha f : fichasTablero) {
-                System.out.println(f + "\n");
-            }
             vista.mostrarTablero(fichasTablero);
             if (modelo.getTurno() == jugador) {
                 vista.mostrarBoton();
