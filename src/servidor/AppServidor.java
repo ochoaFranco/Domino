@@ -37,7 +37,6 @@ public class AppServidor {
         IDomino juego = AdministradorPartidas.getPartidaJugador(nombre);
         Servidor servidor = new Servidor(AppServidor.IP, AppServidor.PORT);
         if (juego == null) {
-            System.out.println("GAME IS NULL!!\n");
             juego = Domino.getInstancia();
             SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "No se encontro partida guardada, comenzara una nueva.", "Nueva partida", JOptionPane.INFORMATION_MESSAGE));
         } else

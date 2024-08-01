@@ -32,7 +32,7 @@ public class Controlador implements IControladorRemoto {
         try {
             jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -45,7 +45,7 @@ public class Controlador implements IControladorRemoto {
         try {
             return modelo.existeJugador(nombre);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
             return -1;
         }
     }
@@ -57,7 +57,7 @@ public class Controlador implements IControladorRemoto {
             if (modelo.getJugadores().isEmpty())
                 modelo.reniciarJuego();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -66,7 +66,7 @@ public class Controlador implements IControladorRemoto {
         try {
             modelo.persistirPartida();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -79,7 +79,7 @@ public class Controlador implements IControladorRemoto {
             if (cantidadJugadores == cantJugadores)
                 modelo.iniciarJuego();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -89,7 +89,7 @@ public class Controlador implements IControladorRemoto {
             if (modelo.getJugadores().size() == modelo.getCantidadJugadores())
                 modelo.iniciarJuego();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -97,7 +97,7 @@ public class Controlador implements IControladorRemoto {
         try {
             modelo.realizarJugada(extremIzq, extremDer, extremo);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -105,7 +105,7 @@ public class Controlador implements IControladorRemoto {
         try {
             modelo.robarFichaPozo();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -142,7 +142,7 @@ public class Controlador implements IControladorRemoto {
                 vista.ocultarBoton();
             }
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -150,7 +150,7 @@ public class Controlador implements IControladorRemoto {
         try {
             modelo.cargarPartida();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
         }
     }
 
@@ -159,7 +159,7 @@ public class Controlador implements IControladorRemoto {
         try {
             return !modelo.getJugadores().isEmpty();
         } catch (RemoteException e ) {
-            e.printStackTrace();
+            vista.mostrarMensaje("Ha ocurrido un error.");
             return true;
         }
     }

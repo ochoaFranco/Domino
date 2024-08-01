@@ -114,7 +114,6 @@ public class AdministradorJugadores implements Serializable {
             }
         }
         List<IFicha> fichasJugador = Domino.getJugadorMano().getFichas();
-        System.out.println("HAND PLAYER: " + Domino.getJugadorMano().getNombre() + "\n");
         fichasJugador.remove(Domino.getPrimeraFicha());
     }
 

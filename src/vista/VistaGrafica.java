@@ -120,10 +120,16 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
     public void mostrarMensaje(String mensaje) {
         if ( mensaje != null  && mensaje.equalsIgnoreCase("Jugador Bloqueado")) {
           SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Jugador Bloqueado!!!", "Bloqueado", JOptionPane.INFORMATION_MESSAGE));
+
         } else {
-            int x = 30;
-            int y = 400;
-            mostrarMensaje(mensaje, x, y);
+            assert mensaje != null;
+            if (mensaje.startsWith("Jugador que domino la ronda:")) {
+                SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, mensaje, "Ganador", JOptionPane.INFORMATION_MESSAGE));
+            } else {
+                int x = 30;
+                int y = 400;
+                mostrarMensaje(mensaje, x, y);
+            }
         }
     }
 
