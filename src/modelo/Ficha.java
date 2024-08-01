@@ -18,10 +18,11 @@ public class Ficha implements IFicha, Serializable {
         this.izquierdo = izquierdo;
         this.derecho = derecho;
     }
-
+    @Override
     public int getDerecho() {
         return derecho;
     }
+    @Override
     public int getIzquierdo() {
         return izquierdo;
     }
@@ -40,6 +41,7 @@ public class Ficha implements IFicha, Serializable {
         this.izquierdo = izquierdo;
     }
 
+    @Override
     public void setDerecho(int derecho) {
         this.derecho = derecho;
     }

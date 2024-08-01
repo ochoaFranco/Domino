@@ -33,10 +33,12 @@ public class Jugador implements IJugador, Serializable {
         return nombre;
     }
 
+    @Override
     public int getPuntos() {
         return puntos;
     }
 
+    @Override
     public void recibirFicha(IFicha ficha) {
         fichas.add(ficha);
     }
@@ -50,22 +52,17 @@ public class Jugador implements IJugador, Serializable {
         return puntosFicha;
     }
 
+    @Override
     public void sumarPuntos(int puntos) {
         this.puntos += puntos;
     }
 
-    public boolean esMano() {
-        return mano;
-    }
-
-    public IFicha getUltimaFicha() {
-        return fichas.get(fichas.size() - 1);
-    }
     @Override
     public List<IFicha> getFichas() {
         return fichas;
     }
 
+    @Override
     public void colocarFicha(IFicha ficha, String extremo, Tablero tablero) throws FichaIncorrecta {
         if (extremo.equalsIgnoreCase("i")) {
             tablero.setExtremoIzq(ficha);
@@ -75,6 +72,7 @@ public class Jugador implements IJugador, Serializable {
         fichas.remove(ficha);
     }
 
+    @Override
     public IFicha fichaDobleMayor() {
         IFicha dobleMayor = new Ficha(-1, -1);
         for (IFicha f : fichas) {
@@ -85,6 +83,7 @@ public class Jugador implements IJugador, Serializable {
         return dobleMayor;
     }
 
+    @Override
     public IFicha fichaSimpleMasAlta() {
         IFicha fichaComunMasAlta = new Ficha(-1, -1);
         for (IFicha f : fichas) {
@@ -94,7 +93,7 @@ public class Jugador implements IJugador, Serializable {
     }
     return fichaComunMasAlta;
 }
-
+    @Override
     public boolean tengoDobles() {
         boolean algunDoble = false;
         int i = 0;
@@ -120,9 +119,5 @@ public class Jugador implements IJugador, Serializable {
 
     public void setMano(boolean mano) {
         this.mano = mano;
-    }
-
-    public boolean getMano() {
-        return mano;
     }
 }

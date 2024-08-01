@@ -136,7 +136,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         String nombres = adminJugadores.nombreJugadores(jugadores);
         AdministradorPartidas.agregarPartida(new Partida(this, nombres));
         notificarObservadores(Evento.JUGADOR_DESCONECTADO);
-
     }
 
     @Override
