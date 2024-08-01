@@ -31,9 +31,17 @@ public class AppServidor {
 //                null,
 //                8888
 //        );
+        String nombre =  JOptionPane.showInputDialog(null, "Ingrese su nombre", "Nombre usuario", JOptionPane.QUESTION_MESSAGE);
 
-        IDomino juego = AdministradorPartidas.getUltimaPartida();
+//        IDomino juego = AdministradorPartidas.getUltimaPartida();
+        IDomino juego = AdministradorPartidas.getPartidaJugador(nombre);
         Servidor servidor = new Servidor(AppServidor.IP, AppServidor.PORT);
+        if (juego == null) {
+            System.out.println("GAME IS NULL!!\n");
+            juego = Domino.getInstancia();
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "No se encontro partida guardada, comenzara una nueva.", "Nueva partida", JOptionPane.INFORMATION_MESSAGE));
+        } else
+            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Se encontro una partida guardada, se retomara desde ese punto", "Cargar partida", JOptionPane.INFORMATION_MESSAGE));
 
         try {
             servidor.iniciar(juego);

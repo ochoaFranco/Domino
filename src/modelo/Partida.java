@@ -9,28 +9,31 @@ public class Partida implements Serializable {
     private Domino domino;
     private static int ID = 0;
     private int id;
-    private final int[] jugadores = {-1, -1, -1, -1};
+    private final String[] jugadores = {"", "", "", ""};
+    private final String nombreJugadores;
 
-    public Partida(Domino domino) {
+    public Partida(Domino domino, String nombreJugadores) {
+        this.nombreJugadores = nombreJugadores;
         this.domino = domino;
         id = Partida.ID++;
-//        agregarJugador(idJugador);
+        llenarJugadoresArray();
     }
 
     /**
-     * Permite agregar jugadores a la partida guardada.
-     * @param id ID del jugador a agregar a la partida.
+     * permite registrar los nombres de los jugadores que jugaron la partida.
      */
-    private void agregarJugador(int id) {
-        int i = 0;
-        boolean parar = false;
-        while (i < jugadores.length && !parar) {
-            if (jugadores[i] == -1) {
-                jugadores[i] = id;
-                parar = true;
-            }
-            i++;
+    private void llenarJugadoresArray() {
+        String[] nombresArray = nombreJugadores.split(" ");
+        for (int i = 0; i < nombresArray.length && i < jugadores.length; i++) {
+            jugadores[i] = nombresArray[i];
         }
+    }
+
+    /**
+     * @return Array con los jugadores de la partida.
+     */
+    public String[] getJugadores() {
+        return jugadores;
     }
 
     public Domino getDomino() {

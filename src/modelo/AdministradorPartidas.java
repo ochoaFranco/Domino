@@ -31,24 +31,38 @@ public class AdministradorPartidas implements Serializable {
 
     public static IDomino getUltimaPartida() throws RemoteException {
         Object[] partidas = serializadorPartida.readObjects();
-        System.out.println(Arrays.toString(partidas));
         IDomino partida;
         if (partidas != null) {
             partida = ((Partida)partidas[0]).getDomino();
-            System.out.println("LOADING SAVED GAME!!!\n");
-            List<IFicha> fichas = partida.getTablero().getFichas();
-            for (IFicha f: fichas) {
-                System.out.println(f + "\n");
-            }
-            List<IJugador> jugadores = partida.getJugadores();
-            for (IJugador j: jugadores) {
-                System.out.println(j + "\n");
-            }
-            
         } else {
             System.out.println("COULDN'T LOAD GAME!!\n");
             partida = Domino.getInstancia();
         }
         return partida;
+    }
+
+    /**
+     * @param nombre Nickname del jugador
+     * @return juego donde se encuentra jugando, o nulo si es un jugador nuevo.
+     */
+    public static IDomino getPartidaJugador(String nombre) {
+        Object[] partidas = serializadorPartida.readObjects();
+        String[] jugadores;
+        IDomino juego;
+        System.out.println("SSARACATUNGA GAMES IN!! " + partidas + "\n");
+        if (partidas != null) {
+            for (int i = 0; i < partidas.length; i++) {
+                Partida partida = ((Partida)partidas[i]);
+               jugadores =  partida.getJugadores();
+               for (int j = 0; j < jugadores.length; j++) {
+                   System.out.println("PLAYER NAME: " + jugadores[j] + "\n");
+                   if (jugadores[j].equalsIgnoreCase(nombre)) {
+                       System.out.println("SARACATUNGA FOUND IT !! " + jugadores[j] + "\n");
+                       return partida.getDomino();
+                   }
+               }
+            }
+        }
+        return null;
     }
 }

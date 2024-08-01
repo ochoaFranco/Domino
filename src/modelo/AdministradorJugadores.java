@@ -119,6 +119,19 @@ public class AdministradorJugadores implements Serializable {
     }
 
     /**
+     * Permite devolver el nombre de los jugadores de la partida.
+     * @param jugadores Lista de jugadores del domino.
+     * @return String string de nombres de los jugadores.
+     */
+    public String nombreJugadores(List<IJugador> jugadores) {
+        StringBuilder nombre = new StringBuilder();
+        for (IJugador j: jugadores) {
+            nombre.append(j.getNombre()).append(" ");
+        }
+        return nombre.toString();
+    }
+
+    /**
      * @param jugadores Jugadores de la partida.
      * @param jugadoresConFichasDobles se guardan los jugadores con fichas dobles.
      * @return IJugador jugador con la ficha simple mayor.

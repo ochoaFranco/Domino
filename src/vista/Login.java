@@ -65,6 +65,7 @@ public class Login  extends JDialog implements IVista {
                             JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
                     return;
                 } else if (idJugador != -1) {
+                    System.out.println("SARACATUNGA LOADING GAME!!!!\n");
                     controlador.setJugador(idJugador);
                     String opSeleccionada = (String) interfazComboBox.getSelectedItem();
                     elegirVista(opSeleccionada,txtfieldNombre.getText());

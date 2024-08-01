@@ -129,14 +129,16 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
     // Persiste la partida cuando se desconecta un jugador.
     @Override
     public void persistirPartida() throws RemoteException {
-        String cabecera = new String("Juego");
-        AdministradorPartidas.agregarPartida(new Partida(this));
+        String nombres = adminJugadores.nombreJugadores(jugadores);
+        System.out.println("Players' names: " + nombres);
+        AdministradorPartidas.agregarPartida(new Partida(this, nombres));
         notificarObservadores(Evento.JUGADOR_DESCONECTADO);
         System.out.println("GAME HAS BEEN SAVED!!!\n");
     }
 
+
     @Override
-    public void cargarPartida() throws RemoteException{
+    public void cargarPartida() throws RemoteException {
         notificarObservadores(Evento.CARGAR_PARTIDA);
     }
 
@@ -408,20 +410,4 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         EventoJugador eventoJugador = new EventoJugador(Evento.PASAR_TURNO, getJugadorID(turno));
         notificarObservadores(eventoJugador);
     }
-
-    @Override
-    public String toString() {
-        return "Domino{" + "\n" +
-                "adminJugadores=" + adminJugadores+ "\n" +
-                ", jugadores="  + jugadores + "\n" +
-                ", fichas=" + fichas + "\n" +
-                ", LIMITEPUNTOS=" + LIMITEPUNTOS + "\n" +
-                ", turno=" + turno + "\n" +
-                ", colaTurnos=" + colaTurnos + "\n" +
-                ", cantidadJugadores=" + cantidadJugadores + "\n" +
-                ", RANKING=" + RANKING +
-                ", rankCincoMejores=" + Arrays.toString(rankCincoMejores) +
-                '}';
-    }
-
 }
