@@ -72,6 +72,8 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
     public void setTotalJugadores(int cantidadJugadores) throws RemoteException {
         this.cantidadJugadores = cantidadJugadores;
     }
+
+    // Dado un id lo desconecta del juego.
     @Override
     public void desconectarJugador(int idJugador) throws RemoteException {
         IJugador jugador = getJugadorID(idJugador);
@@ -79,6 +81,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         colaTurnos.remove(idJugador);
     }
 
+    // Permite conectar un jugador al juego, retornando la ID del mismo.
     @Override
     public int conectarJugador(String nombre) throws RemoteException {
         IJugador jugador = new Jugador(nombre);
@@ -121,6 +124,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         }
     }
 
+    // Permite determinar si el juego tiene unicamente una ficha en el tablero.
     @Override
     public boolean esTableroIniciado() throws RemoteException {
         return tablero.tableroIniciado();
@@ -198,11 +202,10 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         return adminJugadores.buscarJugadorPorID(id);
     }
 
-    // Logica principal del juego.
     @Override
     public void realizarJugada(int extremIzq, int extremDerec, String extremo) throws FichaInexistente, FichaIncorrecta, RemoteException {
         assert colaTurnos.peek() != null;
-        IFicha ficha = buscarFicha(extremIzq, extremDerec, getJugadorID(colaTurnos.peek()));
+        IFicha ficha = adminJugadores.buscarFicha(extremIzq, extremDerec, getJugadorID(colaTurnos.peek()));
         if (ficha == null) throw new FichaInexistente();
         IJugador jugador = getJugadorID(colaTurnos.peek());
         jugador.colocarFicha(ficha, extremo, tablero);
@@ -214,13 +217,16 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         ArrayList<IFicha> fichastablero = tablero.getFichas();
         // clase compuesta.
         EventoFichasTablero evFichastablero = new EventoFichasTablero(Evento.ACTUALIZAR_TABLERO, fichastablero);
+
         // dermino si el jugador jugo todas sus fichas.
         if (adminJugadores.jugadorJugoTodasSusFichas(adminJugadores.buscarJugadorPorID(turno))) {
             contarPuntosJugadores();
             determinarSiJugadorGano();
+
         } else if (tablero.detectarCierre()) {
             notificarObservadores(Evento.CIERRE_JUEGO);
             casoCierre();
+
         } else {
             determinarJugadorTurno();
             notificarObservadores(evFichastablero);
@@ -263,7 +269,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         adminJugadores.determinarJugadorMano(jugadores);
         // agrego al tablero las fichas.
         try {
-
             seteartablero(primeraFicha);
         } catch (FichaIncorrecta f) {
             throw new RuntimeException("ficha incorrecta!!!");
@@ -271,6 +276,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         moverJugFinalTurno();
     }
 
+    // Establece la primera ficha del tablero.
     private void seteartablero(IFicha ficha) throws FichaIncorrecta {
         tablero.setExtremoDerec(ficha);
         tablero.setExtremoIzq(ficha);
@@ -381,19 +387,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         detectarJugadorGanadorCierre();
         contarPuntosJugadores();
         determinarSiJugadorGano();
-    }
-
-    // Busca la ficha a tirar dentro del poll de fichas del jugador.
-    private IFicha buscarFicha(int extremIzq, int extemDer, IJugador jug) {
-        List<IFicha> fichas = jug.getFichas();
-        IFicha ficha = null;
-        for (IFicha f : fichas) {
-            if (f.getIzquierdo() == extremIzq && f.getDerecho() == extemDer) {
-                ficha = f;
-                break;
-            }
-        }
-        return ficha;
     }
 
     // paso el turno, desencolandolo del frente y encolandolo en el final.

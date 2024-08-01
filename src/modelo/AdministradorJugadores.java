@@ -28,7 +28,6 @@ public class AdministradorJugadores implements Serializable {
             }
             i++;
         }
-
         return resultado;
     }
 
@@ -172,5 +171,18 @@ public class AdministradorJugadores implements Serializable {
             }
         }
         return jFichaDobleMasAlta;
+    }
+
+    // Busca la ficha a tirar dentro del poll de fichas del jugador.
+    public IFicha buscarFicha(int extremIzq, int extemDer, IJugador jug) {
+        List<IFicha> fichas = jug.getFichas();
+        IFicha ficha = null;
+        for (IFicha f : fichas) {
+            if (f.getIzquierdo() == extremIzq && f.getDerecho() == extemDer) {
+                ficha = f;
+                break;
+            }
+        }
+        return ficha;
     }
 }
