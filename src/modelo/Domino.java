@@ -123,6 +123,7 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
 
     @Override
     public boolean esTableroIniciado() throws RemoteException {
+        System.out.println("IS BOARD INITIALIZED?: " + tablero.tableroIniciado() + "\n");
         return tablero.tableroIniciado();
     }
 

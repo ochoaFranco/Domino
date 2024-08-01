@@ -29,7 +29,7 @@ public class AdministradorPartidas implements Serializable {
      * @param nombre Nickname del jugador
      * @return juego donde se encuentra jugando, o nulo si es un jugador nuevo.
      */
-    public static IDomino getPartidaJugador(String nombre) {
+    public static IDomino getPartidaJugador(String nombre) throws RemoteException {
         if (nombre.isEmpty())
             return null;
         Object[] partidas = serializadorPartida.readObjects();
@@ -44,6 +44,7 @@ public class AdministradorPartidas implements Serializable {
                    System.out.println("PLAYER NAME: " + jugadores[j] + "\n");
                    if (jugadores[j].equalsIgnoreCase(nombre)) {
                        System.out.println("SARACATUNGA FOUND IT !! " + jugadores[j] + "\n");
+                       System.out.println(partida.getDomino().getTablero().getFichas() + "\n");
                        return partida.getDomino();
                    }
                }

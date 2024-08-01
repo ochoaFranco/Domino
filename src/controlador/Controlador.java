@@ -124,13 +124,18 @@ public class Controlador implements IControladorRemoto {
     public void cargarPartida() {
         try {
             List<IFicha> fichasTablero = modelo.getTablero().getFichas();
+            System.out.println("board TILES: " + fichasTablero + "\n");
             vista.iniciar();
             vista.limpiarTablero();
             boolean extremosIguales = modelo.esTableroIniciado();
-            if (!extremosIguales)
+            if (!extremosIguales) {
+                System.out.println("DISPLAYING BOARD!!\n");
                 vista.mostrarTablero(fichasTablero);
-            else
+            }
+            else {
+                System.out.println("DISPLAYING ONLY FIRST TILE!!!\n");
                 vista.mostrarFicha(fichasTablero.getFirst());
+            }
             if (modelo.getTurno() == jugador) {
                 vista.mostrarBoton();
                 vista.mostrarMensaje("Es tu turno, elige la ficha a jugar: \n");

@@ -55,9 +55,7 @@ public class Tablero implements Serializable {
      * @return verdadero si el tablero tiene solo la primera ficha, falso caso contrario.
      */
     public boolean tableroIniciado() {
-        boolean izqIguales = extremoIzq.getIzquierdo() == extremoDerec.getIzquierdo();
-        boolean derIguales = extremoIzq.getDerecho() == extremoDerec.getDerecho();
-        return izqIguales == derIguales;
+        return (extremoIzq.getIzquierdo() == extremoDerec.getIzquierdo()) && (extremoIzq.getDerecho() == extremoDerec.getDerecho());
     }
 
     public ArrayList<IFicha> getFichas() {

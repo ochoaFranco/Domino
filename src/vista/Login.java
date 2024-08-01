@@ -66,8 +66,7 @@ public class Login  extends JDialog {
                 boolean esJuegoCreado = controlador.esJuegoCreado();
                 int idJugador = controlador.existeJugador(txtfieldNombre.getText());
                 if (txtfieldNombre.getText().isEmpty()) {
-                    SwingUtilities.invokeLater(()->
-                            JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
+                    mostrarMensajeErrorCampoVacio();
                     return;
                 } else if (idJugador != -1) {
                     controlador.setJugador(idJugador);
@@ -80,14 +79,15 @@ public class Login  extends JDialog {
                 }
 
                 if (!esJuegoCreado) {
+                    System.out.println("I SHOULDNT BE HERE!!\n");
                     try {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());
                         int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText());
-                        if (esPuntosValidos(puntos)) {
+                        if (esPuntosInvalidos(puntos)) {
                             mostrarMensajeErrorPuntos();
                             return;
                         }
-                        if (esCantidadJugadoresValido(cantJugadores)) {
+                        if (esCantidadJugadoresInvalido(cantJugadores)) {
                             mostrarMensajeErrorCantJugadores();
                             return;
                         }
@@ -100,6 +100,7 @@ public class Login  extends JDialog {
                     okayBtnPresionado();
             }
         });
+
         // agrego un listener al textfield y combo box
         txtfieldNombre.addKeyListener(new KeyAdapter() {
             @Override
@@ -132,16 +133,16 @@ public class Login  extends JDialog {
      * @param puntos son los puntos ingresados por el usuario.
      * @return True si no estan dentro de los parametros, False caso contrario.
      */
-    private boolean esPuntosValidos(int puntos) {
+    private boolean esPuntosInvalidos(int puntos) {
         return puntos < PUNTOS_MINIMO || puntos > PUNTOS_MAXIMO;
     }
 
     /**
      * Valida que la cantidad de jugadores se encuentren dentro de los jugadores minimos y maximos.
      * @param cantJugadores son la cantidad de jugadores ingresados por el usuario.
-     * @return True si estan dentro de los parametros, False caso contrario.
+     * @return True si no estan dentro de los parametros, False caso contrario.
      */
-    private boolean esCantidadJugadoresValido(int cantJugadores) {
+    private boolean esCantidadJugadoresInvalido(int cantJugadores) {
         return cantJugadores < JUGADORES_MINIMO || cantJugadores > JUGADORES_MAXIMO;
     }
 
@@ -161,10 +162,30 @@ public class Login  extends JDialog {
                         "Error", JOptionPane.ERROR_MESSAGE));
     }
 
+    private void mostrarMensajeErrorCampoVacio() {
+        SwingUtilities.invokeLater(()->
+                SwingUtilities.invokeLater(()->
+                        JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE))
+        );
+    }
+
     public void iniciar() {
         this.setVisible(true);
     }
 
+    /**
+     * Permite cargar una partida guardada del jugador.
+     * @param idJugador Jugador al cual se le cargara la partida.
+     * @param opSeleccionada Vista que se le cargara (consola/grafica)
+     * @param nombre Nombre del jugador.
+     */
+    public void cargarPartidaJugador(int idJugador, Object opSeleccionada, String nombre) {
+        controlador.setJugador(idJugador);
+        System.out.println("PLAYER ID: " + idJugador + "\n");
+        String opSeleccionada1 = (String) opSeleccionada;
+        System.out.println("SELECTED OPTION: " + opSeleccionada1 + "\n");
+        elegirVista(opSeleccionada1, nombre);
+    }
 
     // Agrega los componentes unicamente si es creador.
     private void agregarComponentesCreador(JPanel panel) {
