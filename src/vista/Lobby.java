@@ -93,14 +93,26 @@ public class Lobby {
         }
     }
 
-    // Retonra los atributos de los jugadores del ranking.
     private String jugadoresRankingAtributos(IJugador[] jugadoresRanking) {
-        StringBuilder ranking = new StringBuilder(" ");
+        StringBuilder ranking = new StringBuilder("<html><body style='font-family: Arial, sans-serif; font-size:14px;'>");
+        ranking.append("<h2 style='color: #ff6347; text-align: center;'>Ranking de Jugadores</h2>");
+        ranking.append("<table style='width: 100%; border-collapse: collapse;'>");
+        ranking.append("<tr style='background-color: #f2f2f2;'><th style='border: 1px solid #dddddd; padding: 8px;'>Nombre</th><th style='border: 1px solid #dddddd; padding: 8px;'>Puntos</th></tr>");
+
+        boolean alternate = false;
         for (IJugador j : jugadoresRanking) {
-            if (j != null)
-                ranking.append(j.getNombre()).append(" ").append(j.getPuntos()).append(" puntos\n");
+            if (j != null) {
+                String bgColor = alternate ? "#ffffff" : "#f9f9f9";
+                ranking.append("<tr style='background-color: ").append(bgColor).append(";'>")
+                        .append("<td style='border: 1px solid #dddddd; padding: 8px;'>").append(j.getNombre()).append("</td>")
+                        .append("<td style='border: 1px solid #dddddd; padding: 8px;'>").append(j.getPuntos()).append(" puntos</td>")
+                        .append("</tr>");
+                alternate = !alternate;
+            }
         }
 
+        ranking.append("</table>");
+        ranking.append("</body></html>");
         return ranking.toString();
     }
 
