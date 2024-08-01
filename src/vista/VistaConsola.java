@@ -89,8 +89,8 @@ public class VistaConsola implements IVista {
     public void mostrarMensaje(String mensaje) {
         consolaOutput.append(mensaje);
     }
-    @Override
 
+    @Override
     // muestra un mensaje cuando finaliza el juego.
     public void finalizarJuego(String mensaje) {
         mostrarMensaje(mensaje);
@@ -98,6 +98,7 @@ public class VistaConsola implements IVista {
 
     @Override
     public void desconectar() {
+        System.out.println("SARACATUNGA DISCONNECTING FROM CONSOLE!!!\n");
         mostrarMensaje("Un jugador se ha desconectado, se guardara el juego para jugar luego.");
         frame.dispose();
     }
@@ -132,8 +133,6 @@ public class VistaConsola implements IVista {
         } else if (comando.equalsIgnoreCase("desconectar")) {
             mostrarMensaje("Abandonaras el juego...");
             controlador.persistirPartida();
-            System.out.println("SARACATUNGA DISCONNECTING PLAYER!!!\n");
-            frame.dispose();
         }
     }
 
@@ -285,6 +284,7 @@ public class VistaConsola implements IVista {
             consolaOutput.append("Formato de ficha invalido (Ficha I o Ficha D)\n");
         }
     }
+
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
     public void mostrarTablaPuntos(Object o, int puntos) {
         for (IJugador f : (ArrayList<IJugador>)o) {
