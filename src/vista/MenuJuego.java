@@ -9,15 +9,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MenuJuego extends JDialog implements IVista {
-    private static final int MAXJUGSOLO = 2;
+public class MenuJuego extends JDialog {
     private static int ventanasCerradas = 0;
-    private static int jugadoresListos = 0;
-
     private static final int totalDeVentanasCerradasEsperadas = 1;
     private static JFrame parent;
-    private Controlador controlador;
-    private JButton creadorBtn = new JButton();
+    private final Controlador controlador;
+    private final JButton creadorBtn = new JButton();
 
     public MenuJuego(JFrame parent, Controlador controlador) {
         super(parent, "Domino", true);
@@ -85,8 +82,8 @@ public class MenuJuego extends JDialog implements IVista {
 
     // levanta la interfaz de login
     private void loginUsuario(Controlador controlador) {
-        Login usuario1 = new Login((JFrame) this.getParent(), controlador);
-        usuario1.iniciar();
+        Login usuario = new Login((JFrame) this.getParent(), controlador);
+        usuario.iniciar();
         dispose();
     }
 
@@ -97,64 +94,7 @@ public class MenuJuego extends JDialog implements IVista {
             MenuJuego.parent.dispose();
     }
 
-    // comprueba si todos los jugadores estan listos.
-    public  static Boolean jugadoresListos() {
-        MenuJuego.jugadoresListos += 1;
-        return  MenuJuego.jugadoresListos == MAXJUGSOLO;
-    }
-
-    @Override
-    public void mostrarMensaje(String mensaje) {
-
-    }
-
-    @Override
-    public void ocultarBoton() {
-
-    }
-
-    @Override
-    public void mostrarBoton() {
-
-    }
-
-    @Override
-    public void limpiarTablero() {
-
-    }
-
-    @Override
-    public void finalizarJuego(String mensaje) {
-
-    }
-
-    @Override
-    public void desconectar() {
-
-    }
-
-    @Override
-    public void mostrarFichasJugador(IJugador jugador) {
-
-    }
-
-    @Override
-    public void mostrarFicha(IFicha ficha) {
-
-    }
-
-    @Override
     public void iniciar() {
         setVisible(true);
-    }
-
-    @Override
-    public void mostrarTablero(Object o) {
-
-    }
-
-    @Override
-    public void mostrarTablaPuntos(Object o, int puntos) {
-
     }
 }

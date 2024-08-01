@@ -20,7 +20,7 @@ public class Lobby {
 
         JPanel panel = Lobby.getjPanel("img/dominoes.jpg");
 
-        // set texto attributos.
+        // seteo los atributos de los labels.
         JLabel texto = new JLabel("Bienvenidos al juego del Domino.");
         texto.setForeground(Color.WHITE);
         texto.setFont(new Font("Arial", Font.BOLD, 24));
@@ -36,11 +36,10 @@ public class Lobby {
         // se agregan los componenetes al panel.
         agregarComponentes(panel, texto, jugarBtn, rankingBtn, comoJugarBtn);
 
-        // Add the panel to the frame
+        // agrego el panel al frame.
         frame.getContentPane().add(panel, BorderLayout.CENTER);
 
         // calculo tamanio pantalla.
-
         frame.setLocationRelativeTo(null);
 
         // Funcionalidad del jugarBtn.
@@ -53,6 +52,7 @@ public class Lobby {
         comoJugarBtn.addActionListener(e -> mostrarInstrucciones());
     }
 
+    // Muestro las instrucciones con un formato HTML.
     private void mostrarInstrucciones() {
         String instrucciones = "<html><body style='font-size:12px;'>" +
                 "<h2 style='color: blue;'>Vista gráfica</h2>" +
@@ -67,7 +67,6 @@ public class Lobby {
 
         SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(null, instrucciones, "¿Cómo jugar?", JOptionPane.INFORMATION_MESSAGE));
     }
-
 
     /**
      * Recibe un boton y lo customiza dependiendo de los parametros pasados.
@@ -99,15 +98,15 @@ public class Lobby {
         ranking.append("<table style='width: 100%; border-collapse: collapse;'>");
         ranking.append("<tr style='background-color: #f2f2f2;'><th style='border: 1px solid #dddddd; padding: 8px;'>Nombre</th><th style='border: 1px solid #dddddd; padding: 8px;'>Puntos</th></tr>");
 
-        boolean alternate = false;
+        boolean alternar = false;
         for (IJugador j : jugadoresRanking) {
             if (j != null) {
-                String bgColor = alternate ? "#ffffff" : "#f9f9f9";
+                String bgColor = alternar ? "#ffffff" : "#f9f9f9";
                 ranking.append("<tr style='background-color: ").append(bgColor).append(";'>")
                         .append("<td style='border: 1px solid #dddddd; padding: 8px;'>").append(j.getNombre()).append("</td>")
                         .append("<td style='border: 1px solid #dddddd; padding: 8px;'>").append(j.getPuntos()).append(" puntos</td>")
                         .append("</tr>");
-                alternate = !alternate;
+                alternar = !alternar;
             }
         }
 
@@ -158,5 +157,4 @@ public class Lobby {
     public void iniciar() {
         frame.setVisible(true);
     }
-
 }

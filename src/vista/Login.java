@@ -11,7 +11,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class Login  extends JDialog implements IVista {
+public class Login  extends JDialog {
+    // Puntos minimos y maximos aceptados.
+    private static final int PUNTOS_MINIMO = 10;
+    private static final int PUNTOS_MAXIMO = 400;
+    private static final int JUGADORES_MINIMO= 2;
+    private static final int JUGADORES_MAXIMO= 4;
     private final Controlador controlador;
     private JComboBox<String> interfazComboBox;
     private final JTextField txtfieldNombre = new JTextField();
@@ -65,7 +70,6 @@ public class Login  extends JDialog implements IVista {
                             JOptionPane.showMessageDialog(null, "No puede haber campos vacios !!!", "Error", JOptionPane.ERROR_MESSAGE));
                     return;
                 } else if (idJugador != -1) {
-                    System.out.println("SARACATUNGA LOADING GAME!!!!\n");
                     controlador.setJugador(idJugador);
                     String opSeleccionada = (String) interfazComboBox.getSelectedItem();
                     elegirVista(opSeleccionada,txtfieldNombre.getText());
@@ -79,28 +83,23 @@ public class Login  extends JDialog implements IVista {
                     try {
                         int puntos = Integer.parseInt(txtfieldPuntos.getText());
                         int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText());
-                        if (puntos < 10 || puntos > 400) {
-                            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Los puntos no pueden ser menores a 10 ni mayores a 400 !!!",
-                                    "Error", JOptionPane.ERROR_MESSAGE));
+                        if (esPuntosValidos(puntos)) {
+                            mostrarMensajeErrorPuntos();
                             return;
                         }
-                        if (cantJugadores < 2 || cantJugadores > 4 ) {
-                            SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Como minimo debe haber 2 jugadores y como maximo 4 !!!",
-                                    "Error", JOptionPane.ERROR_MESSAGE));
+                        if (esCantidadJugadoresValido(cantJugadores)) {
+                            mostrarMensajeErrorCantJugadores();
                             return;
                         }
                         okayBtnPresionado();
                     } catch (NumberFormatException ex) {
-                        SwingUtilities.invokeLater(()->
-                                JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos !!!",
-                                        "Error", JOptionPane.ERROR_MESSAGE));
+                        mostrarMensajeErrorInput();
                     }
                 }
                 else
                     okayBtnPresionado();
             }
         });
-
         // agrego un listener al textfield y combo box
         txtfieldNombre.addKeyListener(new KeyAdapter() {
             @Override
@@ -127,6 +126,45 @@ public class Login  extends JDialog implements IVista {
             }
         });
     }
+
+    /**
+     * Valida que los puntos se encuentren dentro de los puntos minimos y maximos.
+     * @param puntos son los puntos ingresados por el usuario.
+     * @return True si no estan dentro de los parametros, False caso contrario.
+     */
+    private boolean esPuntosValidos(int puntos) {
+        return puntos < PUNTOS_MINIMO || puntos > PUNTOS_MAXIMO;
+    }
+
+    /**
+     * Valida que la cantidad de jugadores se encuentren dentro de los jugadores minimos y maximos.
+     * @param cantJugadores son la cantidad de jugadores ingresados por el usuario.
+     * @return True si estan dentro de los parametros, False caso contrario.
+     */
+    private boolean esCantidadJugadoresValido(int cantJugadores) {
+        return cantJugadores < JUGADORES_MINIMO || cantJugadores > JUGADORES_MAXIMO;
+    }
+
+    private void mostrarMensajeErrorPuntos() {
+        SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Los puntos no pueden ser menores a 10 ni mayores a 400 !!!",
+                "Error", JOptionPane.ERROR_MESSAGE));
+    }
+
+    private void mostrarMensajeErrorCantJugadores() {
+        SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Como minimo debe haber 2 jugadores y como maximo 4 !!!",
+                "Error", JOptionPane.ERROR_MESSAGE));
+    }
+
+    private void mostrarMensajeErrorInput() {
+        SwingUtilities.invokeLater(()->
+                JOptionPane.showMessageDialog(null, "Recuerde que los puntos y cantidad de jugadores son valores numericos !!!",
+                        "Error", JOptionPane.ERROR_MESSAGE));
+    }
+
+    public void iniciar() {
+        this.setVisible(true);
+    }
+
 
     // Agrega los componentes unicamente si es creador.
     private void agregarComponentesCreador(JPanel panel) {
@@ -185,6 +223,7 @@ public class Login  extends JDialog implements IVista {
         panel.add(lblConsola);
     }
 
+    // Permite elegir un tipo de vista.
     private IVista elegirVista(String opSeleccionada, String usuario) {
         IVista vista;
         if (opSeleccionada.equalsIgnoreCase("Consola")) {
@@ -211,7 +250,6 @@ public class Login  extends JDialog implements IVista {
 
         // EJecuto el juego y levanto las ventanas.
         if (!isJuegoIniciado) {
-            System.out.println("SARACATUNGA IN!!LOGIN\n");
             if (!controlador.esJuegoCreado()) {
                 int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
                 int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
@@ -234,61 +272,6 @@ public class Login  extends JDialog implements IVista {
         SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Esperando que otros jugadores se unan," +
                 " el juego comenzara pronto...", "Esperando jugadores", JOptionPane.INFORMATION_MESSAGE));
         dispose();
-        MenuJuego.incrementarVentanasCerradas();
-    }
-
-    @Override
-    public void mostrarMensaje(String mensaje) {
-
-    }
-
-    @Override
-    public void mostrarFichasJugador(IJugador jugador) {
-
-    }
-
-    @Override
-    public void mostrarFicha(IFicha ficha) {
-
-    }
-
-    @Override
-    public void iniciar() {
-        setVisible(true);
-    }
-
-    @Override
-    public void mostrarTablero(Object o) {
-
-    }
-
-    @Override
-    public void mostrarTablaPuntos(Object o, int puntos) {
-
-    }
-
-    @Override
-    public void ocultarBoton() {
-
-    }
-
-    @Override
-    public void mostrarBoton() {
-
-    }
-
-    @Override
-    public void limpiarTablero() {
-
-    }
-
-    @Override
-    public void finalizarJuego(String mensaje) {
-
-    }
-
-    @Override
-    public void desconectar() {
-
+        MenuJuego.incrementarVentanasCerradas(); // cierra las ventanas anteriores.
     }
 }
