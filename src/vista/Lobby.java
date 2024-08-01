@@ -51,7 +51,7 @@ public class Lobby {
         jugarBtn.addActionListener(e -> ejecutarMenu());
 
         // funcionalidad del rankingBtn
-//        rankingBtn.addActionListener(e -> mostrarRanking());
+        rankingBtn.addActionListener(e -> mostrarRanking());
     }
 
     // Muestra el ranking de los jugdores.

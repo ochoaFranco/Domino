@@ -136,7 +136,6 @@ public class Domino extends ObservableRemoto implements IDomino, Serializable {
         System.out.println("GAME HAS BEEN SAVED!!!\n");
     }
 
-
     @Override
     public void cargarPartida() throws RemoteException {
         notificarObservadores(Evento.CARGAR_PARTIDA);

@@ -30,6 +30,7 @@ public class Controlador implements IControladorRemoto {
 
     public void conectarJugador(String nombre) {
         try {
+            System.out.println("CONNECTING PLAYER!!\n");
             jugador = this.modelo.conectarJugador(nombre);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -164,6 +165,7 @@ public class Controlador implements IControladorRemoto {
     }
 
     public List<IFicha> getFichasJugador(IJugador jugador) {
+        System.out.println("PRINTING PLAYER!! + " + jugador + "\n");
         return jugador.getFichas();
     }
 

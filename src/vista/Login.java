@@ -211,6 +211,7 @@ public class Login  extends JDialog implements IVista {
 
         // EJecuto el juego y levanto las ventanas.
         if (!isJuegoIniciado) {
+            System.out.println("SARACATUNGA IN!!LOGIN\n");
             if (!controlador.esJuegoCreado()) {
                 int puntos = Integer.parseInt(txtfieldPuntos.getText()); // ya se encuentra validado.
                 int cantJugadores = Integer.parseInt(txtfielCantJugadores.getText()); // ya se encuentra validado.
