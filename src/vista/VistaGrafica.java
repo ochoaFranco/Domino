@@ -74,7 +74,7 @@ public class VistaGrafica extends JFrame implements IVista, MouseListener {
         panel.add(robarBtn);
 
         // Agrego desconectarseBtn
-        desconectarseBtn.setBounds(1000, 530, 120, 20);
+        desconectarseBtn.setBounds(1060, 20, 120, 20);
         panel.add(desconectarseBtn);
 
         // agrego la seccion de las fichas del jugador.
