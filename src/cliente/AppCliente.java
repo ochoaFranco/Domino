@@ -1,9 +1,11 @@
 package cliente;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javax.swing.*;
 
 import ar.edu.unlu.rmimvc.RMIMVCException;
+import ar.edu.unlu.rmimvc.Util;
 import ar.edu.unlu.rmimvc.cliente.Cliente;
 import controlador.Controlador;
 import vista.Lobby;
@@ -13,16 +15,7 @@ public class AppCliente {
     private static final int PORT = 8888;
 
     public static void main(String[] args) throws RemoteException {
-//        ArrayList<String> ips = Util.getIpDisponibles();
-//        String port = (String) JOptionPane.showInputDialog(
-//                null,
-//                "Seleccione el puerto en el que escuchará peticiones el cliente", "Puerto del cliente",
-//                JOptionPane.QUESTION_MESSAGE,
-//                null,
-//                null,
-//                9999
-//        );
-//        ArrayList<String> ips = Util.getIpDisponibles();
+        ArrayList<String> ips = Util.getIpDisponibles();
 //        String ip = (String) JOptionPane.showInputDialog(
 //                null,
 //                "Seleccione la IP en la que escuchará peticiones el cliente", "IP del cliente",
@@ -64,7 +57,7 @@ public class AppCliente {
         } catch (NumberFormatException ex) {
             SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error de red, revise la configuracion.!!!",
                     "Error Red", JOptionPane.ERROR_MESSAGE));
-            System.exit(1);
+//            System.exit(1);
             ex.printStackTrace();
         }
         try {
@@ -72,12 +65,13 @@ public class AppCliente {
         } catch (RemoteException e) {
             SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error de red, revise la configuracion.!!!",
                     "Error Red", JOptionPane.ERROR_MESSAGE));
+//            System.exit(1);
             e.printStackTrace();
-            System.exit(1);
 
         } catch (RMIMVCException e) {
             SwingUtilities.invokeLater(()->JOptionPane.showMessageDialog(null, "Ha ocurrido un error !!!",
                     "Error", JOptionPane.ERROR_MESSAGE));
+//            System.exit(1);
             e.printStackTrace();
         }
     }

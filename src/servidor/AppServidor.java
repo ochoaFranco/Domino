@@ -1,6 +1,7 @@
 package servidor;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import ar.edu.unlu.rmimvc.RMIMVCException;
 import ar.edu.unlu.rmimvc.servidor.Servidor;
@@ -9,6 +10,7 @@ import modelo.IDomino;
 import modelo.Domino;
 
 import javax.swing.*;
+import ar.edu.unlu.rmimvc.Util;
 
 public class AppServidor {
     private static final int PORT = 8888;
@@ -33,7 +35,6 @@ public class AppServidor {
 //        );
         String nombre =  JOptionPane.showInputDialog(null, "Ingrese el nombre de la partida a recuperar (deje vacio para una nueva)", "Nombre usuario", JOptionPane.QUESTION_MESSAGE);
 
-//        IDomino juego = AdministradorPartidas.getUltimaPartida();
         IDomino juego = AdministradorPartidas.getPartidaJugador(nombre);
         Servidor servidor = new Servidor(AppServidor.IP, AppServidor.PORT);
         if (juego == null) {

@@ -100,7 +100,7 @@ public class VistaConsola implements IVista {
     public void desconectar() {
         mostrarMensaje("Un jugador se ha desconectado, se guardara el juego para jugar luego.");
         SwingUtilities.invokeLater(frame::dispose);
-        System.exit(0);
+        SwingUtilities.invokeLater(()-> System.exit(0));
     }
 
     @Override
