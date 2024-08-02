@@ -141,6 +141,7 @@ public class VistaConsola implements IVista {
         controlador.robarFicha();
     }
 
+    @Override
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
     public void mostrarTablero(Object o) {
         consolaOutput.append("TABLERO\n");
@@ -285,6 +286,7 @@ public class VistaConsola implements IVista {
         }
     }
 
+    @Override
     @SuppressWarnings("unchecked") // elimina el warning del tipo de dato
     public void mostrarTablaPuntos(Object o, int puntos) {
         for (IJugador f : (ArrayList<IJugador>)o) {
